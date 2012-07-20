@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-	@RequestMapping(value = "/")
-	public String home(Principal user) {
-		return user != null ? "redirect:/search" : "errors/401";
-	}
+    @RequestMapping(value = "/")
+    public String home(Principal user) {
+        return user != null ? "redirect:/search" : "errors/401";
+    }
 
 }

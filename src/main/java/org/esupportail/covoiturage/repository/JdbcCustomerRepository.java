@@ -8,13 +8,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class JdbcCustomerRepository implements CustomerRepository {
 
-	@Resource
-	private JdbcTemplate jdbcTemplate;
+    @Resource
+    private JdbcTemplate jdbcTemplate;
 
-	@Override
-	public Customer findOneByLogin(String login) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Customer findOneByLogin(String login) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

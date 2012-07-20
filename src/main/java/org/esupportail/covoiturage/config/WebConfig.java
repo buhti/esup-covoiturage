@@ -17,30 +17,27 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-	@Resource
-	private Environment environment;
+    @Resource
+    private Environment environment;
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
 
-	@Bean
-	public ViewResolver viewResolver() {
-		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
-		viewResolver.setViewClass(TilesView.class);
-		return viewResolver;
-	}
+    @Bean
+    public ViewResolver viewResolver() {
+        UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
+        viewResolver.setViewClass(TilesView.class);
+        return viewResolver;
+    }
 
-	@Bean
-	public TilesConfigurer tilesConfigurer() {
-		TilesConfigurer configurer = new TilesConfigurer();
-		configurer.setDefinitions(new String[] {
-				"/WEB-INF/layouts/tiles.xml",
-				"/WEB-INF/views/**/tiles.xml"
-		});
-		configurer.setCheckRefresh(true);
-		return configurer;
-	}
+    @Bean
+    public TilesConfigurer tilesConfigurer() {
+        TilesConfigurer configurer = new TilesConfigurer();
+        configurer.setDefinitions(new String[] { "/WEB-INF/layouts/tiles.xml", "/WEB-INF/views/**/tiles.xml" });
+        configurer.setCheckRefresh(true);
+        return configurer;
+    }
 
 }

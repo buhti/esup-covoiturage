@@ -4,6 +4,7 @@ import org.esupportail.covoiturage.domain.Customer;
 
 public interface CustomerRepository {
 
-	Customer findOneByLogin(String login);
+    Customer findOneByLogin(String login);
 
 }
+f

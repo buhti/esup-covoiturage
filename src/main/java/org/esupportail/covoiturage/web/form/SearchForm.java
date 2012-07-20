@@ -4,75 +4,75 @@ import java.util.Map;
 
 public class SearchForm {
 
-	private final Map<String, String> distanceTolerances;
-	private final Map<String, String> predefinedLocations;
+    private final Map<String, String> distanceTolerances;
+    private final Map<String, String> predefinedLocations;
 
-	private String from;
-	private String fromTolerance;
-	private String to;
-	private String toTolerance;
-	private String date;
-	private String dateTolerance;
-	
-	public SearchForm(Map<String, String> distanceTolerances, Map<String, String> predefinedLocations) {
-		this.distanceTolerances = distanceTolerances;
-		this.predefinedLocations = predefinedLocations;
-	}
+    private String from;
+    private String fromTolerance;
+    private String to;
+    private String toTolerance;
+    private String date;
+    private String dateTolerance;
 
-	public Map<String, String> getDistanceTolerances() {
-		return distanceTolerances;
-	}
+    public SearchForm(Map<String, String> distanceTolerances, Map<String, String> predefinedLocations) {
+        this.distanceTolerances = distanceTolerances;
+        this.predefinedLocations = predefinedLocations;
+    }
 
-	public Map<String, String> getPredefinedLocations() {
-		return predefinedLocations;
-	}
+    public Map<String, String> getDistanceTolerances() {
+        return distanceTolerances;
+    }
 
-	public String getFrom() {
-		return from;
-	}
+    public Map<String, String> getPredefinedLocations() {
+        return predefinedLocations;
+    }
 
-	public void setFrom(String from) {
-		this.from = from;
-	}
+    public String getFrom() {
+        return from;
+    }
 
-	public String getFromTolerance() {
-		return fromTolerance;
-	}
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
-	public void setFromTolerance(String fromTolerance) {
-		this.fromTolerance = fromTolerance;
-	}
+    public String getFromTolerance() {
+        return fromTolerance;
+    }
 
-	public String getTo() {
-		return to;
-	}
+    public void setFromTolerance(String fromTolerance) {
+        this.fromTolerance = fromTolerance;
+    }
 
-	public void setTo(String to) {
-		this.to = to;
-	}
+    public String getTo() {
+        return to;
+    }
 
-	public String getToTolerance() {
-		return toTolerance;
-	}
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-	public void setToTolerance(String toTolerance) {
-		this.toTolerance = toTolerance;
-	}
+    public String getToTolerance() {
+        return toTolerance;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public void setToTolerance(String toTolerance) {
+        this.toTolerance = toTolerance;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public String getDateTolerance() {
-		return dateTolerance;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public void setDateTolerance(String dateTolerance) {
-		this.dateTolerance = dateTolerance;
-	}
+    public String getDateTolerance() {
+        return dateTolerance;
+    }
+
+    public void setDateTolerance(String dateTolerance) {
+        this.dateTolerance = dateTolerance;
+    }
 
 }

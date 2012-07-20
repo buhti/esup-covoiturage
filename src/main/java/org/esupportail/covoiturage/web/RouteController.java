@@ -22,43 +22,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class RouteController {
 
-	@Resource
-	private RouteRepository routeRepository;
+    @Resource
+    private RouteRepository routeRepository;
 
-	@Resource(name = "predefinedLocations")
-	private Map<String, String> predefinedLocations;
+    @Resource(name = "predefinedLocations")
+    private Map<String, String> predefinedLocations;
 
-	@Resource(name = "possibleStatuses")
-	private Map<String, String> possibleStatuses;
+    @Resource(name = "possibleStatuses")
+    private Map<String, String> possibleStatuses;
 
-	@Resource(name = "availableSeats")
-	private Map<String, String> availableSeats;
+    @Resource(name = "availableSeats")
+    private Map<String, String> availableSeats;
 
-	@RequestMapping(value = "/route/create", method = RequestMethod.GET)
-	public String createForm(Model model) {
-		model.addAttribute(new RouteForm(predefinedLocations, possibleStatuses, availableSeats));
-		return "routes/create";
-	}
+    @RequestMapping(value = "/route/create", method = RequestMethod.GET)
+    public String createForm(Model model) {
+        model.addAttribute(new RouteForm(predefinedLocations, possibleStatuses, availableSeats));
+        return "routes/create";
+    }
 
-	@RequestMapping(value = "/route/create", method = RequestMethod.POST)
-	public String create(@Valid RouteForm form, BindingResult formBinding, Model model) {
-		if (formBinding.hasErrors()) {
-			return null;
-		}
-		Long routeId = routeRepository.createRoute(form.createRoute());
-		return "redirect:routes/" + routeId;
-	}
+    @RequestMapping(value = "/route/create", method = RequestMethod.POST)
+    public String create(@Valid RouteForm form, BindingResult formBinding, Model model) {
+        if (formBinding.hasErrors()) {
+            return null;
+        }
+        Long routeId = routeRepository.createRoute(form.createRoute());
+        return "redirect:routes/" + routeId;
+    }
 
-	@RequestMapping(value = "/route/{routeId}")
-	public String routeView(@PathVariable Long routeId, Model model, HttpServletResponse response) throws IOException {
-		try {
-			Route route = routeRepository.findOneById(routeId);
-			model.addAttribute("route", route);
-			return "routes/view";
-		} catch (RouteNotFoundException e) {
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			return null;
-		}
-	}
+    @RequestMapping(value = "/route/{routeId}")
+    public String routeView(@PathVariable Long routeId, Model model, HttpServletResponse response) throws IOException {
+        try {
+            Route route = routeRepository.findOneById(routeId);
+            model.addAttribute("route", route);
+            return "routes/view";
+        } catch (RouteNotFoundException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+    }
 
 }
