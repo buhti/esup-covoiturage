@@ -1,0 +1,16 @@
+create table Route (
+	id int not null,
+	owner_id int not null,
+	driver tinyint(1) not null,
+	seats tinyint(2) not null,
+	from_point point not null,
+	from_city varchar(80) not null,
+	from_address varchar(255) not null,
+	to_point point not null,
+	to_city varchar(80) not null,
+	to_address varchar(255) not null,
+	recurring tinyint(1) not null,
+	primary key (id),
+	index fk_owner_id (owner_id),
+	spatial index sp_from_point (from_point),
+	spatial index sp_to_point (to_point));

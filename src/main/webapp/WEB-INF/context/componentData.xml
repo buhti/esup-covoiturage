@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<util:map id="predefinedLocations" map-class="java.util.LinkedHashMap">
+		<description>
+			Cette liste définit des adresses préconfigurées utilisables dans 
+			les formulaires de recherche et de proposition de trajet.
+		</description>
+		<entry key="1 Place de l'Yser, Dunkerque" value="ULCO Dunkerque" />
+		<entry key="50 Rue Ferdinand Buisson, Calais" value="ULCO Calais" />
+		<entry key="21 Rue Saint-Louis, Boulogne-sur-Mer" value="ULCO Boulogne-sur-Mer" />
+		<entry key="Avenue Descartes, Longuenesse" value="ULCO St Omer" />
+	</util:map>
+
+	<util:map id="distanceTolerances" map-class="java.util.LinkedHashMap">
+		<description>
+			Cette liste définit les valeurs possibles pour indiquer une 
+			tolérance quant à la distance pour les résultats de recherche.
+		</description>
+		<entry key="10" value="10 km" />
+		<entry key="15" value="15 km" />
+		<entry key="20" value="20 km" />
+		<entry key="25" value="25 km" />
+		<entry key="50" value="50 km" />
+	</util:map>
+
+	<util:map id="possibleStatuses" map-class="java.util.LinkedHashMap">
+		<description>
+			Cette liste définit les status possibles pour le créateur d'un
+			trajet.
+		</description>
+		<entry key="0" value="-" />
+		<entry key="1" value="Conducteur" />
+		<entry key="2" value="Passager" />
+	</util:map>
+
+	<util:map id="possibleStatuses" map-class="java.util.LinkedHashMap">
+		<description>
+			Cette liste définit les status possibles pour le créateur d'un
+			trajet.
+		</description>
+		<entry key="0" value="-" />
+		<entry key="1" value="Conducteur" />
+		<entry key="2" value="Passager" />
+	</util:map>
+
+	<util:map id="availableSeats" map-class="java.util.LinkedHashMap">
+		<description>
+			Cette liste définit le nombre de places dans un véhicule.
+		</description>
+		<entry key="1" value="1" />
+		<entry key="2" value="2" />
+		<entry key="3" value="3" />
+		<entry key="4" value="4" />
+		<entry key="5" value="5" />
+	</util:map>
+
+</beans>
