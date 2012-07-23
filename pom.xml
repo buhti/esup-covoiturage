@@ -129,6 +129,11 @@
 				<version>2.2.2</version>
 			</dependency>
 			<dependency>
+				<artifactId>commons-codec</artifactId>
+				<groupId>commons-codec</groupId>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
 				<groupId>com.google.code.geocoder-java</groupId>
 				<artifactId>geocoder-java</artifactId>
 				<version>0.9</version>
@@ -193,6 +198,10 @@
 		<dependency>
 			<groupId>com.google.code.geocoder-java</groupId>
 			<artifactId>geocoder-java</artifactId>
+		</dependency>
+		<dependency>
+			<artifactId>commons-codec</artifactId>
+			<groupId>commons-codec</groupId>
 		</dependency>
 		<!-- ===== Logging ================================================= -->
 		<dependency>
