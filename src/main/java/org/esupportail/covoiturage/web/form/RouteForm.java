@@ -4,8 +4,6 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
-import org.esupportail.covoiturage.domain.Route;
-
 public class RouteForm {
 
     private final Map<String, String> predefinedLocations;
@@ -95,10 +93,6 @@ public class RouteForm {
 
     public void setSeats(int seats) {
         this.seats = seats;
-    }
-
-    public Route createRoute() {
-        return null;
     }
 
 }

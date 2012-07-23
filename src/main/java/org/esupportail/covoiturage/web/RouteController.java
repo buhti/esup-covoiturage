@@ -7,9 +7,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
+import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
 import org.esupportail.covoiturage.repository.RouteRepository;
+import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
 
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class RouteController {
+
+    @Resource
+    private GeocoderService geocoderService;
 
     @Resource
     private RouteRepository routeRepository;
@@ -42,10 +48,27 @@ public class RouteController {
 
     @RequestMapping(value = "/route/create", method = RequestMethod.POST)
     public String create(@Valid RouteForm form, BindingResult formBinding, Model model) {
+        Location from = null;
+        Location to = null;
+
+        try {
+            from = geocoderService.geocode(form.getFromAddress());
+        } catch (LocationNotFoundException e) {
+            formBinding.rejectValue("from", "geocoding.error");
+        }
+
+        try {
+            to = geocoderService.geocode(form.getToAddress());
+        } catch (LocationNotFoundException e) {
+            formBinding.rejectValue("to", "geocoding.error");
+        }
+
         if (formBinding.hasErrors()) {
             return null;
         }
-        Long routeId = routeRepository.createRoute(form.createRoute());
+
+        Route route = new Route(0, null, form.getStatus(), form.getSeats(), from, to);
+        Long routeId = routeRepository.createRoute(route);
         return "redirect:routes/" + routeId;
     }
 

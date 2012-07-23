@@ -7,4 +7,3 @@ public interface CustomerRepository {
     Customer findOneByLogin(String login);
 
 }
-f
