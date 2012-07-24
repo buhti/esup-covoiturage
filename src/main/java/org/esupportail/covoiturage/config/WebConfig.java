@@ -2,11 +2,15 @@ package org.esupportail.covoiturage.config;
 
 import javax.annotation.Resource;
 
+import org.esupportail.covoiturage.web.interceptor.AccountExposingHandlerInterceptor;
+import org.esupportail.covoiturage.web.interceptor.ConfigurationExposingHandlerInterceptor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -23,6 +27,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new AccountExposingHandlerInterceptor());
+        registry.addInterceptor(new ConfigurationExposingHandlerInterceptor(environment));
     }
 
     @Bean
