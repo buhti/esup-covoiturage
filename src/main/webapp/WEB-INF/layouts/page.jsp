@@ -10,8 +10,8 @@
 
   <title><tiles:insertAttribute name="title" defaultValue="Co-voiturage" /></title>
 
-  <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet" />
-  <link href="<c:url value='/resources/css/bootstrap-responsive.min.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/css/bootstrap.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/css/bootstrap-responsive.css'/>" rel="stylesheet" />
   <link href="<c:url value='/resources/css/main.css'/>" rel="stylesheet" />
 
   <!--[if lt IE 9]>
@@ -48,7 +48,8 @@
   </div>
 
   <script src="<c:url value='/resources/js/vendor/jquery-1.7.2.min.js'/>"></script>
-  <script src="<c:url value='/resources/js/vendor/bootstrap.min.js'/>"></script>
+  <script src="<c:url value='/resources/js/vendor/bootstrap-tab.js'/>"></script>
+  <script src="<c:url value='/resources/js/vendor/bootstrap-typeahead.js'/>"></script>
   <script src="<c:url value='/resources/js/main.js'/>"></script>
 
 </body>
