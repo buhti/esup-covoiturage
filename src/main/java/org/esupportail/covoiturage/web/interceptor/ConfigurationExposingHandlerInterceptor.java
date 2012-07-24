@@ -33,9 +33,8 @@ public class ConfigurationExposingHandlerInterceptor implements HandlerIntercept
             throws Exception {
     }
 
-    private class ConfigurationHolder {
+    public class ConfigurationHolder {
 
-        @SuppressWarnings("unused")
         public String getGoogleApiKey() {
             return environment.getProperty("google.services.apiKey");
         }
