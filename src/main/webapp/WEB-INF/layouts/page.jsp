@@ -47,8 +47,9 @@
     </footer>
   </div>
 
-  <script src="http://maps.googleapis.com/maps/api/js?key=${ config.googleApiKey }&amp;sensor=false"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=${ config.googleApiKey }&amp;sensor=false&amp;language=fr"></script>
   <script src="<c:url value='/resources/js/vendor/jquery-1.7.2.min.js'/>"></script>
+  <script src="<c:url value='/resources/js/vendor/bootstrap-modal.js'/>"></script>
   <script src="<c:url value='/resources/js/vendor/bootstrap-tab.js'/>"></script>
   <script src="<c:url value='/resources/js/vendor/bootstrap-typeahead.js'/>"></script>
   <script src="<c:url value='/resources/js/main.js'/>"></script>
