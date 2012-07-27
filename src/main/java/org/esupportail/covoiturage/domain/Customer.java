@@ -7,6 +7,13 @@ public class Customer {
     private final String email;
     private final String name;
 
+    public Customer(long id) {
+        this.id = id;
+        this.login = null;
+        this.email = null;
+        this.name = null;
+    }
+
     public Customer(long id, String login, String email, String name) {
         this.id = id;
         this.login = login;

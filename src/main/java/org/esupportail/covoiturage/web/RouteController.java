@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.esupportail.covoiturage.domain.Customer;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
@@ -54,20 +55,20 @@ public class RouteController {
         try {
             from = geocoderService.geocode(form.getFromAddress());
         } catch (LocationNotFoundException e) {
-            formBinding.rejectValue("from", "geocoding.error");
+            formBinding.rejectValue("fromAddress", "geocoding.error");
         }
 
         try {
             to = geocoderService.geocode(form.getToAddress());
         } catch (LocationNotFoundException e) {
-            formBinding.rejectValue("to", "geocoding.error");
+            formBinding.rejectValue("toAddress", "geocoding.error");
         }
 
         if (formBinding.hasErrors()) {
             return null;
         }
 
-        Route route = new Route(0, null, form.getStatus(), form.getSeats(), from, to);
+        Route route = new Route(0, new Customer(0), form.getStatus(), form.getSeats(), from, to);
         Long routeId = routeRepository.createRoute(route);
         return "redirect:routes/" + routeId;
     }
