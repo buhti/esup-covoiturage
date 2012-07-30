@@ -20,6 +20,10 @@ public class RouteForm {
     private final Map<Integer, String> dateMonth;
     private final List<Integer> dateYear;
     private final List<String> dateTime;
+    private final Map<Integer, String> dateWeekDay;
+
+    private RouteOccasionalForm occasionalForm;
+    private RouteRecurrentForm recurrentForm;
 
     @NotNull
     private String fromAddress;
@@ -35,18 +39,9 @@ public class RouteForm {
 
     private boolean recurrent;
 
-    private int wayOutDay;
-    private int wayOutMonth;
-    private int wayOutYear;
-    private String wayOutTime;
-
-    private int wayBackDay;
-    private int wayBackMonth;
-    private int wayBackYear;
-    private String wayBackTime;
-
     public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,
             Map<String, String> availableSeats) {
+
         this.predefinedLocations = predefinedLocations;
         this.possibleStatuses = possibleStatuses;
         this.availableSeats = availableSeats;
@@ -57,6 +52,7 @@ public class RouteForm {
         dateYear = range(today.getYear(), today.getYear() + 3);
         dateMonth = new LinkedHashMap<Integer, String>();
         dateTime = new ArrayList<String>();
+        dateWeekDay = new LinkedHashMap<Integer, String>();
 
         for (int i = 1; i <= 12; i++) {
             dateMonth.put(i, today.withMonthOfYear(i).monthOfYear().getAsText(new Locale("fr")));
@@ -68,10 +64,20 @@ public class RouteForm {
             dateTime.add(hour + ":30");
         }
 
-        wayOutDay = wayBackDay = today.getDayOfMonth();
-        wayOutMonth = wayBackMonth = today.getMonthOfYear();
-        wayOutYear = wayBackYear = today.getYear();
-        wayOutTime = wayBackTime = dateTime.get(0);
+        for (int i = 1; i <= 7; i++) {
+            dateWeekDay.put(i, today.withDayOfWeek(i).dayOfWeek().getAsShortText(new Locale("fr")));
+        }
+
+        occasionalForm = new RouteOccasionalForm(this);
+        recurrentForm = new RouteRecurrentForm(this);
+    }
+
+    public RouteOccasionalForm getOccasionalForm() {
+        return occasionalForm;
+    }
+
+    public RouteRecurrentForm getRecurrentForm() {
+        return recurrentForm;
     }
 
     private static List<Integer> range(int start, int end) {
@@ -130,6 +136,10 @@ public class RouteForm {
         return dateTime;
     }
 
+    public Map<Integer, String> getDateWeekDay() {
+        return dateWeekDay;
+    }
+
     public String getFromAddress() {
         return fromAddress;
     }
@@ -168,82 +178,6 @@ public class RouteForm {
 
     public void setRecurrent(boolean recurrent) {
         this.recurrent = recurrent;
-    }
-
-    public DateTime getWayOutDateTime() {
-        int hour = Integer.parseInt(wayOutTime.split(":", 2)[0]);
-        int minute = Integer.parseInt(wayOutTime.split(":", 2)[1]);
-        return new DateTime(wayOutDay, wayOutMonth, wayOutYear, hour, minute);
-    }
-
-    public int getWayOutDay() {
-        return wayOutDay;
-    }
-
-    public void setWayOutDay(int wayOutDay) {
-        this.wayOutDay = wayOutDay;
-    }
-
-    public int getWayOutMonth() {
-        return wayOutMonth;
-    }
-
-    public void setWayOutMonth(int wayOutMonth) {
-        this.wayOutMonth = wayOutMonth;
-    }
-
-    public int getWayOutYear() {
-        return wayOutYear;
-    }
-
-    public void setWayOutYear(int wayOutYear) {
-        this.wayOutYear = wayOutYear;
-    }
-
-    public String getWayOutTime() {
-        return wayOutTime;
-    }
-
-    public void setWayOutTime(String wayOutTime) {
-        this.wayOutTime = wayOutTime;
-    }
-
-    public DateTime getWayBackDateTime() {
-        int hour = Integer.parseInt(wayBackTime.split(":", 2)[0]);
-        int minute = Integer.parseInt(wayBackTime.split(":", 2)[1]);
-        return new DateTime(wayBackDay, wayBackMonth, wayBackYear, hour, minute);
-    }
-
-    public int getWayBackDay() {
-        return wayBackDay;
-    }
-
-    public void setWayBackDay(int wayBackDay) {
-        this.wayBackDay = wayBackDay;
-    }
-
-    public int getWayBackMonth() {
-        return wayBackMonth;
-    }
-
-    public void setWayBackMonth(int wayBackMonth) {
-        this.wayBackMonth = wayBackMonth;
-    }
-
-    public int getWayBackYear() {
-        return wayBackYear;
-    }
-
-    public void setWayBackYear(int wayBackYear) {
-        this.wayBackYear = wayBackYear;
-    }
-
-    public String getWayBackTime() {
-        return wayBackTime;
-    }
-
-    public void setWayBackTime(String wayBackTime) {
-        this.wayBackTime = wayBackTime;
     }
 
 }
