@@ -95,6 +95,8 @@
       if (address.length > 0) {
         geocode.apply(this, [address, resultCallbackFactory(target), errorCallbackFactory(target)]);
       }
+
+      return false;
     });
   })(map);
 

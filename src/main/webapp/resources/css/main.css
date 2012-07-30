@@ -1,0 +1,7 @@
+.nav-tabs li a {
+	cursor: pointer;
+}
+
+.nav-tabs li.active a {
+	cursor: default;
+}
