@@ -1,5 +1,5 @@
 create table Route (
-	id int not null,
+	route_id int not null auto_increment,
 	owner_id int not null,
 	driver tinyint(1) not null,
 	seats tinyint(2) not null,
@@ -10,7 +10,7 @@ create table Route (
 	to_city varchar(80) not null,
 	to_address varchar(255) not null,
 	recurring tinyint(1) not null,
-	primary key (id),
+	primary key (route_id),
 	index fk_owner_id (owner_id),
 	spatial index sp_from_point (from_point),
 	spatial index sp_to_point (to_point));

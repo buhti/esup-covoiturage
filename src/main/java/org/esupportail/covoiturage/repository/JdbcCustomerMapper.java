@@ -13,7 +13,8 @@ public class JdbcCustomerMapper implements RowMapper<Customer> {
 
     @Override
     public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Customer(rs.getLong("customer_id"), rs.getString("login"), rs.getString("email"), rs.getString("name"));
+        return new Customer(rs.getLong("customer_id"), rs.getString("login"), rs.getString("email"),
+                rs.getString("firstname"), rs.getString("lastname"));
     }
 
 }

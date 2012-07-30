@@ -5,20 +5,23 @@ public class Customer {
     private final long id;
     private final String login;
     private final String email;
-    private final String name;
+    private final String firstname;
+    private final String lastname;
 
     public Customer(long id) {
         this.id = id;
         this.login = null;
         this.email = null;
-        this.name = null;
+        this.firstname = null;
+        this.lastname = null;
     }
 
-    public Customer(long id, String login, String email, String name) {
+    public Customer(long id, String login, String email, String firstname, String lastname) {
         this.id = id;
         this.login = login;
         this.email = email;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
     public long getId() {
@@ -33,8 +36,12 @@ public class Customer {
         return email;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
     }
 
 }
