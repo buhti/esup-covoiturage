@@ -14,13 +14,13 @@ public class RouteOccasionalForm {
     private int wayBackYear;
     private String wayBackTime;
 
-    public RouteOccasionalForm(RouteForm parent) {
+    public RouteOccasionalForm() {
         DateTime today = new DateTime();
 
         wayOutDay = wayBackDay = today.getDayOfMonth();
         wayOutMonth = wayBackMonth = today.getMonthOfYear();
         wayOutYear = wayBackYear = today.getYear();
-        wayOutTime = wayBackTime = parent.getDateTime().get(0);
+        wayOutTime = wayBackTime = "00:00";
     }
 
     public DateTime getWayOutDateTime() {

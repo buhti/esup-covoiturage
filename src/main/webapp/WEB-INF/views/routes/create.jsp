@@ -117,15 +117,16 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
             </div>
           </div>
         </div>
-        <%--
         <div class="control-group">
-          <form:label path="wayOutDay" cssClass="control-label">Jours</form:label>
+          <form:label path="recurrentForm.weekDay" cssClass="control-label">Jours</form:label>
           <div class="controls">
-            <form:checkboxes items="${ routeForm.dateWeekDay }" path="${ routeForm.weekDay }"/>
+            <form:checkboxes path="recurrentForm.weekDay" items="${ routeForm.dateWeekDay }" />
           </div>
         </div>
-        --%>
       </fieldset>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Proposer</button>
     </div>
   </div>
   <form:hidden path="recurrent"/>

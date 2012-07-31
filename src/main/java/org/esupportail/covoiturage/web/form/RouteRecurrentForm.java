@@ -15,14 +15,16 @@ public class RouteRecurrentForm {
     private String wayOutTime;
     private String wayBackTime;
 
-    public RouteRecurrentForm(RouteForm parent) {
+    private int[] weekDay;
+
+    public RouteRecurrentForm() {
         DateTime today = new DateTime();
 
         startDay = endDay = today.getDayOfMonth();
         startMonth = endMonth = today.getMonthOfYear();
         startYear = endYear = today.getYear();
 
-        wayOutTime = wayBackTime = parent.getDateTime().get(0);
+        wayOutTime = wayBackTime = "00:00";
     }
 
     public DateTime getStartDateTime() {
@@ -95,6 +97,14 @@ public class RouteRecurrentForm {
 
     public void setWayBackTime(String wayBackTime) {
         this.wayBackTime = wayBackTime;
+    }
+
+    public int[] getWeekDay() {
+        return weekDay;
+    }
+
+    public void setWeekDay(int[] weekDay) {
+        this.weekDay = weekDay;
     }
 
 }

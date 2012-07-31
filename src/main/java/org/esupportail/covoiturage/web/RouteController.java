@@ -49,6 +49,10 @@ public class RouteController {
 
     @RequestMapping(value = "/route/create", method = RequestMethod.POST)
     public String create(@Valid RouteForm form, BindingResult formBinding, Model model) {
+        if (formBinding.hasErrors()) {
+            return null;
+        }
+
         Location from = null;
         Location to = null;
 
@@ -62,10 +66,6 @@ public class RouteController {
             to = geocoderService.geocode(form.getToAddress());
         } catch (LocationNotFoundException e) {
             formBinding.rejectValue("toAddress", "geocoding.error");
-        }
-
-        if (formBinding.hasErrors()) {
-            return null;
         }
 
         Route route = new Route(0, new Customer(0), form.getStatus(), form.getSeats(), from, to);

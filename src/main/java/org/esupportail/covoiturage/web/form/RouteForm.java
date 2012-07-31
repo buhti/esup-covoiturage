@@ -13,9 +13,9 @@ import org.joda.time.DateTime;
 
 public class RouteForm {
 
-    private final Map<String, String> predefinedLocations;
-    private final Map<String, String> possibleStatuses;
-    private final Map<String, String> availableSeats;
+    private Map<String, String> predefinedLocations;
+    private Map<String, String> possibleStatuses;
+    private Map<String, String> availableSeats;
     private final List<Integer> dateDay;
     private final Map<Integer, String> dateMonth;
     private final List<Integer> dateYear;
@@ -39,12 +39,9 @@ public class RouteForm {
 
     private boolean recurrent;
 
-    public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,
-            Map<String, String> availableSeats) {
-
-        this.predefinedLocations = predefinedLocations;
-        this.possibleStatuses = possibleStatuses;
-        this.availableSeats = availableSeats;
+    public RouteForm() {
+        occasionalForm = new RouteOccasionalForm();
+        recurrentForm = new RouteRecurrentForm();
 
         DateTime today = new DateTime();
 
@@ -67,9 +64,16 @@ public class RouteForm {
         for (int i = 1; i <= 7; i++) {
             dateWeekDay.put(i, today.withDayOfWeek(i).dayOfWeek().getAsShortText(new Locale("fr")));
         }
+    }
 
-        occasionalForm = new RouteOccasionalForm(this);
-        recurrentForm = new RouteRecurrentForm(this);
+    public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,
+            Map<String, String> availableSeats) {
+
+        this();
+
+        this.predefinedLocations = predefinedLocations;
+        this.possibleStatuses = possibleStatuses;
+        this.availableSeats = availableSeats;
     }
 
     public RouteOccasionalForm getOccasionalForm() {
