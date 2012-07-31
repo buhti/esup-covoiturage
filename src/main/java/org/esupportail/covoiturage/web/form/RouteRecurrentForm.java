@@ -1,86 +1,35 @@
 package org.esupportail.covoiturage.web.form;
 
-import org.joda.time.DateTime;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 public class RouteRecurrentForm {
 
-    private int startDay;
-    private int startMonth;
-    private int startYear;
+    @Valid
+    private DateField startDate;
 
-    private int endDay;
-    private int endMonth;
-    private int endYear;
+    @Valid
+    private DateField endDate;
 
     private String wayOutTime;
     private String wayBackTime;
 
+    @Size(min = 1)
     private int[] weekDay;
 
     public RouteRecurrentForm() {
-        DateTime today = new DateTime();
-
-        startDay = endDay = today.getDayOfMonth();
-        startMonth = endMonth = today.getMonthOfYear();
-        startYear = endYear = today.getYear();
+        startDate = new DateField();
+        endDate = new DateField();
 
         wayOutTime = wayBackTime = "00:00";
     }
 
-    public DateTime getStartDateTime() {
-        return new DateTime(startDay, startMonth, startYear, 0, 0);
+    public DateField getStartDate() {
+        return startDate;
     }
 
-    public DateTime getEndDateTime() {
-        return new DateTime(endDay, endMonth, endYear, 0, 0);
-    }
-
-    public int getStartDay() {
-        return startDay;
-    }
-
-    public void setStartDay(int startDay) {
-        this.startDay = startDay;
-    }
-
-    public int getStartMonth() {
-        return startMonth;
-    }
-
-    public void setStartMonth(int startMonth) {
-        this.startMonth = startMonth;
-    }
-
-    public int getStartYear() {
-        return startYear;
-    }
-
-    public void setStartYear(int startYear) {
-        this.startYear = startYear;
-    }
-
-    public int getEndDay() {
-        return endDay;
-    }
-
-    public void setEndDay(int endDay) {
-        this.endDay = endDay;
-    }
-
-    public int getEndMonth() {
-        return endMonth;
-    }
-
-    public void setEndMonth(int endMonth) {
-        this.endMonth = endMonth;
-    }
-
-    public int getEndYear() {
-        return endYear;
-    }
-
-    public void setEndYear(int endYear) {
-        this.endYear = endYear;
+    public DateField getEndDate() {
+        return endDate;
     }
 
     public String getWayOutTime() {

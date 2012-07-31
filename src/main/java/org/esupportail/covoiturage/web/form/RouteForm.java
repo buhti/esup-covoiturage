@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.joda.time.DateTime;
@@ -27,20 +26,14 @@ public class RouteForm {
     private RouteOccasionalForm occasionalForm;
     private RouteRecurrentForm recurrentForm;
 
-    @NotNull
     @Size(min = 2)
     private String fromAddress;
 
-    @NotNull
     @Size(min = 2)
     private String toAddress;
 
-    @NotNull
     private int status;
-
-    @NotNull
     private int seats;
-
     private boolean recurrent;
 
     public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,

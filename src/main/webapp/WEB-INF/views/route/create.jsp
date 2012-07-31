@@ -58,23 +58,23 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
         <div class="row">
           <div class="span6">
             <div class="control-group">
-              <form:label path="occasionalForm.wayOutDay" cssClass="control-label">Aller</form:label>
+              <form:label path="occasionalForm.wayOut.day" cssClass="control-label">Aller</form:label>
               <div class="controls">
-                <form:select path="occasionalForm.wayOutDay" items="${ routeForm.dateDay }" />
-                <form:select path="occasionalForm.wayOutMonth" items="${ routeForm.dateMonth }" />
-                <form:select path="occasionalForm.wayOutYear" items="${ routeForm.dateYear }" />
-                <form:select path="occasionalForm.wayOutTime" items="${ routeForm.dateTime }" />
+                <form:select path="occasionalForm.wayOut.day" items="${ routeForm.dateDay }" />
+                <form:select path="occasionalForm.wayOut.month" items="${ routeForm.dateMonth }" />
+                <form:select path="occasionalForm.wayOut.year" items="${ routeForm.dateYear }" />
+                <form:select path="occasionalForm.wayOut.time" items="${ routeForm.dateTime }" />
               </div>
             </div>
           </div>
           <div class="span6">
             <div class="control-group">
-              <form:label path="occasionalForm.wayBackDay" cssClass="control-label">Retour</form:label>
+              <form:label path="occasionalForm.wayBack.day" cssClass="control-label">Retour</form:label>
               <div class="controls">
-                <form:select path="occasionalForm.wayBackDay" items="${ routeForm.dateDay }" />
-                <form:select path="occasionalForm.wayBackMonth" items="${ routeForm.dateMonth }" />
-                <form:select path="occasionalForm.wayBackYear" items="${ routeForm.dateYear }" />
-                <form:select path="occasionalForm.wayBackTime" items="${ routeForm.dateTime }" />
+                <form:select path="occasionalForm.wayBack.day" items="${ routeForm.dateDay }" />
+                <form:select path="occasionalForm.wayBack.month" items="${ routeForm.dateMonth }" />
+                <form:select path="occasionalForm.wayBack.year" items="${ routeForm.dateYear }" />
+                <form:select path="occasionalForm.wayBack.time" items="${ routeForm.dateTime }" />
               </div>
             </div>
           </div>
@@ -86,11 +86,11 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
         <div class="row">
           <div class="span6">
             <div class="control-group">
-              <form:label path="recurrentForm.startDay" cssClass="control-label">Commence le</form:label>
+              <form:label path="recurrentForm.startDate.day" cssClass="control-label">Commence le</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.startDay" items="${ routeForm.dateDay }" />
-                <form:select path="recurrentForm.startMonth" items="${ routeForm.dateMonth }" />
-                <form:select path="recurrentForm.startYear" items="${ routeForm.dateYear }" />
+                <form:select path="recurrentForm.startDate.day" items="${ routeForm.dateDay }" />
+                <form:select path="recurrentForm.startDate.month" items="${ routeForm.dateMonth }" />
+                <form:select path="recurrentForm.startDate.year" items="${ routeForm.dateYear }" />
               </div>
             </div>
             <div class="control-group">
@@ -102,11 +102,11 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
           </div>
           <div class="span6">
             <div class="control-group">
-              <form:label path="recurrentForm.endDay" cssClass="control-label">Termine le</form:label>
+              <form:label path="recurrentForm.endDate.day" cssClass="control-label">Termine le</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.endDay" items="${ routeForm.dateDay }" />
-                <form:select path="recurrentForm.endMonth" items="${ routeForm.dateMonth }" />
-                <form:select path="recurrentForm.endYear" items="${ routeForm.dateYear }" />
+                <form:select path="recurrentForm.endDate.day" items="${ routeForm.dateDay }" />
+                <form:select path="recurrentForm.endDate.month" items="${ routeForm.dateMonth }" />
+                <form:select path="recurrentForm.endDate.year" items="${ routeForm.dateYear }" />
               </div>
             </div>
             <div class="control-group">
