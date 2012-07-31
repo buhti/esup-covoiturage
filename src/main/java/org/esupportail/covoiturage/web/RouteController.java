@@ -44,7 +44,7 @@ public class RouteController {
     @RequestMapping(value = "/route/create", method = RequestMethod.GET)
     public String createForm(Model model) {
         model.addAttribute(new RouteForm(predefinedLocations, possibleStatuses, availableSeats));
-        return "routes/create";
+        return "route/create";
     }
 
     @RequestMapping(value = "/route/create", method = RequestMethod.POST)
@@ -70,7 +70,7 @@ public class RouteController {
 
         Route route = new Route(0, new Customer(0), form.getStatus(), form.getSeats(), from, to);
         Long routeId = routeRepository.createRoute(route);
-        return "redirect:routes/" + routeId;
+        return "redirect:route/" + routeId;
     }
 
     @RequestMapping(value = "/route/{routeId}")
@@ -78,7 +78,7 @@ public class RouteController {
         try {
             Route route = routeRepository.findOneById(routeId);
             model.addAttribute("route", route);
-            return "routes/view";
+            return "route/view";
         } catch (RouteNotFoundException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;

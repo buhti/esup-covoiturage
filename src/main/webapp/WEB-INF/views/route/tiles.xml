@@ -3,19 +3,19 @@
 
 <tiles-definitions>
 
-	<definition name="routes/create" extends="page">
+	<definition name="route/create" extends="page">
 		<put-attribute name="title" expression="Proposer un trajet" />
-		<put-attribute name="content" value="/WEB-INF/views/routes/create.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/route/create.jsp" />
 	</definition>
 
-	<definition name="routes/edit" extends="page">
+	<definition name="route/edit" extends="page">
 		<put-attribute name="title" expression="Modifier un trajet" />
-		<put-attribute name="content" value="/WEB-INF/views/routes/edit.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/route/edit.jsp" />
 	</definition>
 
-	<definition name="routes/view" extends="page">
+	<definition name="route/view" extends="page">
 		<put-attribute name="title" expression="Trajet xxxx" />
-		<put-attribute name="content" value="/WEB-INF/views/routes/view.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/route/view.jsp" />
 	</definition>
 
 </tiles-definitions>
