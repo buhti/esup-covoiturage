@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script>
 window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
 </script>
@@ -8,28 +9,40 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
   <fieldset>
     <div class="row">
       <div class="span6">
-        <div class="control-group">
+        <spring:bind path="fromAddress">
+          <c:set var="fromAddressError" value="${ status.errorMessage }"></c:set>
+        </spring:bind>
+        <div class="control-group ${ not empty fromAddressError ? 'error' : '' }">
           <form:label path="fromAddress" cssClass="control-label">Lieu de départ</form:label>
           <div class="controls">
             <form:input path="fromAddress" data-provide="typeahead" data-items="4" data-source-ref="predefinedLocations" />
+            <form:errors path="fromAddress" cssClass="help-inline" />
             <div class="hidden-phone">
               <p><a href="#" data-map="#fromAddress">Cliquez ici pour vérifier sur la carte</a></p>
             </div>
           </div>
         </div>
-        <div class="control-group">
+        <spring:bind path="toAddress">
+          <c:set var="toAddressError" value="${ status.errorMessage }"></c:set>
+        </spring:bind>
+        <div class="control-group ${ not empty toAddressError ? 'error' : '' }">
           <form:label path="toAddress" cssClass="control-label">Lieu d'arrivée</form:label>
           <div class="controls">
             <form:input path="toAddress" data-provide="typeahead" data-items="4" data-source-ref="predefinedLocations" />
+            <form:errors path="toAddress" cssClass="help-inline" />
             <div class="hidden-phone">
               <p><a href="#" data-map="#toAddress">Cliquez ici pour vérifier sur la carte</a></p>
             </div>
           </div>
         </div>
-        <div class="control-group">
+        <spring:bind path="status">
+          <c:set var="statusError" value="${ status.errorMessage }"></c:set>
+        </spring:bind>
+        <div class="control-group ${ not empty statusError ? 'error' : '' }">
           <form:label path="status" cssClass="control-label">Je suis</form:label>
           <div class="controls">
             <form:select path="status" items="${ routeForm.possibleStatuses }" />
+            <form:errors path="status" cssClass="help-inline" />
           </div>
         </div>
         <div class="control-group">
@@ -117,10 +130,14 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
             </div>
           </div>
         </div>
-        <div class="control-group">
+        <spring:bind path="recurrentForm.weekDay">
+          <c:set var="weekDayError" value="${ status.errorMessage }"></c:set>
+        </spring:bind>
+        <div class="control-group ${ not empty weekDayError ? 'error' : '' }">
           <form:label path="recurrentForm.weekDay" cssClass="control-label">Jours</form:label>
           <div class="controls">
             <form:checkboxes path="recurrentForm.weekDay" items="${ routeForm.dateWeekDay }" />
+            <form:errors path="recurrentForm.weekDay" cssClass="help-inline" />
           </div>
         </div>
       </fieldset>

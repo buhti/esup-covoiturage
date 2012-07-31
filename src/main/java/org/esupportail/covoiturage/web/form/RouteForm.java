@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.validation.constraints.Size;
-
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 public class RouteForm {
@@ -26,10 +25,10 @@ public class RouteForm {
     private RouteOccasionalForm occasionalForm;
     private RouteRecurrentForm recurrentForm;
 
-    @Size(min = 2)
+    @NotEmpty
     private String fromAddress;
 
-    @Size(min = 2)
+    @NotEmpty
     private String toAddress;
 
     private int status;
