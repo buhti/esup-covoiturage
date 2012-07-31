@@ -1,6 +1,8 @@
 package org.esupportail.covoiturage.web.form;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class RouteRecurrentForm {
@@ -11,9 +13,15 @@ public class RouteRecurrentForm {
     @Valid
     private DateField endDate;
 
+    @NotNull
+    @Pattern(regexp = "([0-1][0-9]|2[0-3]):[0-5][0-9]")
     private String wayOutTime;
+
+    @NotNull
+    @Pattern(regexp = "([0-1][0-9]|2[0-3]):[0-5][0-9]")
     private String wayBackTime;
 
+    @NotNull
     @Size(min = 1)
     private int[] weekDay;
 

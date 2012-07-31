@@ -11,6 +11,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
 @ComponentScan("org.esupportail.covoiturage")
@@ -34,6 +36,11 @@ public class ComponentConfig {
     @Bean
     public LdapTemplate ldapTemplate() {
         return new LdapTemplate(contextSource());
+    }
+
+    @Bean
+    public Validator smartValidator() {
+        return new LocalValidatorFactoryBean();
     }
 
 }

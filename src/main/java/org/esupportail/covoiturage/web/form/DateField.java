@@ -1,5 +1,7 @@
 package org.esupportail.covoiturage.web.form;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.joda.time.DateTime;
@@ -7,12 +9,17 @@ import org.joda.time.DateTime;
 public class DateField {
 
     @NotNull
+    @Min(1)
+    @Max(31)
     private int day;
 
     @NotNull
+    @Min(1)
+    @Max(12)
     private int month;
 
     @NotNull
+    @Min(2012)
     private int year;
 
     public int getDay() {

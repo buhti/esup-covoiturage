@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,9 @@ public class RouteController {
 
     @Resource
     private RouteRepository routeRepository;
+    
+    @Resource(name = "smartValidator")
+    private Validator smartValidator;
 
     @Resource(name = "predefinedLocations")
     private Map<String, String> predefinedLocations;
@@ -74,6 +78,16 @@ public class RouteController {
                 formBinding.rejectValue("toAddress", "geocoding.error");
             }
         }
+
+        if (form.isRecurrent()) {
+            formBinding.pushNestedPath("recurrentForm");
+            smartValidator.validate(form.getRecurrentForm(), formBinding);
+        } else {
+            formBinding.pushNestedPath("occasionalForm");
+            smartValidator.validate(form.getOccasionalForm(), formBinding);
+        }
+
+        formBinding.popNestedPath();
 
         if (formBinding.hasErrors()) {
             return null;
