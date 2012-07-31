@@ -18,7 +18,9 @@ import org.esupportail.covoiturage.web.form.RouteForm;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,31 +43,40 @@ public class RouteController {
     @Resource(name = "availableSeats")
     private Map<String, String> availableSeats;
 
+    @ModelAttribute("routeForm")
+    private RouteForm getRouteForm() {
+        return new RouteForm(predefinedLocations, possibleStatuses, availableSeats);
+    }
+
     @RequestMapping(value = "/route/create", method = RequestMethod.GET)
-    public String createForm(Model model) {
-        model.addAttribute(new RouteForm(predefinedLocations, possibleStatuses, availableSeats));
-        return "route/create";
+    public void createForm() {
+        // RouteForm is automatically injected to the model.
+        // View is retrieved from the URL mapping.
     }
 
     @RequestMapping(value = "/route/create", method = RequestMethod.POST)
     public String create(@Valid RouteForm form, BindingResult formBinding, Model model) {
-        if (formBinding.hasErrors()) {
-            return null;
-        }
-
         Location from = null;
         Location to = null;
 
-        try {
-            from = geocoderService.geocode(form.getFromAddress());
-        } catch (LocationNotFoundException e) {
-            formBinding.rejectValue("fromAddress", "geocoding.error");
+        if (StringUtils.hasText(form.getFromAddress())) {
+            try {
+                from = geocoderService.geocode(form.getFromAddress());
+            } catch (LocationNotFoundException e) {
+                formBinding.rejectValue("fromAddress", "geocoding.error");
+            }
         }
 
-        try {
-            to = geocoderService.geocode(form.getToAddress());
-        } catch (LocationNotFoundException e) {
-            formBinding.rejectValue("toAddress", "geocoding.error");
+        if (StringUtils.hasText(form.getToAddress())) {
+            try {
+                to = geocoderService.geocode(form.getToAddress());
+            } catch (LocationNotFoundException e) {
+                formBinding.rejectValue("toAddress", "geocoding.error");
+            }
+        }
+
+        if (formBinding.hasErrors()) {
+            return null;
         }
 
         Route route = new Route(0, new Customer(0), form.getStatus(), form.getSeats(), from, to);

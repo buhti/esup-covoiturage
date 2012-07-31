@@ -8,14 +8,16 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.joda.time.DateTime;
 
 public class RouteForm {
 
-    private Map<String, String> predefinedLocations;
-    private Map<String, String> possibleStatuses;
-    private Map<String, String> availableSeats;
+    private final Map<String, String> predefinedLocations;
+    private final Map<String, String> possibleStatuses;
+    private final Map<String, String> availableSeats;
+
     private final List<Integer> dateDay;
     private final Map<Integer, String> dateMonth;
     private final List<Integer> dateYear;
@@ -26,9 +28,11 @@ public class RouteForm {
     private RouteRecurrentForm recurrentForm;
 
     @NotNull
+    @Size(min = 2)
     private String fromAddress;
 
     @NotNull
+    @Size(min = 2)
     private String toAddress;
 
     @NotNull
@@ -39,9 +43,17 @@ public class RouteForm {
 
     private boolean recurrent;
 
-    public RouteForm() {
+    public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,
+            Map<String, String> availableSeats) {
+
+        // Create subforms
         occasionalForm = new RouteOccasionalForm();
         recurrentForm = new RouteRecurrentForm();
+
+        // Inject values
+        this.predefinedLocations = predefinedLocations;
+        this.possibleStatuses = possibleStatuses;
+        this.availableSeats = availableSeats;
 
         DateTime today = new DateTime();
 
@@ -64,16 +76,6 @@ public class RouteForm {
         for (int i = 1; i <= 7; i++) {
             dateWeekDay.put(i, today.withDayOfWeek(i).dayOfWeek().getAsShortText(new Locale("fr")));
         }
-    }
-
-    public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,
-            Map<String, String> availableSeats) {
-
-        this();
-
-        this.predefinedLocations = predefinedLocations;
-        this.possibleStatuses = possibleStatuses;
-        this.availableSeats = availableSeats;
     }
 
     public RouteOccasionalForm getOccasionalForm() {
