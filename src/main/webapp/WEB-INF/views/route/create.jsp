@@ -45,15 +45,15 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
     </div>
   </fieldset>
   <ul class="nav nav-tabs">
-    <li class="active">
+    <li class="${ routeForm.recurrent ? '' : 'active' }">
       <a data-toggle="tab" data-target="#tab-occasional">Ponctuel</a>
     </li>
-    <li>
+    <li class="${ routeForm.recurrent ? 'active' : '' }">
       <a data-toggle="tab" data-target="#tab-recurrent">Récurrent</a>
     </li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane active" id="tab-occasional">
+    <div class="tab-pane ${ routeForm.recurrent ? '' : 'active' }" id="tab-occasional">
       <fieldset>
         <div class="row">
           <div class="span6">
@@ -81,7 +81,7 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
         </div>
       </fieldset>
     </div>
-    <div class="tab-pane" id="tab-recurrent">
+    <div class="tab-pane ${ routeForm.recurrent ? 'active' : '' }" id="tab-recurrent">
       <fieldset>
         <div class="row">
           <div class="span6">
