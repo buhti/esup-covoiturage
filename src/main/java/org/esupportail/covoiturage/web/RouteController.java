@@ -10,12 +10,18 @@ import javax.validation.Valid;
 import org.esupportail.covoiturage.domain.Customer;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
+import org.esupportail.covoiturage.domain.RouteOccasional;
+import org.esupportail.covoiturage.domain.RouteRecurrent;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
 import org.esupportail.covoiturage.repository.RouteRepository;
+import org.esupportail.covoiturage.security.UserDetailsImpl;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
+import org.esupportail.covoiturage.web.form.RouteOccasionalForm;
+import org.esupportail.covoiturage.web.form.RouteRecurrentForm;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -34,7 +40,7 @@ public class RouteController {
 
     @Resource
     private RouteRepository routeRepository;
-    
+
     @Resource(name = "smartValidator")
     private Validator smartValidator;
 
@@ -59,7 +65,7 @@ public class RouteController {
     }
 
     @RequestMapping(value = "/route/create", method = RequestMethod.POST)
-    public String create(@Valid RouteForm form, BindingResult formBinding, Model model) {
+    public String create(@Valid RouteForm form, BindingResult formBinding, Model model, Authentication authentication) {
         Location from = null;
         Location to = null;
 
@@ -93,7 +99,20 @@ public class RouteController {
             return null;
         }
 
-        Route route = new Route(0, new Customer(0), form.getStatus(), form.getSeats(), from, to);
+        Customer owner = new Customer(((UserDetailsImpl) authentication.getPrincipal()).getId());
+        Route route;
+
+        if (form.isRecurrent()) {
+            RouteRecurrentForm subform = form.getRecurrentForm();
+            route = new RouteRecurrent(0, owner, form.getStatus(), form.getSeats(), from, to,
+                    subform.getStartDate().toDateTime(), subform.getEndDate().toDateTime(),
+                    subform.getWayOutTime(), subform.getWayBackTime());
+        } else {
+            RouteOccasionalForm subform = form.getOccasionalForm();
+            route = new RouteOccasional(0, owner, form.getStatus(), form.getSeats(), from, to,
+                    subform.getWayOut().toDateTime(), subform.getWayBack().toDateTime());
+        }
+
         Long routeId = routeRepository.createRoute(route);
         return "redirect:route/" + routeId;
     }

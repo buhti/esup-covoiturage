@@ -1,6 +1,6 @@
 package org.esupportail.covoiturage.domain;
 
-public class Route {
+public abstract class Route {
 
     public static final int STATUS_UNKNOWN = 0;
     public static final int STATUS_DRIVER = 1;
@@ -13,7 +13,7 @@ public class Route {
     private final Location from;
     private final Location to;
 
-    public Route(long id, Customer owner, int status, int seats, Location from, Location to) {
+    protected Route(long id, Customer owner, int status, int seats, Location from, Location to) {
         this.id = id;
         this.owner = owner;
         this.status = status;
@@ -45,5 +45,7 @@ public class Route {
     public Location getTo() {
         return to;
     }
+
+    abstract boolean isRecurrent();
 
 }

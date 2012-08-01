@@ -8,7 +8,10 @@ import javax.annotation.Resource;
 import org.esupportail.covoiturage.domain.Customer;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
+import org.esupportail.covoiturage.domain.RouteOccasional;
+import org.esupportail.covoiturage.domain.RouteRecurrent;
 
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +26,20 @@ public class JdbcRouteMapper implements RowMapper<Route> {
         Customer owner = customerMapper.mapRow(rs, rowNum);
         Location from = mapLocation(rs, "from");
         Location to = mapLocation(rs, "to");
-        return new Route(rs.getLong("route_id"), owner, rs.getInt("status"), rs.getInt("seats"), from, to);
+        long id = rs.getLong("route_id");
+        int status = rs.getInt("status");
+        int seats = rs.getInt("seats");
+
+        if (rs.getBoolean("recurrent")) {
+            return new RouteRecurrent(id, owner, status, seats, from, to,
+                    new DateTime(rs.getDate("start_date").getTime()),
+                    new DateTime(rs.getDate("end_date").getTime()),
+                    rs.getString("wayout_time"), rs.getString("wayout_time"));
+        }
+
+        return new RouteOccasional(id, owner, status, seats, from, to, 
+                new DateTime(rs.getDate("wayout_date").getTime()),
+                new DateTime(rs.getDate("wayback_date").getTime()));
     }
 
     private Location mapLocation(ResultSet rs, String columnLabel) throws SQLException {
