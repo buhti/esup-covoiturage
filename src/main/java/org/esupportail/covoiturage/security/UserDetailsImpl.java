@@ -1,7 +1,7 @@
 package org.esupportail.covoiturage.security;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.esupportail.covoiturage.domain.Customer;
 
@@ -19,14 +19,9 @@ public class UserDetailsImpl implements UserDetails {
         this.customer = customer;
     }
 
-    @SuppressWarnings("serial")
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<GrantedAuthority>() {
-            {
-                add(new SimpleGrantedAuthority("ROLE_USER"));
-            }
-        };
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
@@ -57,6 +52,10 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public long getId() {
+        return customer.getId();
     }
 
 }
