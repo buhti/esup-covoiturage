@@ -1,9 +1,12 @@
-create table Customer (
-	customer_id int not null auto_increment,
-	login varchar(50) not null,
-	email varchar(100) not null,
-	firstname varchar(50) not null,
-	lastname varchar(50) not null,
-	primary key (customer_id),
-	unique index login_unique (login),
-	unique index email_unique (email));
+CREATE TABLE Customer (
+	customer_id INT NOT NULL AUTO_INCREMENT,
+	login VARCHAR(50) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	firstname VARCHAR(50) NOT NULL,
+	lastname VARCHAR(50) NOT NULL,
+
+	/* Indexes */
+	PRIMARY KEY (customer_id),
+	UNIQUE INDEX login_unique (login),
+	UNIQUE INDEX email_unique (email)
+);
