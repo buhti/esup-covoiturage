@@ -88,7 +88,7 @@ public class DatabaseChangeSet implements Comparable<DatabaseChangeSet> {
 
     private void updateDatabaseVersion(DatabaseVersion version, Connection connection) {
         try {
-            PreparedStatement statement = connection.prepareStatement("update DatabaseVersion set value = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE DatabaseVersion SET VALUE = ?");
             statement.setString(1, version.toString());
             statement.execute();
         } catch (SQLException e) {

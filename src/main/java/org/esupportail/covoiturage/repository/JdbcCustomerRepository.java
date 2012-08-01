@@ -34,13 +34,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private static final String INSERT_CUSTOMER = "" +
-            "insert into Customer (login, email, firstname, lastname) " +
-            "values (?, ?, ?, ?)";
+            "INSERT INTO Customer (login, email, firstname, lastname) " +
+            "VALUES (?, ?, ?, ?)";
 
     private static final String SELECT_CUSTOMER = 
-            "select c.customer_id, c.login, c.email, c.firstname, c.lastname from Customer c ";
+            "SELECT c.customer_id, c.login, c.email, c.firstname, c.lastname " +
+            "FROM Customer c ";
 
     private static final String SELECT_CUSTOMER_BY_LOGIN = SELECT_CUSTOMER +
-            "where c.login = ?";
+            "WHERE c.login = ?";
 
 }

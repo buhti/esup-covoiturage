@@ -63,7 +63,7 @@ public class DatabaseUpgrader {
                 if (result.next()) {
                     Statement stmt = connection.createStatement();
                     try {
-                        stmt.execute("select value from DatabaseVersion");
+                        stmt.execute("SELECT value FROM DatabaseVersion");
                         ResultSet queryResult = stmt.getResultSet();
                         try {
                             queryResult.next();
@@ -79,8 +79,8 @@ public class DatabaseUpgrader {
                 } else {
                     Statement stmt = connection.createStatement();
                     try {
-                        stmt.execute("create table DatabaseVersion (value varchar(11) not null)");
-                        stmt.execute("insert into DatabaseVersion (value) values ('0.0.0')");
+                        stmt.execute("CREATE TABLE DatabaseVersion (value VARCHAR(11) NOT NULL)");
+                        stmt.execute("INSERT INTO DatabaseVersion (value) VALUES ('0.0.0')");
                     } finally {
                         stmt.close();
                     }

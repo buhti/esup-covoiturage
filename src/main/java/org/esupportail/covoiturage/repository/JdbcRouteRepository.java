@@ -57,21 +57,21 @@ public class JdbcRouteRepository implements RouteRepository {
     }
 
     private static final String INSERT_ROUTE = "" +
-            "insert into Route (owner_id, status, seats, from_point, from_city, from_address, to_point, to_city, to_address, recurring) " +
-            "value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Route (owner_id, status, seats, from_point, from_city, from_address, to_point, to_city, to_address, recurring) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SELECT_LAST_INSERT_ID = 
-            "select r.route_id from Route " +
-            "where r.owner_id = ? " +
-            "order by r.route_id desc " +
-            "limit 1";
+            "SELECT r.route_id FROM Route " +
+            "WHERE r.owner_id = ? " +
+            "ORDER BY r.route_id DESC " +
+            "LIMIT 1";
 
     private static final String SELECT_ROUTE = 
-            "select r.route_id, r.status, r.seats, r.from_city, r.from_address, r.to_city, r.to_address, " +
+            "SELECT r.route_id, r.status, r.seats, r.from_city, r.from_address, r.to_city, r.to_address, " +
             "c.customer_id, c.login, c.email, c.name " +
-            "inner join Customer c on r.owner_id = c.customer_id ";
+            "INNER JOIN Customer c ON r.owner_id = c.customer_id ";
 
     private static final String SELECT_ROUTE_BY_ID = SELECT_ROUTE +
-            "where r.route_id = ?";
+            "WHERE r.route_id = ?";
 
 }
