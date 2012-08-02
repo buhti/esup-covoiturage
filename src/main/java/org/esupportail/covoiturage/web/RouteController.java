@@ -73,7 +73,7 @@ public class RouteController {
             try {
                 from = geocoderService.geocode(form.getFromAddress());
             } catch (LocationNotFoundException e) {
-                formBinding.rejectValue("fromAddress", "geocoding.error");
+                formBinding.rejectValue("fromAddress", "geocoding.error", "geocoding.error");
             }
         }
 
@@ -81,7 +81,7 @@ public class RouteController {
             try {
                 to = geocoderService.geocode(form.getToAddress());
             } catch (LocationNotFoundException e) {
-                formBinding.rejectValue("toAddress", "geocoding.error");
+                formBinding.rejectValue("toAddress", "geocoding.error", "geocoding.error");
             }
         }
 
