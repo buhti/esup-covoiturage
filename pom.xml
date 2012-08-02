@@ -166,17 +166,6 @@
 				<version>2.6</version>
 			</dependency>
 			<dependency>
-				<groupId>com.google.code.geocoder-java</groupId>
-				<artifactId>geocoder-java</artifactId>
-				<version>0.9</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>commons-httpclient</artifactId>
-						<groupId>commons-httpclient</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
 				<groupId>org.jasig.cas.client</groupId>
 				<artifactId>cas-client-core</artifactId>
 				<version>3.1.12</version>
@@ -244,15 +233,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-		</dependency>
-		<!-- ===== Google Maps API ========================================= -->
-		<dependency>
-			<groupId>com.google.code.geocoder-java</groupId>
-			<artifactId>geocoder-java</artifactId>
-		</dependency>
-		<dependency>
-			<artifactId>commons-codec</artifactId>
-			<groupId>commons-codec</groupId>
 		</dependency>
 		<!-- ===== Logging ================================================= -->
 		<dependency>

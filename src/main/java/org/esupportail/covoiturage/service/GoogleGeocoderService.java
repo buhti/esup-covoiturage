@@ -1,80 +1,104 @@
 package org.esupportail.covoiturage.service;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import com.google.code.geocoder.Geocoder;
-import com.google.code.geocoder.GeocoderRequestBuilder;
-import com.google.code.geocoder.model.GeocodeResponse;
-import com.google.code.geocoder.model.GeocoderAddressComponent;
-import com.google.code.geocoder.model.GeocoderRequest;
-import com.google.code.geocoder.model.GeocoderResult;
-import com.google.code.geocoder.model.LatLng;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 @Component
 public class GoogleGeocoderService implements GeocoderService, InitializingBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(GoogleGeocoderService.class);
+    private static final String GEOCODE_REQUEST_SERVER_HTTP = "http://maps.googleapis.com";
+    private static final String GEOCODE_REQUEST_QUERY_BASIC = "/maps/api/geocode/xml?sensor=false";
 
-    @Value("${google.geocoding.clientId}")
-    private String clientId;
+    private static final String GEOCODE_XPATH_STATUS = "/GeocodeResponse/status";
+    private static final String GEOCODE_XPATH_ADDRESS = "/GeocodeResponse/result/formatted_address";
+    private static final String GEOCODE_XPATH_CITY = "/GeocodeResponse/result/address_component[type = 'locality']/long_name";
+    private static final String GEOCODE_XPATH_LAT = "/GeocodeResponse/result/geometry/location/lat";
+    private static final String GEOCODE_XPATH_LNG = "/GeocodeResponse/result/geometry/location/lng";
 
-    @Value("${google.geocoding.clientKey}")
-    private String clientKey;
-
-    private Geocoder geocoder;
+    private static DocumentBuilder documentBuilder;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (StringUtils.hasText(clientId) && StringUtils.hasText(clientKey)) {
-            if (logger.isInfoEnabled()) {
-                logger.info("Geocoder uses Premier account id '" + clientId + "'");
-            }
-            geocoder = new Geocoder(clientId, clientKey);
-        } else {
-            if (logger.isInfoEnabled()) {
-                logger.info("Geocoder uses anonymous account");
-            }
-            geocoder = new Geocoder();
-        }
+        documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
     @Override
-    public Location geocode(String address) throws LocationNotFoundException {
-        GeocoderRequest request = new GeocoderRequestBuilder().setAddress(address).getGeocoderRequest();
-        GeocodeResponse response = geocoder.geocode(request);
-
-        // Check if the geocoding request suceeded
-        if (!response.getStatus().equals("OK") || !response.getResults().isEmpty()) {
-            throw new LocationNotFoundException(address);
+    public Location geocode(String location) throws LocationNotFoundException {
+        Document response;
+        try {
+            response = request(getURL(location));
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to request Google Geocoding API", e);
         }
 
-        // Get the first result
-        GeocoderResult result = response.getResults().get(0);
-        LatLng location = result.getGeometry().getLocation();
+        double lat = 0;
+        double lng = 0;
+        String city;
+        String address;
 
-        // Retrieve the city
-        String city = "";
-        for (GeocoderAddressComponent addressComponent : result.getAddressComponents()) {
-            if (addressComponent.getTypes().contains("locality")) {
-                city = addressComponent.getLongName();
-                break;
+        try {
+            XPathFactory factory = XPathFactory.newInstance();
+            XPath xpath = factory.newXPath();
+
+            // Check if the geocoding request suceeded
+            if (!"OK".equals(xpath.evaluate(GEOCODE_XPATH_STATUS, response))) {
+                throw new LocationNotFoundException(location);
             }
+
+            // Read the geocoding response
+            lat = Double.parseDouble(xpath.evaluate(GEOCODE_XPATH_LAT, response));
+            lng = Double.parseDouble(xpath.evaluate(GEOCODE_XPATH_LNG, response));
+            city = xpath.evaluate(GEOCODE_XPATH_CITY, response);
+            address = xpath.evaluate(GEOCODE_XPATH_ADDRESS, response);
+        } catch (XPathExpressionException e) {
+            throw new RuntimeException("Unable to read Google Geocoding response", e);
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Found a location with city '" + city + "'");
+        return new Location(lat, lng, city, address);
+    }
+
+    private String getURL(String address) throws UnsupportedEncodingException {
+        StringBuilder url = new StringBuilder(GEOCODE_REQUEST_SERVER_HTTP);
+
+        url.append(GEOCODE_REQUEST_QUERY_BASIC);
+        url.append("&address=");
+        url.append(URLEncoder.encode(address, "UTF-8"));
+
+        return url.toString();
+    }
+
+    private Document request(String url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        Document geocoderResultDocument = null;
+
+        try {
+            conn.connect();
+            geocoderResultDocument = documentBuilder.parse(new InputSource(conn.getInputStream()));
+        } catch (SAXException e) {
+            throw new RuntimeException("Failed to parse Google Geocoding response", e);
+        } finally {
+            conn.disconnect();
         }
 
-        return new Location(location.getLat().doubleValue(), location.getLng().doubleValue(), city,
-                result.getFormattedAddress());
+        return geocoderResultDocument;
     }
 
 }
