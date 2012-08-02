@@ -21,7 +21,7 @@ public class RouteRecurrent extends Route {
     }
 
     @Override
-    boolean isRecurrent() {
+    public boolean isRecurrent() {
         return true;
     }
 

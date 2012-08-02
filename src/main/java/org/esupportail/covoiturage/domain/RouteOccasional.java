@@ -17,7 +17,7 @@ public class RouteOccasional extends Route {
     }
 
     @Override
-    boolean isRecurrent() {
+    public boolean isRecurrent() {
         return false;
     }
 

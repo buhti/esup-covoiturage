@@ -46,6 +46,6 @@ public abstract class Route {
         return to;
     }
 
-    abstract boolean isRecurrent();
+    public abstract boolean isRecurrent();
 
 }
