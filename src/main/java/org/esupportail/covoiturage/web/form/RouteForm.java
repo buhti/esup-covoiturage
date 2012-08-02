@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
@@ -31,8 +35,14 @@ public class RouteForm {
     @NotEmpty
     private String toAddress;
 
+    @Min(1)
+    @Max(2)
     private int status;
+
+    @Min(1)
     private int seats;
+
+    @NotNull
     private boolean recurrent;
 
     public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,
