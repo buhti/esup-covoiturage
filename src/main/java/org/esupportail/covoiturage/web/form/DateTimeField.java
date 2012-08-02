@@ -33,7 +33,7 @@ public class DateTimeField extends DateField {
         int hour = Integer.parseInt(time.split(":", 2)[0]);
         int minute = Integer.parseInt(time.split(":", 2)[1]);
 
-        return new DateTime(getDay(), getMonth(), getYear(), hour, minute);
+        return new DateTime(getYear(), getMonth(), getDay(), hour, minute);
     }
 
 }

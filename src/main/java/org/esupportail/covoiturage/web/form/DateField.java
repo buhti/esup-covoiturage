@@ -57,7 +57,7 @@ public class DateField {
     }
 
     public DateTime toDateTime() {
-        return new DateTime(day, month, year, 0, 0);
+        return new DateTime(year, month, day, 0, 0);
     }
 
 }
