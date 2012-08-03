@@ -30,16 +30,6 @@
 		<entry key="50" value="50 km" />
 	</util:map>
 
-	<util:map id="possibleStatuses" map-class="java.util.LinkedHashMap">
-		<description>
-			Cette liste définit les status possibles pour le créateur d'un
-			trajet.
-		</description>
-		<entry key="0" value="-" />
-		<entry key="1" value="Conducteur" />
-		<entry key="2" value="Passager" />
-	</util:map>
-
 	<util:map id="availableSeats" map-class="java.util.LinkedHashMap">
 		<description>
 			Cette liste définit le nombre de places dans un véhicule.

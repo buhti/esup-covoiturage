@@ -9,10 +9,10 @@ public class RouteRecurrent extends Route {
     private String wayOutTime;
     private String wayBackTime;
 
-    public RouteRecurrent(long id, Customer owner, int status, int seats, Location from, Location to,
+    public RouteRecurrent(long id, Customer owner, boolean driver, int seats, Location from, Location to,
             DateTime startDate, DateTime endDate, String wayOutTime, String wayBackTime) {
 
-        super(id, owner, status, seats, from, to);
+        super(id, owner, driver, seats, from, to);
 
         this.startDate = startDate;
         this.endDate = endDate;

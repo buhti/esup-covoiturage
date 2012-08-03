@@ -8,15 +8,15 @@ public abstract class Route {
 
     private final long id;
     private final Customer owner;
-    private final int status;
+    private final boolean driver;
     private final int seats;
     private final Location from;
     private final Location to;
 
-    protected Route(long id, Customer owner, int status, int seats, Location from, Location to) {
+    protected Route(long id, Customer owner, boolean driver, int seats, Location from, Location to) {
         this.id = id;
         this.owner = owner;
-        this.status = status;
+        this.driver = driver;
         this.seats = seats;
         this.from = from;
         this.to = to;
@@ -30,8 +30,8 @@ public abstract class Route {
         return owner;
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isDriver() {
+        return driver;
     }
 
     public int getSeats() {

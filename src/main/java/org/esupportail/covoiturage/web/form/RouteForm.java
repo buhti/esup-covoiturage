@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -17,7 +16,6 @@ import org.joda.time.DateTime;
 public class RouteForm {
 
     private final Map<String, String> predefinedLocations;
-    private final Map<String, String> possibleStatuses;
     private final Map<String, String> availableSeats;
 
     private final List<Integer> dateDay;
@@ -35,9 +33,8 @@ public class RouteForm {
     @NotEmpty
     private String toAddress;
 
-    @Min(1)
-    @Max(2)
-    private int status;
+    @NotNull
+    private boolean driver;
 
     @Min(1)
     private int seats;
@@ -45,8 +42,7 @@ public class RouteForm {
     @NotNull
     private boolean recurrent;
 
-    public RouteForm(Map<String, String> predefinedLocations, Map<String, String> possibleStatuses,
-            Map<String, String> availableSeats) {
+    public RouteForm(Map<String, String> predefinedLocations, Map<String, String> availableSeats) {
 
         // Create subforms
         occasionalForm = new RouteOccasionalForm();
@@ -54,7 +50,6 @@ public class RouteForm {
 
         // Inject values
         this.predefinedLocations = predefinedLocations;
-        this.possibleStatuses = possibleStatuses;
         this.availableSeats = availableSeats;
 
         DateTime today = new DateTime();
@@ -78,6 +73,8 @@ public class RouteForm {
         for (int i = 1; i <= 7; i++) {
             dateWeekDay.put(i, today.withDayOfWeek(i).dayOfWeek().getAsShortText(new Locale("fr")));
         }
+
+        driver = true;
     }
 
     public RouteOccasionalForm getOccasionalForm() {
@@ -120,10 +117,6 @@ public class RouteForm {
         return sb.toString();
     }
 
-    public Map<String, String> getPossibleStatuses() {
-        return possibleStatuses;
-    }
-
     public Map<String, String> getAvailableSeats() {
         return availableSeats;
     }
@@ -164,12 +157,12 @@ public class RouteForm {
         this.toAddress = toAddress;
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isDriver() {
+        return driver;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setDriver(boolean driver) {
+        this.driver = driver;
     }
 
     public int getSeats() {

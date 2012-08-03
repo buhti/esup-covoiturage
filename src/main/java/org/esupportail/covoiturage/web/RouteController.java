@@ -47,15 +47,12 @@ public class RouteController {
     @Resource(name = "predefinedLocations")
     private Map<String, String> predefinedLocations;
 
-    @Resource(name = "possibleStatuses")
-    private Map<String, String> possibleStatuses;
-
     @Resource(name = "availableSeats")
     private Map<String, String> availableSeats;
 
     @ModelAttribute("routeForm")
     private RouteForm getRouteForm() {
-        return new RouteForm(predefinedLocations, possibleStatuses, availableSeats);
+        return new RouteForm(predefinedLocations, availableSeats);
     }
 
     @RequestMapping(value = "/route/create", method = RequestMethod.GET)
@@ -104,12 +101,12 @@ public class RouteController {
 
         if (form.isRecurrent()) {
             RouteRecurrentForm subform = form.getRecurrentForm();
-            route = new RouteRecurrent(0, owner, form.getStatus(), form.getSeats(), from, to,
+            route = new RouteRecurrent(0, owner, form.isDriver(), form.getSeats(), from, to,
                     subform.getStartDate().toDateTime(), subform.getEndDate().toDateTime(),
                     subform.getWayOutTime(), subform.getWayBackTime());
         } else {
             RouteOccasionalForm subform = form.getOccasionalForm();
-            route = new RouteOccasional(0, owner, form.getStatus(), form.getSeats(), from, to,
+            route = new RouteOccasional(0, owner, form.isDriver(), form.getSeats(), from, to,
                     subform.getWayOut().toDateTime(), subform.getWayBack().toDateTime());
         }
 

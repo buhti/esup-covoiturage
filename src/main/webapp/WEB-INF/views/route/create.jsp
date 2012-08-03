@@ -35,14 +35,12 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
             </div>
           </div>
         </div>
-        <spring:bind path="status">
-          <c:set var="statusError" value="${ status.errorMessage }"></c:set>
-        </spring:bind>
-        <div class="control-group ${ not empty statusError ? 'error' : '' }">
-          <form:label path="status" cssClass="control-label">Je suis</form:label>
+        <div class="control-group">
           <div class="controls">
-            <form:select path="status" items="${ routeForm.possibleStatuses }" />
-            <form:errors path="status" cssClass="help-inline" />
+            <label>
+              <form:checkbox path="driver" />
+              Je suis le conducteur
+            </label>
           </div>
         </div>
         <div class="control-group">

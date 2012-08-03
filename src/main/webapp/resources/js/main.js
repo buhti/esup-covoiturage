@@ -106,4 +106,12 @@
     $routeForm.find('input#recurrent').val($(e.currentTarget).data('target') === '#tab-recurrent');
   });
 
+  $routeForm.find('input#driver1').on('change', function() {
+    if ($(this).is(':checked')) {
+      $routeForm.find('select#seats').parents('.control-group').show();
+    } else {
+      $routeForm.find('select#seats').parents('.control-group').hide();
+    }
+  }).change();
+
 })(jQuery, window);

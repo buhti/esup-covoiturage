@@ -26,9 +26,10 @@ public class JdbcRouteRepository implements RouteRepository {
     @Transactional
     @Override
     public long createRoute(Route route) {
-        jdbcTemplate.update(INSERT_ROUTE, route.getOwner().getId(), route.getStatus(), route.getSeats(),
+        jdbcTemplate.update(INSERT_ROUTE, route.getOwner().getId(), route.isDriver(), route.getSeats(),
                 locationToSqlPoint(route.getFrom()), route.getFrom().getCity(), route.getFrom().getAddress(),
-                locationToSqlPoint(route.getTo()), route.getTo().getCity(), route.getTo().getAddress());
+                locationToSqlPoint(route.getTo()), route.getTo().getCity(), route.getTo().getAddress(),
+                route.isRecurrent());
 
         return jdbcTemplate.queryForLong(SELECT_LAST_INSERT_ID, route.getOwner().getId());
     }
@@ -53,22 +54,23 @@ public class JdbcRouteRepository implements RouteRepository {
     }
 
     private String locationToSqlPoint(Location location) {
-        return "GeomFromText('POINT(" + location.getLat() + " " + location.getLng() + ")')";
+        return "POINT(" + location.getLat() + " " + location.getLng() + ")";
     }
 
     private static final String INSERT_ROUTE = "" +
-            "INSERT INTO Route (owner_id, status, seats, from_point, from_city, from_address, to_point, to_city, to_address, recurring) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Route (owner_id, driver, seats, from_point, from_city, from_address, to_point, to_city, to_address, recurrent) " +
+            "VALUES (?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, ?)";
 
     private static final String SELECT_LAST_INSERT_ID = 
-            "SELECT r.route_id FROM Route " +
+            "SELECT r.route_id FROM Route r " +
             "WHERE r.owner_id = ? " +
             "ORDER BY r.route_id DESC " +
             "LIMIT 1";
 
     private static final String SELECT_ROUTE = 
-            "SELECT r.route_id, r.status, r.seats, r.from_city, r.from_address, r.to_city, r.to_address, " +
+            "SELECT r.route_id, r.driver, r.seats, r.from_city, r.from_address, r.to_city, r.to_address, " +
             "c.customer_id, c.login, c.email, c.name " +
+            "FROM Route r " +
             "INNER JOIN Customer c ON r.owner_id = c.customer_id ";
 
     private static final String SELECT_ROUTE_BY_ID = SELECT_ROUTE +

@@ -7,10 +7,10 @@ public class RouteOccasional extends Route {
     private final DateTime wayOutDate;
     private final DateTime wayBackDate;
 
-    public RouteOccasional(long id, Customer owner, int status, int seats, Location from, Location to,
+    public RouteOccasional(long id, Customer owner, boolean driver, int seats, Location from, Location to,
             DateTime wayOutDate, DateTime wayBackDate) {
 
-        super(id, owner, status, seats, from, to);
+        super(id, owner, driver, seats, from, to);
 
         this.wayOutDate = wayOutDate;
         this.wayBackDate = wayBackDate;
