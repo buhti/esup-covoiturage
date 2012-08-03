@@ -2,6 +2,8 @@ package org.esupportail.covoiturage.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -30,22 +32,35 @@ public class JdbcRouteMapper implements RowMapper<Route> {
         boolean driver = rs.getBoolean("driver");
         int seats = rs.getInt("seats");
 
+        Route route;
         if (rs.getBoolean("recurrent")) {
-            return new RouteRecurrent(id, owner, driver, seats, from, to,
+            route = new RouteRecurrent(id, owner, driver, seats, from, to,
                     new DateTime(rs.getDate("start_date").getTime()),
                     new DateTime(rs.getDate("end_date").getTime()),
                     rs.getString("wayout_time"), rs.getString("wayout_time"));
+        } else {
+            route = new RouteOccasional(id, owner, driver, seats, from, to, 
+                    new DateTime(rs.getDate("wayout_date").getTime()),
+                    new DateTime(rs.getDate("wayback_date").getTime()));
         }
 
-        return new RouteOccasional(id, owner, driver, seats, from, to, 
-                new DateTime(rs.getDate("wayout_date").getTime()),
-                new DateTime(rs.getDate("wayback_date").getTime()));
+        return route;
     }
 
     private Location mapLocation(ResultSet rs, String columnLabel) throws SQLException {
-        double lat = 0D;
-        double lng = 0D;
-        return new Location(lat, lng, rs.getString(columnLabel + "_city"), rs.getString(columnLabel + "_address"));
+        double[] latlng = mapPoint(rs.getString(columnLabel + "_point_text"));
+        return new Location(latlng[0], latlng[1], rs.getString(columnLabel + "_city"), rs.getString(columnLabel + "_address"));
+    }
+
+    private double[] mapPoint(String point) {
+        Pattern p = Pattern.compile("([0-9.]+) ([0-9.]+)");
+        Matcher m = p.matcher(point);
+
+        if (!m.find()) {
+            throw new RuntimeException("Invalid point");
+        }
+
+        return new double[] { Double.parseDouble(m.group(1)), Double.parseDouble(m.group(2)) };
     }
 
 }
