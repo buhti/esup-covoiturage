@@ -111,7 +111,7 @@ public class RouteController {
         }
 
         Long routeId = routeRepository.createRoute(route);
-        return "redirect:route/" + routeId;
+        return "redirect:/route/" + routeId;
     }
 
     @RequestMapping(value = "/route/{routeId}")
