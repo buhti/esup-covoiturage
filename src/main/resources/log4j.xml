@@ -10,25 +10,13 @@
 		</layout>
 	</appender>
 
-	<!-- Application Loggers -->
-	<logger name="org.springframework.data">
-		<level value="debug" />
+	<!-- Application loggers -->
+	<logger name="org.esupportail.covoiturage">
+		<level value="trace" />
 	</logger>
 
-	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework.core">
-		<level value="info" />
-	</logger>
-
-	<logger name="org.springframework.beans">
-		<level value="info" />
-	</logger>
-
-	<logger name="org.springframework.context">
-		<level value="info" />
-	</logger>
-
-	<logger name="org.springframework.web">
+	<!-- 3rd party loggers -->
+	<logger name="org.springframework">
 		<level value="info" />
 	</logger>
 
@@ -36,7 +24,7 @@
 		<level value="debug" />
 	</logger>
 
-	<!-- Root Logger -->
+	<!-- Root logger -->
 	<root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
