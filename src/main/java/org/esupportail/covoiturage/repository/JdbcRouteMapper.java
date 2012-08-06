@@ -31,15 +31,16 @@ public class JdbcRouteMapper implements RowMapper<Route> {
         long id = rs.getLong("route_id");
         boolean driver = rs.getBoolean("driver");
         int seats = rs.getInt("seats");
+        String distance = rs.getString("distance");
 
         Route route;
         if (rs.getBoolean("recurrent")) {
-            route = new RouteRecurrent(id, owner, driver, seats, from, to,
+            route = new RouteRecurrent(id, owner, driver, seats, from, to, distance,
                     new DateTime(rs.getDate("start_date").getTime()),
                     new DateTime(rs.getDate("end_date").getTime()),
                     rs.getString("wayout_time"), rs.getString("wayout_time"));
         } else {
-            route = new RouteOccasional(id, owner, driver, seats, from, to, 
+            route = new RouteOccasional(id, owner, driver, seats, from, to, distance,
                     new DateTime(rs.getDate("wayout_date").getTime()),
                     new DateTime(rs.getDate("wayback_date").getTime()));
         }

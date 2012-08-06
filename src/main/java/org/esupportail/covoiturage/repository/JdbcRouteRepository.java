@@ -31,7 +31,7 @@ public class JdbcRouteRepository implements RouteRepository {
         if (route.isRecurrent()) {
             RouteRecurrent r = (RouteRecurrent) route;
             jdbcTemplate.update(INSERT_ROUTE_RECURRENT, 
-                    r.getOwner().getId(), r.isDriver(), r.getSeats(),
+                    r.getOwner().getId(), r.isDriver(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
                     r.getStartDate().toDate(), r.getEndDate().toDate(),
@@ -39,7 +39,7 @@ public class JdbcRouteRepository implements RouteRepository {
         } else {
             RouteOccasional r = (RouteOccasional) route;
             jdbcTemplate.update(INSERT_ROUTE_OCCASIONAL,
-                    r.getOwner().getId(), r.isDriver(), r.getSeats(),
+                    r.getOwner().getId(), r.isDriver(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
                     r.getWayOutDate().toDate(), r.getWayBackDate().toDate());
@@ -72,12 +72,12 @@ public class JdbcRouteRepository implements RouteRepository {
     }
 
     private static final String INSERT_ROUTE_RECURRENT = 
-            "INSERT INTO Route (owner_id, driver, seats, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, start_date, end_date, wayout_time, wayback_time) " +
-            "VALUES (?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 1, ?, ?, ?, ?)";
+            "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, start_date, end_date, wayout_time, wayback_time) " +
+            "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 1, ?, ?, ?, ?)";
     
     private static final String INSERT_ROUTE_OCCASIONAL = 
-            "INSERT INTO Route (owner_id, driver, seats, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, wayout_date, wayback_date) " +
-            "VALUES (?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 0, ?, ?)";
+            "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, wayout_date, wayback_date) " +
+            "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 0, ?, ?)";
 
     private static final String SELECT_LAST_INSERT_ID = 
             "SELECT r.route_id FROM Route r " +
@@ -86,7 +86,7 @@ public class JdbcRouteRepository implements RouteRepository {
             "LIMIT 1";
 
     private static final String SELECT_ROUTE = 
-            "SELECT r.route_id, r.driver, r.seats, r.from_city, r.from_address, r.to_city, r.to_address, r.recurrent, " +
+            "SELECT r.route_id, r.driver, r.seats, r.distance, r.from_city, r.from_address, r.to_city, r.to_address, r.recurrent, " +
             "AsText(r.from_point) AS from_point_text, AsText(r.to_point) AS to_point_text, " +
             "r.start_date, r.end_date, r.wayout_time, r.wayback_time, r.wayout_date, r.wayback_date, " +
             "c.customer_id, c.login, c.email, c.firstname, c.lastname " +

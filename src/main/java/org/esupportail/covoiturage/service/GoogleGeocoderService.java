@@ -13,8 +13,12 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.esupportail.covoiturage.domain.Location;
+import org.esupportail.covoiturage.exception.DistanceNotFoundException;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
+import org.esupportail.covoiturage.util.XMLUtil;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -24,14 +28,20 @@ import org.xml.sax.SAXException;
 @Component
 public class GoogleGeocoderService implements GeocoderService, InitializingBean {
 
-    private static final String GEOCODE_REQUEST_SERVER_HTTP = "http://maps.googleapis.com";
-    private static final String GEOCODE_REQUEST_QUERY_BASIC = "/maps/api/geocode/xml?sensor=false";
+    private static final Logger logger = LoggerFactory.getLogger(GoogleGeocoderService.class);
 
+    private static final String GOOGLE_MAPS_SERVER_HTTP = "http://maps.googleapis.com";
+
+    private static final String GEOCODE_REQUEST_QUERY_BASIC = "/maps/api/geocode/xml?sensor=false";
     private static final String GEOCODE_XPATH_STATUS = "/GeocodeResponse/status";
     private static final String GEOCODE_XPATH_ADDRESS = "/GeocodeResponse/result/formatted_address";
     private static final String GEOCODE_XPATH_CITY = "/GeocodeResponse/result/address_component[type = 'locality']/long_name";
     private static final String GEOCODE_XPATH_LAT = "/GeocodeResponse/result/geometry/location/lat";
     private static final String GEOCODE_XPATH_LNG = "/GeocodeResponse/result/geometry/location/lng";
+
+    private static final String DISTANCE_REQUEST_QUERY_BASIC = "/maps/api/distancematrix/xml?sensor=false";
+    private static final String DISTANCE_XPATH_STATUS = "/DistanceMatrixResponse/status";
+    private static final String DISTANCE_XPATH_DISTANCE = "/DistanceMatrixResponse/row/element/distance/text";
 
     private static DocumentBuilder documentBuilder;
 
@@ -44,7 +54,17 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
     public Location geocode(String location) throws LocationNotFoundException {
         Document response;
         try {
-            response = request(getURL(location));
+            String url = getGeocodeURL(location);
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("Calling geocode [{}]", url);
+            }
+
+            response = request(url);
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("Got response:\n{}", XMLUtil.format(response));
+            }
         } catch (IOException e) {
             throw new RuntimeException("Unable to request Google Geocoding API", e);
         }
@@ -75,12 +95,66 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
         return new Location(lat, lng, city, address);
     }
 
-    private String getURL(String address) throws UnsupportedEncodingException {
-        StringBuilder url = new StringBuilder(GEOCODE_REQUEST_SERVER_HTTP);
+    @Override
+    public String distance(Location origin, Location destination) throws DistanceNotFoundException {
+        Document response;
+        try {
+            String url = getDistanceURL(origin.getAddress(), destination.getAddress());
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("Calling distance [{}]", url);
+            }
+
+            response = request(url);
+
+            if (logger.isTraceEnabled()) {
+                logger.trace("Got response:\n{}", XMLUtil.format(response));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to request Google Distance Matrix API", e);
+        }
+
+        String distance;
+
+        try {
+            XPathFactory factory = XPathFactory.newInstance();
+            XPath xpath = factory.newXPath();
+
+            // Check if the distance request suceeded
+            if (!"OK".equals(xpath.evaluate(DISTANCE_XPATH_STATUS, response))) {
+                throw new DistanceNotFoundException(origin, destination);
+            }
+
+            // Read the distance
+            distance = xpath.evaluate(DISTANCE_XPATH_DISTANCE, response);
+
+        } catch (XPathExpressionException e) {
+            throw new RuntimeException("Unable to read Google Distance Matrix response", e);
+        }
+
+        return distance;
+    }
+
+    private String getGeocodeURL(String address) throws UnsupportedEncodingException {
+        StringBuilder url = new StringBuilder(GOOGLE_MAPS_SERVER_HTTP);
 
         url.append(GEOCODE_REQUEST_QUERY_BASIC);
         url.append("&address=");
         url.append(URLEncoder.encode(address, "UTF-8"));
+
+        return url.toString();
+    }
+
+    private String getDistanceURL(String origin, String destination) throws UnsupportedEncodingException {
+        StringBuilder url = new StringBuilder(GOOGLE_MAPS_SERVER_HTTP);
+
+        url.append(DISTANCE_REQUEST_QUERY_BASIC);
+        url.append("&mode=driving");
+        url.append("&units=metric");
+        url.append("&origins=");
+        url.append(URLEncoder.encode(origin, "UTF-8"));
+        url.append("&destinations=");
+        url.append(URLEncoder.encode(destination, "UTF-8"));
 
         return url.toString();
     }

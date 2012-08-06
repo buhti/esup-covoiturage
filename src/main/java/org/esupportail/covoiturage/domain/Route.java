@@ -12,14 +12,16 @@ public abstract class Route {
     private final int seats;
     private final Location from;
     private final Location to;
+    private final String distance;
 
-    protected Route(long id, Customer owner, boolean driver, int seats, Location from, Location to) {
+    protected Route(long id, Customer owner, boolean driver, int seats, Location from, Location to, String distance) {
         this.id = id;
         this.owner = owner;
         this.driver = driver;
         this.seats = seats;
         this.from = from;
         this.to = to;
+        this.distance = distance;
     }
 
     public long getId() {
@@ -44,6 +46,10 @@ public abstract class Route {
 
     public Location getTo() {
         return to;
+    }
+
+    public String getDistance() {
+        return distance;
     }
 
     public abstract boolean isRecurrent();
