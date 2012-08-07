@@ -54,7 +54,7 @@
     routeMap = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
   });
 
-  (function() {
+  (function(map) {
     var markers = {};
 
     // Factory de callback de succès.
@@ -114,10 +114,10 @@
       $routeForm.find('select#seats').parents('.control-group').hide();
     }
   }).change();
-  
+
   // Voir un trajet
   // --------------
-  
+
   // Récupère la page afin de restreindre le scope des requêtes jQuery.
   var $routePage = $('#view-route');
 
