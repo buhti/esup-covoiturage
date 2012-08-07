@@ -1,7 +1,6 @@
 package org.esupportail.covoiturage.web.form;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -9,6 +8,8 @@ import java.util.Map;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.esupportail.covoiturage.util.JSUtil;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
@@ -98,23 +99,7 @@ public class RouteForm {
     }
 
     public String getPredefinedLocationsJSON() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[");
-
-        Iterator<String> it = predefinedLocations.keySet().iterator();
-        while (it.hasNext()) {
-            String location = it.next();
-            sb.append('"');
-            sb.append(location);
-            sb.append('"');
-
-            if (it.hasNext()) {
-                sb.append(", ");
-            }
-        }
-
-        sb.append("]");
-        return sb.toString();
+        return JSUtil.convertToArray(predefinedLocations.keySet());
     }
 
     public Map<String, String> getAvailableSeats() {
