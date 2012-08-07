@@ -86,8 +86,13 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
             // Read the geocoding response
             lat = Double.parseDouble(xpath.evaluate(GEOCODE_XPATH_LAT, response));
             lng = Double.parseDouble(xpath.evaluate(GEOCODE_XPATH_LNG, response));
-            city = xpath.evaluate(GEOCODE_XPATH_CITY, response);
             address = xpath.evaluate(GEOCODE_XPATH_ADDRESS, response);
+            city = xpath.evaluate(GEOCODE_XPATH_CITY, response);
+
+            // Check if the city can be read
+            if (city == null || city.length() == 0) {
+                throw new LocationNotFoundException(location);
+            }
         } catch (XPathExpressionException e) {
             throw new RuntimeException("Unable to read Google Geocoding response", e);
         }
