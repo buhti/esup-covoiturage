@@ -12,12 +12,16 @@ public class DateTimeField extends DateField {
     private String time;
 
     public DateTimeField() {
-        this(new DateTime());
+        this(new DateTime().minuteOfHour().addToCopy(30));
     }
 
     public DateTimeField(DateTime date) {
-        super(new DateTime());
-        time = "00:00";
+        super(date);
+
+        int hours = date.hourOfDay().get();
+        int minutes = date.minuteOfHour().get();
+
+        time = hours + ":" + (minutes < 30 ? "00" : "30");
     }
 
     public String getTime() {
@@ -30,10 +34,10 @@ public class DateTimeField extends DateField {
 
     @Override
     public DateTime toDateTime() {
-        int hour = Integer.parseInt(time.split(":", 2)[0]);
-        int minute = Integer.parseInt(time.split(":", 2)[1]);
+        int hours = Integer.parseInt(time.split(":", 2)[0]);
+        int minutes = Integer.parseInt(time.split(":", 2)[1]);
 
-        return new DateTime(getYear(), getMonth(), getDay(), hour, minute);
+        return new DateTime(getYear(), getMonth(), getDay(), hours, minutes);
     }
 
 }
