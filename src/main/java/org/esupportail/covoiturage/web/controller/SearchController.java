@@ -1,4 +1,4 @@
-package org.esupportail.covoiturage.web;
+package org.esupportail.covoiturage.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
