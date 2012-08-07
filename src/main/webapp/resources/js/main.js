@@ -4,8 +4,8 @@
   // Google Maps enhancements
   // ------------------------
 
-  // Déclaration des variables utilisées.
-  var map, mapOptions = {
+  // Déclaration des options de la carte.
+  var mapOptions = {
     zoom: 5,
     maxZoom: 13,
     center: new google.maps.LatLng(46.888, 2.300),
@@ -49,8 +49,9 @@
   var $routeForm = $('form#routeForm');
 
   // Initialise la carte grâce à Google Maps.
+  var routeMap;
   $routeForm.find('#mapCanvas').each(function() {
-    map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
+    routeMap = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
   });
 
   (function() {
@@ -98,7 +99,7 @@
 
       return false;
     });
-  })(map);
+  })(routeMap);
 
   // Détermine si un trajet est récurrent ou non en fonction de l'onglet
   // sélectionné.
@@ -113,5 +114,36 @@
       $routeForm.find('select#seats').parents('.control-group').hide();
     }
   }).change();
+  
+  // Voir un trajet
+  // --------------
+  
+  // Récupère la page afin de restreindre le scope des requêtes jQuery.
+  var $routePage = $('#view-route');
+
+  // Aperçus du lieu de départ et d'arrivée du trajet
+  $routePage.find('.preview').each(function() {
+    var $this = $(this)
+      , lat = $this.data('lat')
+      , lng = $this.data('lng')
+      , address = $this.parent().find('.address').text();
+
+    var map = new google.maps.Map($this[0], {
+      zoom: 13,
+      center: new google.maps.LatLng(lat, lng),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: true,
+      disableDoubleClickZoom: true,
+      draggable: false,
+      keyboardShortcuts: false,
+      scrollwheel: false
+    });
+
+    new google.maps.Marker({
+      map: map,
+      position: new google.maps.LatLng(lat, lng),
+      title: address
+    });
+  });
 
 })(jQuery, window);

@@ -8,6 +8,6 @@ public interface GeocoderService {
 
     Location geocode(String address) throws LocationNotFoundException;
 
-    String distance(Location origin, Location destination) throws DistanceNotFoundException;
+    int distance(Location origin, Location destination) throws DistanceNotFoundException;
 
 }

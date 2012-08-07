@@ -12,9 +12,9 @@ public abstract class Route {
     private final int seats;
     private final Location from;
     private final Location to;
-    private final String distance;
+    private final int distance;
 
-    protected Route(long id, Customer owner, boolean driver, int seats, Location from, Location to, String distance) {
+    protected Route(long id, Customer owner, boolean driver, int seats, Location from, Location to, int distance) {
         this.id = id;
         this.owner = owner;
         this.driver = driver;
@@ -48,7 +48,7 @@ public abstract class Route {
         return to;
     }
 
-    public String getDistance() {
+    public int getDistance() {
         return distance;
     }
 

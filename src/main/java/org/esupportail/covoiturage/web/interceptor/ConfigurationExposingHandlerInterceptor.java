@@ -39,5 +39,22 @@ public class ConfigurationExposingHandlerInterceptor implements HandlerIntercept
             return environment.getProperty("google.services.apiKey");
         }
 
+        public Co2Holder getCo2() {
+            return new Co2Holder();
+        }
+
     }
+
+    public class Co2Holder {
+
+        public String getA() {
+            return environment.getProperty("app.co2.a");
+        }
+
+        public String getB() {
+            return environment.getProperty("app.co2.b");
+        }
+
+    }
+
 }

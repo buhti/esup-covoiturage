@@ -41,7 +41,7 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
 
     private static final String DISTANCE_REQUEST_QUERY_BASIC = "/maps/api/distancematrix/xml?sensor=false";
     private static final String DISTANCE_XPATH_STATUS = "/DistanceMatrixResponse/status";
-    private static final String DISTANCE_XPATH_DISTANCE = "/DistanceMatrixResponse/row/element/distance/text";
+    private static final String DISTANCE_XPATH_DISTANCE = "/DistanceMatrixResponse/row/element/distance/value";
 
     private static DocumentBuilder documentBuilder;
 
@@ -96,7 +96,7 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
     }
 
     @Override
-    public String distance(Location origin, Location destination) throws DistanceNotFoundException {
+    public int distance(Location origin, Location destination) throws DistanceNotFoundException {
         Document response;
         try {
             String url = getDistanceURL(origin.getAddress(), destination.getAddress());
@@ -114,7 +114,7 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
             throw new RuntimeException("Unable to request Google Distance Matrix API", e);
         }
 
-        String distance;
+        int distance;
 
         try {
             XPathFactory factory = XPathFactory.newInstance();
@@ -125,8 +125,8 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
                 throw new DistanceNotFoundException(origin, destination);
             }
 
-            // Read the distance
-            distance = xpath.evaluate(DISTANCE_XPATH_DISTANCE, response);
+            // Read the distance and convert meters to kilometers
+            distance = 1 + Integer.parseInt(xpath.evaluate(DISTANCE_XPATH_DISTANCE, response)) / 1000;
 
         } catch (XPathExpressionException e) {
             throw new RuntimeException("Unable to read Google Distance Matrix response", e);

@@ -44,4 +44,9 @@ public class Customer {
         return lastname;
     }
 
+    @Override
+    public String toString() {
+        return firstname + " " + lastname.charAt(0) + ".";
+    }
+
 }

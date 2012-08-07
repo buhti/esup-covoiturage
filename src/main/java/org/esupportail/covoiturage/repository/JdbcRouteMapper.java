@@ -31,7 +31,7 @@ public class JdbcRouteMapper implements RowMapper<Route> {
         long id = rs.getLong("route_id");
         boolean driver = rs.getBoolean("driver");
         int seats = rs.getInt("seats");
-        String distance = rs.getString("distance");
+        int distance = rs.getInt("distance");
 
         Route route;
         if (rs.getBoolean("recurrent")) {

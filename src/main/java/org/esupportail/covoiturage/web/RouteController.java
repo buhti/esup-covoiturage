@@ -81,7 +81,7 @@ public class RouteController {
 
         Location from = null;
         Location to = null;
-        String distance = null;
+        int distance = 0;
 
         try {
             // Geocode the origin address
@@ -104,7 +104,7 @@ public class RouteController {
                 // Fetch the distance between the orign and the destination
                 distance = geocoderService.distance(from, to);
             } catch (DistanceNotFoundException e) {
-                distance = "? km";
+                // Should log error
             }
         }
 
