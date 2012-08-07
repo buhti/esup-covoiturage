@@ -54,7 +54,7 @@ public class JdbcRouteMapper implements RowMapper<Route> {
     }
 
     private double[] mapPoint(String point) {
-        Pattern p = Pattern.compile("([0-9.]+) ([0-9.]+)");
+        Pattern p = Pattern.compile("(-?[0-9.]+) (-?[0-9.]+)");
         Matcher m = p.matcher(point);
 
         if (!m.find()) {
