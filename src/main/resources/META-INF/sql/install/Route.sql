@@ -17,6 +17,7 @@ CREATE TABLE Route (
 	end_date DATE,
 	wayout_time VARCHAR(5),
 	wayback_time VARCHAR(5),
+	week_days VARCHAR(7),
 
 	/* RouteOccasional */
 	wayout_date DATETIME,

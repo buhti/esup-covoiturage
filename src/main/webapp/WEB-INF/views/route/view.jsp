@@ -12,8 +12,13 @@
     <c:choose>
       <c:when test="${ route.recurrent }">
         <div class="span6">
-          <p>Départ à ${ route.wayOutTime }</p>
-          <p>Retour à ${ route.wayBackTime }</p>
+          <p>
+            <c:forEach items="${ route.weekDays }" var="weekDay">
+              <joda:parseDateTime var="day" value="${ weekDay }" pattern="e" locale="fr" />
+              <joda:format value="${ day }" pattern="EEEE" />
+            </c:forEach>
+            - <joda:format value="${ route.wayOutTime }" pattern="H'h'mm" />
+          </p>
         </div>
       </c:when>
       <c:otherwise>

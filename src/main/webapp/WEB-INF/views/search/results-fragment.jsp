@@ -7,6 +7,13 @@
       <span class="owner">${ route.owner }</span>
       <c:choose>
         <c:when test="${ route.recurrent }">
+          <span class="days">
+            <c:forEach items="${ route.weekDays }" var="weekDay">
+              <joda:parseDateTime var="day" value="${ weekDay }" pattern="e" locale="fr" />
+              <joda:format value="${ day }" pattern="EEEE" />
+            </c:forEach>
+            - <joda:format value="${ route.wayOutTime }" pattern="H'h'mm" />
+          </span>
         </c:when>
         <c:otherwise>
           <span class="date">

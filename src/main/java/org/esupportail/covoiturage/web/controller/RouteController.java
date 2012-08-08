@@ -133,7 +133,9 @@ public class RouteController {
                 // Fetch the distance between the orign and the destination
                 distance = geocoderService.distance(from, to);
             } catch (DistanceNotFoundException e) {
-                // Should log error
+                formBinding.rejectValue("fromAddress", "geocoding.error", "geocoding.error");
+                formBinding.rejectValue("toAddress", "geocoding.error", "geocoding.error");
+                return null;
             }
         }
 
@@ -146,7 +148,8 @@ public class RouteController {
             RouteRecurrentForm subform = form.getRecurrentForm();
             route = new RouteRecurrent(0, owner, form.isDriver(), form.getSeats(), from, to, distance,
                     subform.getStartDate().toDateTime(), subform.getEndDate().toDateTime(),
-                    subform.getWayOutTime().toLocalTime(), subform.getWayBackTime().toLocalTime());
+                    subform.getWayOutTime().toLocalTime(), subform.getWayBackTime().toLocalTime(),
+                    subform.getWeekDay());
         } else {
             RouteOccasionalForm subform = form.getOccasionalForm();
             route = new RouteOccasional(0, owner, form.isDriver(), form.getSeats(), from, to, distance,

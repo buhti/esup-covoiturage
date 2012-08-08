@@ -42,7 +42,8 @@ public class JdbcRouteRepository implements RouteRepository {
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
                     r.getStartDate().toDate(), r.getEndDate().toDate(),
-                    r.getWayOutTime().toString("HH:mm"), r.getWayBackTime().toString("HH:mm"));
+                    r.getWayOutTime().toString("HH:mm"), r.getWayBackTime().toString("HH:mm"),
+                    weekDaysToString(r.getWeekDays()));
         } else {
             RouteOccasional r = (RouteOccasional) route;
             jdbcTemplate.update(INSERT_ROUTE_OCCASIONAL,
@@ -103,8 +104,21 @@ public class JdbcRouteRepository implements RouteRepository {
         return "Polygon((" + maxLat + " " + minLng + ", " + maxLat + " " + maxLng + ", " + minLat + " " + maxLng + ", " + minLat + " " + minLng + ", " + maxLat + " " + minLng + "))";
     }
 
-    private static final String INSERT_ROUTE_RECURRENT = "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, start_date, end_date, wayout_time, wayback_time) "
-            + "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 1, ?, ?, ?, ?)";
+    private String weekDaysToString(int[] weekDays) {
+        int i = 0;
+        int n = weekDays.length;
+
+        StringBuilder sb = new StringBuilder(n);
+
+        for (; i < n; i++) {
+            sb.append(weekDays[i]);
+        }
+
+        return sb.toString();
+    }
+
+    private static final String INSERT_ROUTE_RECURRENT = "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, start_date, end_date, wayout_time, wayback_time, week_days) "
+            + "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 1, ?, ?, ?, ?, ?)";
 
     private static final String INSERT_ROUTE_OCCASIONAL = "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, wayout_date, wayback_date) "
             + "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 0, ?, ?)";
@@ -115,7 +129,7 @@ public class JdbcRouteRepository implements RouteRepository {
 
     private static final String SELECT_ROUTE = "SELECT r.route_id, r.driver, r.seats, r.distance, r.from_city, r.from_address, r.to_city, r.to_address, r.recurrent, "
             + "AsText(r.from_point) AS from_point_text, AsText(r.to_point) AS to_point_text, "
-            + "r.start_date, r.end_date, r.wayout_time, r.wayback_time, r.wayout_date, r.wayback_date, "
+            + "r.start_date, r.end_date, r.wayout_time, r.wayback_time, r.week_days, r.wayout_date, r.wayback_date, "
             + "c.customer_id, c.login, c.email, c.firstname, c.lastname "
             + "FROM Route r "
             + "INNER JOIN Customer c ON r.owner_id = c.customer_id ";

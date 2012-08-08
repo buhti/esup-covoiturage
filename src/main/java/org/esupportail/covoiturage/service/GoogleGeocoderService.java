@@ -40,7 +40,8 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
     private static final String GEOCODE_XPATH_LNG = "/GeocodeResponse/result/geometry/location/lng";
 
     private static final String DISTANCE_REQUEST_QUERY_BASIC = "/maps/api/distancematrix/xml?sensor=false";
-    private static final String DISTANCE_XPATH_STATUS = "/DistanceMatrixResponse/status";
+    private static final String DISTANCE_XPATH_STATUS1 = "/DistanceMatrixResponse/status";
+    private static final String DISTANCE_XPATH_STATUS2 = "/DistanceMatrixResponse/row/element/status";
     private static final String DISTANCE_XPATH_DISTANCE = "/DistanceMatrixResponse/row/element/distance/value";
 
     private static DocumentBuilder documentBuilder;
@@ -126,7 +127,9 @@ public class GoogleGeocoderService implements GeocoderService, InitializingBean 
             XPath xpath = factory.newXPath();
 
             // Check if the distance request suceeded
-            if (!"OK".equals(xpath.evaluate(DISTANCE_XPATH_STATUS, response))) {
+            if (!"OK".equals(xpath.evaluate(DISTANCE_XPATH_STATUS1, response))) {
+                throw new DistanceNotFoundException(origin, destination);
+            } else if (!"OK".equals(xpath.evaluate(DISTANCE_XPATH_STATUS2, response))) {
                 throw new DistanceNotFoundException(origin, destination);
             }
 
