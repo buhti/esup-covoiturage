@@ -28,7 +28,7 @@
           <ul class="nav">
             <li><a href="<c:url value='/search'/>">Rechercher</a></li>
             <li><a href="<c:url value='/route/create'/>">Proposer</a></li>
-            <li><a href="<c:url value='/account'/>">Mon compte</a></li>
+            <li><a href="<c:url value='/customer/profile'/>">Mon compte</a></li>
           </ul>
         </div>
       </div>
