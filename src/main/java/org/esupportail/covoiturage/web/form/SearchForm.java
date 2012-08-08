@@ -1,30 +1,84 @@
 package org.esupportail.covoiturage.web.form;
 
+import java.util.Collection;
 import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.esupportail.covoiturage.util.JSUtil;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class SearchForm {
 
-    private final Map<String, String> distanceTolerances;
     private final Map<String, String> predefinedLocations;
+    private final Collection<Integer> dateDay;
+    private final Map<Integer, String> dateMonth;
+    private final Collection<Integer> dateYear;
+    private final Collection<String> dateTime;
+    private final Map<Integer, String> dateTolerances;
+    private final Map<Integer, String> distanceTolerances;
 
+    @NotEmpty
     private String from;
-    private String fromTolerance;
-    private String to;
-    private String toTolerance;
-    private String date;
-    private String dateTolerance;
 
-    public SearchForm(Map<String, String> distanceTolerances, Map<String, String> predefinedLocations) {
-        this.distanceTolerances = distanceTolerances;
+    @NotEmpty
+    private String to;
+
+    @Valid
+    private DateTimeField date;
+
+    private int fromTolerance;
+    private int toTolerance;
+    private int dateTolerance;
+
+    public SearchForm(Map<String, String> predefinedLocations, Collection<Integer> dateDay,
+            Map<Integer, String> dateMonth, Collection<Integer> dateYear, Collection<String> dateTime,
+            Map<Integer, String> dateTolerances, Map<Integer, String> distanceTolerances) {
+
+        // Inject values
         this.predefinedLocations = predefinedLocations;
+        this.dateDay = dateDay;
+        this.dateMonth = dateMonth;
+        this.dateYear = dateYear;
+        this.dateTime = dateTime;
+        this.dateTolerances = dateTolerances;
+        this.distanceTolerances = distanceTolerances;
+
+        // Create fields
+        date = new DateTimeField();
+
+        // Initialize fields
+        fromTolerance = toTolerance = distanceTolerances.keySet().iterator().next();
+        dateTolerance = dateTolerances.keySet().iterator().next();
     }
 
-    public Map<String, String> getDistanceTolerances() {
+    public String getPredefinedLocationsJSON() {
+        return JSUtil.convertToArray(predefinedLocations.keySet());
+    }
+
+    public Map<Integer, String> getDateTolerances() {
+        return dateTolerances;
+    }
+
+    public Map<Integer, String> getDistanceTolerances() {
         return distanceTolerances;
     }
 
-    public Map<String, String> getPredefinedLocations() {
-        return predefinedLocations;
+    public Collection<Integer> getDateDay() {
+        return dateDay;
+    }
+
+    public Map<Integer, String> getDateMonth() {
+        return dateMonth;
+    }
+
+    public Collection<Integer> getDateYear() {
+        return dateYear;
+    }
+
+    public Collection<String> getDateTime() {
+        return dateTime;
     }
 
     public String getFrom() {
@@ -35,11 +89,11 @@ public class SearchForm {
         this.from = from;
     }
 
-    public String getFromTolerance() {
+    public int getFromTolerance() {
         return fromTolerance;
     }
 
-    public void setFromTolerance(String fromTolerance) {
+    public void setFromTolerance(int fromTolerance) {
         this.fromTolerance = fromTolerance;
     }
 
@@ -51,27 +105,27 @@ public class SearchForm {
         this.to = to;
     }
 
-    public String getToTolerance() {
+    public int getToTolerance() {
         return toTolerance;
     }
 
-    public void setToTolerance(String toTolerance) {
+    public void setToTolerance(int toTolerance) {
         this.toTolerance = toTolerance;
     }
 
-    public String getDate() {
+    public DateTimeField getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDateTime(DateTimeField date) {
         this.date = date;
     }
 
-    public String getDateTolerance() {
+    public int getDateTolerance() {
         return dateTolerance;
     }
 
-    public void setDateTolerance(String dateTolerance) {
+    public void setDateTolerance(int dateTolerance) {
         this.dateTolerance = dateTolerance;
     }
 

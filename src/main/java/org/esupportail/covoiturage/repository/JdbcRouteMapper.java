@@ -14,6 +14,7 @@ import org.esupportail.covoiturage.domain.RouteOccasional;
 import org.esupportail.covoiturage.domain.RouteRecurrent;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,7 @@ public class JdbcRouteMapper implements RowMapper<Route> {
             route = new RouteRecurrent(id, owner, driver, seats, from, to, distance,
                     new DateTime(rs.getDate("start_date").getTime()),
                     new DateTime(rs.getDate("end_date").getTime()),
-                    rs.getString("wayout_time"), rs.getString("wayout_time"));
+                    mapTime(rs.getString("wayout_time")), mapTime(rs.getString("wayout_time")));
         } else {
             route = new RouteOccasional(id, owner, driver, seats, from, to, distance,
                     new DateTime(rs.getDate("wayout_date").getTime()),
@@ -62,6 +63,12 @@ public class JdbcRouteMapper implements RowMapper<Route> {
         }
 
         return new double[] { Double.parseDouble(m.group(1)), Double.parseDouble(m.group(2)) };
+    }
+
+    private LocalTime mapTime(String time) {
+        int hours = Integer.parseInt(time.split(":", 2)[0]);
+        int minutes = Integer.parseInt(time.split(":", 2)[1]);
+        return new LocalTime(hours, minutes, 0);
     }
 
 }

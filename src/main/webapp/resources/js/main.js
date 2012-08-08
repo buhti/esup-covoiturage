@@ -146,4 +146,27 @@
     });
   });
 
+  // Résultats de recherche
+  // ----------------------
+
+  // Récupère la page afin de restreindre le scope des requêtes jQuery.
+  var $resultsPage = $('#search-results');
+  if ($resultsPage.length > 0) {
+    var currentPage = 1;
+
+    var loadResults = function(page) {
+      $.ajax($resultsPage.data('results') + page).done(function(data) {
+        console.log(data);
+        $resultsPage.find('#results-container').append(data);
+      });
+    }
+
+    // Charge la première page de résultats
+    loadResults(currentPage);
+
+    $resultsPage.find('#more-results a').on('click', function() {
+      // Load next results
+    });
+  }
+
 })(jQuery, window);

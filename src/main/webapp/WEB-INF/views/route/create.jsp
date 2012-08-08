@@ -105,9 +105,9 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
               </div>
             </div>
             <div class="control-group">
-              <form:label path="recurrentForm.wayOutTime" cssClass="control-label">Départ à</form:label>
+              <form:label path="recurrentForm.wayOutTime.time" cssClass="control-label">Départ à</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.wayOutTime" items="${ routeForm.dateTime }" />
+                <form:select path="recurrentForm.wayOutTime.time" items="${ routeForm.dateTime }" />
               </div>
             </div>
           </div>
@@ -121,9 +121,9 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
               </div>
             </div>
             <div class="control-group">
-              <form:label path="recurrentForm.wayBackTime" cssClass="control-label">Retour à</form:label>
+              <form:label path="recurrentForm.wayBackTime.time" cssClass="control-label">Retour à</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.wayBackTime" items="${ routeForm.dateTime }" />
+                <form:select path="recurrentForm.wayBackTime.time" items="${ routeForm.dateTime }" />
               </div>
             </div>
           </div>

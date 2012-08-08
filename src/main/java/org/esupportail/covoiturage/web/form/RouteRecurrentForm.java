@@ -1,8 +1,6 @@
 package org.esupportail.covoiturage.web.form;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -14,13 +12,11 @@ public class RouteRecurrentForm {
     @Valid
     private DateField endDate;
 
-    @NotNull
-    @Pattern(regexp = "([0-1][0-9]|2[0-3]):[0-5][0-9]")
-    private String wayOutTime;
+    @Valid
+    private TimeField wayOutTime;
 
-    @NotNull
-    @Pattern(regexp = "([0-1][0-9]|2[0-3]):[0-5][0-9]")
-    private String wayBackTime;
+    @Valid
+    private TimeField wayBackTime;
 
     @NotEmpty
     private int[] weekDay;
@@ -28,8 +24,8 @@ public class RouteRecurrentForm {
     public RouteRecurrentForm() {
         startDate = new DateField();
         endDate = new DateField();
-
-        wayOutTime = wayBackTime = "00:00";
+        wayOutTime = new TimeField();
+        wayBackTime = new TimeField();
     }
 
     public DateField getStartDate() {
@@ -40,20 +36,12 @@ public class RouteRecurrentForm {
         return endDate;
     }
 
-    public String getWayOutTime() {
+    public TimeField getWayOutTime() {
         return wayOutTime;
     }
 
-    public void setWayOutTime(String wayOutTime) {
-        this.wayOutTime = wayOutTime;
-    }
-
-    public String getWayBackTime() {
+    public TimeField getWayBackTime() {
         return wayBackTime;
-    }
-
-    public void setWayBackTime(String wayBackTime) {
-        this.wayBackTime = wayBackTime;
     }
 
     public int[] getWeekDay() {

@@ -1,9 +1,6 @@
 package org.esupportail.covoiturage.web.form;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.validation.constraints.Min;
@@ -12,17 +9,15 @@ import javax.validation.constraints.NotNull;
 import org.esupportail.covoiturage.util.JSUtil;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.joda.time.DateTime;
 
 public class RouteForm {
 
     private final Map<String, String> predefinedLocations;
-    private final Map<String, String> availableSeats;
-
-    private final List<Integer> dateDay;
+    private final Map<Integer, String> availableSeats;
+    private final Collection<Integer> dateDay;
     private final Map<Integer, String> dateMonth;
-    private final List<Integer> dateYear;
-    private final List<String> dateTime;
+    private final Collection<Integer> dateYear;
+    private final Collection<String> dateTime;
     private final Map<Integer, String> dateWeekDay;
 
     private RouteOccasionalForm occasionalForm;
@@ -43,38 +38,24 @@ public class RouteForm {
     @NotNull
     private boolean recurrent;
 
-    public RouteForm(Map<String, String> predefinedLocations, Map<String, String> availableSeats) {
+    public RouteForm(Map<String, String> predefinedLocations, Map<Integer, String> availableSeats,
+            Collection<Integer> dateDay, Map<Integer, String> dateMonth, Collection<Integer> dateYear,
+            Collection<String> dateTime, Map<Integer, String> dateWeekDay) {
+
+        // Inject values
+        this.predefinedLocations = predefinedLocations;
+        this.availableSeats = availableSeats;
+        this.dateDay = dateDay;
+        this.dateMonth = dateMonth;
+        this.dateYear = dateYear;
+        this.dateTime = dateTime;
+        this.dateWeekDay = dateWeekDay;
 
         // Create subforms
         occasionalForm = new RouteOccasionalForm();
         recurrentForm = new RouteRecurrentForm();
 
-        // Inject values
-        this.predefinedLocations = predefinedLocations;
-        this.availableSeats = availableSeats;
-
-        DateTime today = new DateTime();
-
-        dateDay = range(1, 31);
-        dateYear = range(today.getYear(), today.getYear() + 3);
-        dateMonth = new LinkedHashMap<Integer, String>();
-        dateTime = new ArrayList<String>();
-        dateWeekDay = new LinkedHashMap<Integer, String>();
-
-        for (int i = 1; i <= 12; i++) {
-            dateMonth.put(i, today.withMonthOfYear(i).monthOfYear().getAsText(new Locale("fr")));
-        }
-
-        for (int i = 0; i <= 23; i++) {
-            String hour = i < 10 ? "0" + i : Integer.toString(i);
-            dateTime.add(hour + ":00");
-            dateTime.add(hour + ":30");
-        }
-
-        for (int i = 1; i <= 7; i++) {
-            dateWeekDay.put(i, today.withDayOfWeek(i).dayOfWeek().getAsShortText(new Locale("fr")));
-        }
-
+        // Initialize fields
         driver = true;
     }
 
@@ -86,27 +67,15 @@ public class RouteForm {
         return recurrentForm;
     }
 
-    private static List<Integer> range(int start, int end) {
-        List<Integer> range = new ArrayList<Integer>(end - start + 1);
-        for (int i = start; i <= end; i++) {
-            range.add(i);
-        }
-        return range;
-    }
-
-    public Map<String, String> getPredefinedLocations() {
-        return predefinedLocations;
-    }
-
     public String getPredefinedLocationsJSON() {
         return JSUtil.convertToArray(predefinedLocations.keySet());
     }
 
-    public Map<String, String> getAvailableSeats() {
+    public Map<Integer, String> getAvailableSeats() {
         return availableSeats;
     }
 
-    public List<Integer> getDateDay() {
+    public Collection<Integer> getDateDay() {
         return dateDay;
     }
 
@@ -114,11 +83,11 @@ public class RouteForm {
         return dateMonth;
     }
 
-    public List<Integer> getDateYear() {
+    public Collection<Integer> getDateYear() {
         return dateYear;
     }
 
-    public List<String> getDateTime() {
+    public Collection<String> getDateTime() {
         return dateTime;
     }
 

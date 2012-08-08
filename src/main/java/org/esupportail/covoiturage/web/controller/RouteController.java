@@ -1,6 +1,9 @@
 package org.esupportail.covoiturage.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,13 +18,18 @@ import org.esupportail.covoiturage.domain.RouteRecurrent;
 import org.esupportail.covoiturage.exception.DistanceNotFoundException;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
+import org.esupportail.covoiturage.repository.FormRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
 import org.esupportail.covoiturage.security.UserDetailsImpl;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
 import org.esupportail.covoiturage.web.form.RouteOccasionalForm;
 import org.esupportail.covoiturage.web.form.RouteRecurrentForm;
+import org.esupportail.covoiturage.web.form.SearchForm;
 
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,12 +39,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes({ "results", "criterias" })
 public class RouteController {
 
     @Resource
     private GeocoderService geocoderService;
+
+    @Resource
+    private FormRepository formRepository;
 
     @Resource
     private RouteRepository routeRepository;
@@ -44,15 +57,31 @@ public class RouteController {
     @Resource(name = "smartValidator")
     private Validator smartValidator;
 
-    @Resource(name = "predefinedLocations")
-    private Map<String, String> predefinedLocations;
-
-    @Resource(name = "availableSeats")
-    private Map<String, String> availableSeats;
+    @Value("${app.search.resultsPerPage}")
+    private int resultsPerPage;
 
     @ModelAttribute("routeForm")
     private RouteForm getRouteForm() {
-        return new RouteForm(predefinedLocations, availableSeats);
+        return new RouteForm(formRepository.getPredefinedLocations(), formRepository.getAvailableSeats(),
+                formRepository.getDays(), formRepository.getMonths(), formRepository.getYears(),
+                formRepository.getHoursAndMinutes(), formRepository.getWeekDays());
+    }
+
+    @ModelAttribute("searchForm")
+    private SearchForm getSearchForm() {
+        return new SearchForm(formRepository.getPredefinedLocations(), formRepository.getDays(), 
+                formRepository.getMonths(), formRepository.getYears(), formRepository.getHoursAndMinutes(), 
+                formRepository.getDateTolerances(), formRepository.getDistanceTolerances());
+    }
+
+    @ModelAttribute("results")
+    private List<Route> getSearchResults() {
+        return new ArrayList<Route>();
+    }
+
+    @ModelAttribute("criterias")
+    private Map<String, Object> getSearchCriterias() {
+        return new HashMap<String, Object>();
     }
 
     @RequestMapping(value = "/route/create", method = RequestMethod.GET)
@@ -110,14 +139,14 @@ public class RouteController {
 
         // Create a reference the to current authenticated user
         Customer owner = new Customer(((UserDetailsImpl) authentication.getPrincipal()).getId());
-        
+
         // Create the route
         Route route;
         if (form.isRecurrent()) {
             RouteRecurrentForm subform = form.getRecurrentForm();
             route = new RouteRecurrent(0, owner, form.isDriver(), form.getSeats(), from, to, distance,
                     subform.getStartDate().toDateTime(), subform.getEndDate().toDateTime(),
-                    subform.getWayOutTime(), subform.getWayBackTime());
+                    subform.getWayOutTime().toLocalTime(), subform.getWayBackTime().toLocalTime());
         } else {
             RouteOccasionalForm subform = form.getOccasionalForm();
             route = new RouteOccasional(0, owner, form.isDriver(), form.getSeats(), from, to, distance,
@@ -141,6 +170,80 @@ public class RouteController {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String searchForm(@ModelAttribute("criterias") Map<String, Object> criterias, @ModelAttribute("results") List<Route> results) {
+        // Remove previous search results
+        criterias.clear();
+        results.clear();
+
+        // SearchForm is automatically injected to the model.
+        return "search/form";
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String search(@Valid SearchForm form, BindingResult formBinding, @ModelAttribute("criterias") Map<String, Object> criterias, @ModelAttribute("results") List<Route> results) {
+        if (formBinding.hasErrors()) {
+            return "search/form";
+        }
+
+        Location from = null;
+        Location to = null;
+        DateTime date = null;
+
+        try {
+            // Geocode the origin address
+            from = geocoderService.geocode(form.getFrom());
+        } catch (LocationNotFoundException e) {
+            formBinding.rejectValue("from", "geocoding.error", "geocoding.error");
+            return "search/form";
+        }
+
+        try {
+            // Geocode the destination address
+            to = geocoderService.geocode(form.getTo());
+        } catch (LocationNotFoundException e) {
+            formBinding.rejectValue("to", "geocoding.error", "geocoding.error");
+            return "search/form";
+        }
+
+        date = form.getDate().toDateTime();
+
+        criterias.clear();
+        criterias.put("from", from.getCity());
+        criterias.put("to", to.getCity());
+        criterias.put("date", date);
+        criterias.put("fromTolerance", formRepository.getDistanceTolerances().get(form.getFromTolerance()));
+        criterias.put("toTolerance", formRepository.getDistanceTolerances().get(form.getToTolerance()));
+        criterias.put("dateTolerance", formRepository.getDateTolerances().get(form.getDateTolerance()));
+
+        List<Route> routes = routeRepository.findRoutesByTolerance(from, form.getFromTolerance(), to, form.getToTolerance(), date, form.getDateTolerance());
+        results.clear();
+        results.addAll(routes);
+
+        return "redirect:/search/results";
+    }
+
+    @RequestMapping(value = "/search/results", method = RequestMethod.GET)
+    public String results(@ModelAttribute("criterias") Map<String, Object> criterias, @ModelAttribute("results") List<Route> routes, Model model) {
+        model.addAttribute("search", criterias);
+        model.addAttribute("empty", routes.isEmpty());
+        model.addAttribute("count", routes.size());
+        return "search/results";
+    }
+
+    @RequestMapping(value = "/search/results/{page}", method = RequestMethod.GET)
+    public String resultsJSON(@PathVariable Integer page, @ModelAttribute("results") List<Route> routes, Model model) {
+        PagedListHolder<Route> results = new PagedListHolder<Route>(routes);
+        results.setPageSize(resultsPerPage);
+
+        if (results.getPageCount() >= page) {
+            results.setPage(page);
+            model.addAttribute("routes", results.getPageList());
+        }
+
+        return "search/results-fragment";
     }
 
 }

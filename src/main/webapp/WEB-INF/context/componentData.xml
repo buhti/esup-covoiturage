@@ -9,7 +9,7 @@
 
 	<util:map id="predefinedLocations" map-class="java.util.LinkedHashMap">
 		<description>
-			Cette liste définit des adresses préconfigurées utilisables dans 
+			Cette liste définit des adresses préconfigurées utilisables dans
 			les formulaires de recherche et de proposition de trajet.
 		</description>
 		<entry key="1 Place de l'Yser, Dunkerque" value="ULCO Dunkerque" />
@@ -18,27 +18,41 @@
 		<entry key="Avenue Descartes, Longuenesse" value="ULCO St Omer" />
 	</util:map>
 
-	<util:map id="distanceTolerances" map-class="java.util.LinkedHashMap">
+	<util:map id="dateTolerances" map-class="java.util.LinkedHashMap" key-type="java.lang.Integer">
 		<description>
-			Cette liste définit les valeurs possibles pour indiquer une 
-			tolérance quant à la distance pour les résultats de recherche.
+			Cette liste définit les valeurs possibles pour indiquer une
+			tolérance quant à la date pour les résultats de recherche.
 		</description>
-		<entry key="10" value="10 km" />
-		<entry key="15" value="15 km" />
-		<entry key="20" value="20 km" />
-		<entry key="25" value="25 km" />
-		<entry key="50" value="50 km" />
+		<entry key="30" value="30 minutes" />
+		<entry key="60" value="1 heure" />
+		<entry key="120" value="2 heures" />
+		<entry key="180" value="3 heures" />
+		<entry key="360" value="6 heures" />
+		<entry key="720" value="12 heures" />
+		<entry key="1440" value="24 heures" />
 	</util:map>
 
-	<util:map id="availableSeats" map-class="java.util.LinkedHashMap">
+	<util:map id="distanceTolerances" map-class="java.util.LinkedHashMap" key-type="java.lang.Integer">
+		<description>
+			Cette liste définit les valeurs possibles pour indiquer une
+			tolérance quant à la distance pour les résultats de recherche.
+		</description>
+		<entry key="10000" value="10 km" />
+		<entry key="15000" value="15 km" />
+		<entry key="20000" value="20 km" />
+		<entry key="25000" value="25 km" />
+		<entry key="50000" value="50 km" />
+	</util:map>
+
+	<util:map id="availableSeats" map-class="java.util.LinkedHashMap" key-type="java.lang.Integer">
 		<description>
 			Cette liste définit le nombre de places dans un véhicule.
 		</description>
-		<entry key="1" value="1" />
-		<entry key="2" value="2" />
-		<entry key="3" value="3" />
-		<entry key="4" value="4" />
-		<entry key="5" value="5" />
+		<entry key="1" value="1 place" />
+		<entry key="2" value="2 places" />
+		<entry key="3" value="3 places" />
+		<entry key="4" value="4 places" />
+		<entry key="5" value="5 places" />
 	</util:map>
 
 </beans>

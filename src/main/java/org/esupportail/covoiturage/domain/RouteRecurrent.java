@@ -1,16 +1,17 @@
 package org.esupportail.covoiturage.domain;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 public class RouteRecurrent extends Route {
 
     private DateTime startDate;
     private DateTime endDate;
-    private String wayOutTime;
-    private String wayBackTime;
+    private LocalTime wayOutTime;
+    private LocalTime wayBackTime;
 
     public RouteRecurrent(long id, Customer owner, boolean driver, int seats, Location from, Location to,
-            int distance, DateTime startDate, DateTime endDate, String wayOutTime, String wayBackTime) {
+            int distance, DateTime startDate, DateTime endDate, LocalTime wayOutTime, LocalTime wayBackTime) {
 
         super(id, owner, driver, seats, from, to, distance);
 
@@ -33,11 +34,11 @@ public class RouteRecurrent extends Route {
         return endDate;
     }
 
-    public String getWayOutTime() {
+    public LocalTime getWayOutTime() {
         return wayOutTime;
     }
 
-    public String getWayBackTime() {
+    public LocalTime getWayBackTime() {
         return wayBackTime;
     }
 

@@ -1,43 +1,36 @@
 package org.esupportail.covoiturage.web.form;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.Valid;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 public class DateTimeField extends DateField {
 
-    @NotNull
-    @Pattern(regexp = "([0-1][0-9]|2[0-3]):[0-5][0-9]")
-    private String time;
+    @Valid
+    private TimeField timeField;
 
     public DateTimeField() {
-        this(new DateTime().minuteOfHour().addToCopy(30));
+        this(new DateTime());
     }
 
     public DateTimeField(DateTime date) {
         super(date);
-
-        int hours = date.hourOfDay().get();
-        int minutes = date.minuteOfHour().get();
-
-        time = hours + ":" + (minutes < 30 ? "00" : "30");
+        timeField = new TimeField(date);
     }
 
     public String getTime() {
-        return time;
+        return timeField.getTime();
     }
 
     public void setTime(String time) {
-        this.time = time;
+        timeField.setTime(time);
     }
 
     @Override
     public DateTime toDateTime() {
-        int hours = Integer.parseInt(time.split(":", 2)[0]);
-        int minutes = Integer.parseInt(time.split(":", 2)[1]);
-
-        return new DateTime(getYear(), getMonth(), getDay(), hours, minutes);
+        LocalTime time = timeField.toLocalTime();
+        return new DateTime(getYear(), getMonth(), getDay(), time.hourOfDay().get(), time.minuteOfHour().get());
     }
 
 }
