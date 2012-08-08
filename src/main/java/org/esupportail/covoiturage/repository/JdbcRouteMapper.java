@@ -42,8 +42,8 @@ public class JdbcRouteMapper implements RowMapper<Route> {
                     mapTime(rs.getString("wayout_time")), mapTime(rs.getString("wayout_time")));
         } else {
             route = new RouteOccasional(id, owner, driver, seats, from, to, distance,
-                    new DateTime(rs.getDate("wayout_date").getTime()),
-                    new DateTime(rs.getDate("wayback_date").getTime()));
+                    new DateTime(rs.getTimestamp("wayout_date").getTime()),
+                    new DateTime(rs.getTimestamp("wayback_date").getTime()));
         }
 
         return route;
