@@ -5,12 +5,12 @@
 
 	<definition name="route/create" extends="page">
 		<put-attribute name="title" expression="Proposer un trajet" />
-		<put-attribute name="content" value="/WEB-INF/views/route/create.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/route/form.jsp" />
 	</definition>
 
 	<definition name="route/edit" extends="page">
 		<put-attribute name="title" expression="Modifier un trajet" />
-		<put-attribute name="content" value="/WEB-INF/views/route/edit.jsp" />
+		<put-attribute name="content" value="/WEB-INF/views/route/form.jsp" />
 	</definition>
 
 	<definition name="route/view" extends="page">
