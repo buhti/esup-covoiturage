@@ -21,17 +21,18 @@ public class CustomerController {
     @Resource
     private CustomerRepository customerRepository;
 
-    @RequestMapping(value = "/customer/profile", method = RequestMethod.GET)
-    public void profileForm(Model model, Authentication authentication) {
+    @RequestMapping(value = "/mon-compte", method = RequestMethod.GET)
+    public String profileForm(Model model, Authentication authentication) {
         Customer currentUser = customerRepository.findOneByLogin(authentication.getName());
         model.addAttribute(new CustomerForm(currentUser));
+        return "customer/edit-profile";
     }
 
-    @RequestMapping(value = "/customer/profile", method = RequestMethod.POST)
+    @RequestMapping(value = "/mon-compte", method = RequestMethod.POST)
     public String profile(@Valid CustomerForm form, BindingResult formBinding, Authentication authentication) {
         // Check if validation failed
         if (formBinding.hasErrors()) {
-            return null;
+            return "customer/edit-profile";
         }
 
         Customer currentUser = new Customer(0, authentication.getName(), 
@@ -41,10 +42,10 @@ public class CustomerController {
             customerRepository.updateCustomer(currentUser);
         } catch (DuplicateKeyException e) {
             formBinding.rejectValue("email", "duplicate", "duplicate");
-            return null;
+            return "customer/edit-profile";
         }
 
-        return "redirect:/customer/profile";
+        return "redirect:/mon-compte";
     }
 
 }

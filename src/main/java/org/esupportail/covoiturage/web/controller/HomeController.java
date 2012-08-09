@@ -10,7 +10,7 @@ public class HomeController {
 
     @RequestMapping(value = "/")
     public String home(Principal user) {
-        return user != null ? "redirect:/search" : "errors/401";
+        return user != null ? "redirect:/recherche" : "errors/401";
     }
 
 }

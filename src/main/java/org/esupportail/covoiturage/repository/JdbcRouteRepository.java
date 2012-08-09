@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.esupportail.covoiturage.domain.Customer;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
 import org.esupportail.covoiturage.domain.RouteOccasional;
@@ -83,6 +84,11 @@ public class JdbcRouteRepository implements RouteRepository {
         return routes;
     }
 
+    @Override
+    public List<Route> findRoutesByOwner(Customer owner) {
+        return jdbcTemplate.query(SELECT_ROUTE_BY_OWNER, routeMapper, owner.getId());
+    }
+
     private String locationToSqlPoint(Location location) {
         return "Point(" + location.getLat() + " " + location.getLng() + ")";
     }
@@ -136,6 +142,10 @@ public class JdbcRouteRepository implements RouteRepository {
 
     private static final String SELECT_ROUTE_BY_ID = SELECT_ROUTE
             + "WHERE r.route_id = ?";
+
+    private static final String SELECT_ROUTE_BY_OWNER = SELECT_ROUTE
+            + "WHERE c.customer_id = ? "
+            + "ORDER BY r.route_id DESC";
 
     private static final String SELECT_FIND_OCCASIONAL_ROUTES = SELECT_ROUTE
             + "WHERE r.recurrent = 0 "

@@ -26,9 +26,10 @@
         <a class="brand" href="<c:url value='/'/>">Co-voiturage</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li><a href="<c:url value='/search'/>">Rechercher</a></li>
-            <li><a href="<c:url value='/route/create'/>">Proposer</a></li>
-            <li><a href="<c:url value='/customer/profile'/>">Mon compte</a></li>
+            <li><a href="<c:url value='/recherche'/>">Rechercher</a></li>
+            <li><a href="<c:url value='/proposer-trajet'/>">Proposer</a></li>
+            <li><a href="<c:url value='/mes-trajets'/>">Voir mes trajets</a></li>
+            <li><a href="<c:url value='/mon-compte'/>">Mon compte</a></li>
           </ul>
         </div>
       </div>

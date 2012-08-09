@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda"%>
 <c:forEach items="${ routes }" var="route">
   <div>
-    <a href="<c:url value='/route/${ route.id }' />">
+    <a href="<c:url value='/trajet/${ route.id }' />">
       <span class="owner">${ route.owner }</span>
       <c:choose>
         <c:when test="${ route.recurrent }">
