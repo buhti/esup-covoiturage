@@ -13,6 +13,8 @@ public interface RouteRepository {
 
     long createRoute(Route route);
 
+    void deleteRoute(Route route);
+
     Route findOneById(long id) throws RouteNotFoundException;
 
     List<Route> findRoutesByTolerance(Location from, int fromTolerence, Location to, int toTolerence, DateTime date, int dateTolerence);

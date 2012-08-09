@@ -169,4 +169,28 @@
     });
   }
 
+  // Mes trajets
+  // -----------
+
+  // Récupère la page afin de restreindre le scope des requêtes jQuery.
+  var $routeList = $('#route-list');
+  if ($routeList.length > 0) {
+    // Active le mode édition
+    $routeList.find('.edit').on('click', function() {
+      $routeList.addClass('edit-mode');
+      $routeList.find('> div a').on('click', function() {
+        window.location = $(this).attr('href') + '/supprimer';
+        return false;
+      });
+      return false;
+    });
+
+    // Quitte le mode édition
+    $routeList.find('.cancel').on('click', function() {
+      $routeList.removeClass('edit-mode');
+      $routeList.find('> div a').off('click');
+      return false;
+    });
+  }
+
 })(jQuery, window);

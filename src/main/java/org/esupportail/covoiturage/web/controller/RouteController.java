@@ -135,7 +135,7 @@ public class RouteController {
     }
 
     @RequestMapping(value = "/trajet/{routeId}")
-    public String routeView(@PathVariable Long routeId, Model model, HttpServletResponse response) throws IOException {
+    public String viewRoute(@PathVariable Long routeId, Model model, HttpServletResponse response) throws IOException {
         try {
             Route route = routeRepository.findOneById(routeId);
             model.addAttribute("route", route);
@@ -146,6 +146,29 @@ public class RouteController {
         }
     }
 
+    @RequestMapping(value = "/trajet/{routeId}/supprimer")
+    public String deleteRoute(@PathVariable Long routeId, Authentication authentication, HttpServletResponse response)
+            throws IOException {
+        // Create a reference the to current authenticated user
+        Customer currentUser = (CustomerUserDetails) authentication.getPrincipal();
+        Route route;
+
+        try {
+            route = routeRepository.findOneById(routeId);
+        } catch (RouteNotFoundException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+
+        if (route.getOwner().getId() != currentUser.getId()) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        }
+
+        routeRepository.deleteRoute(route);
+        return "redirect:/mes-trajets";
+    }
+
     @RequestMapping(value = "/mes-trajets")
     public String listCustomerRoutes(Model model, Authentication authentication) {
         // Create a reference the to current authenticated user
@@ -154,6 +177,7 @@ public class RouteController {
         // Get routes
         List<Route> routes = routeRepository.findRoutesByOwner(owner);
         model.addAttribute("routes", routes);
+        model.addAttribute("editMode", true);
         return "route/list";
     }
 

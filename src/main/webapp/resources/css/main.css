@@ -5,3 +5,19 @@
 .nav-tabs li.active a {
 	cursor: default;
 }
+
+#route-list .edit {
+	display: block;
+}
+
+#route-list .cancel {
+	display: none;
+}
+
+#route-list.edit-mode .edit {
+	display: none;
+}
+
+#route-list.edit-mode .cancel {
+	display: block;
+}

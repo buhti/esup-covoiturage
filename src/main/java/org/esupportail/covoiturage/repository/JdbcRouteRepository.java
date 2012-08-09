@@ -11,9 +11,11 @@ import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
 import org.esupportail.covoiturage.domain.RouteOccasional;
 import org.esupportail.covoiturage.domain.RouteRecurrent;
+import org.esupportail.covoiturage.exception.RouteNotFoundException;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,8 +60,17 @@ public class JdbcRouteRepository implements RouteRepository {
     }
 
     @Override
-    public Route findOneById(long id) {
-        return jdbcTemplate.queryForObject(SELECT_ROUTE_BY_ID, routeMapper, id);
+    public void deleteRoute(Route route) {
+        jdbcTemplate.update(DELETE_ROUTE, route.getId());
+    }
+
+    @Override
+    public Route findOneById(long id) throws RouteNotFoundException {
+        try {
+            return jdbcTemplate.queryForObject(SELECT_ROUTE_BY_ID, routeMapper, id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new RouteNotFoundException(id);
+        }
     }
 
     @Override
@@ -128,6 +139,8 @@ public class JdbcRouteRepository implements RouteRepository {
 
     private static final String INSERT_ROUTE_OCCASIONAL = "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, wayout_date, wayback_date) "
             + "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 0, ?, ?)";
+
+    private static final String DELETE_ROUTE = "DELETE FROM Route WHERE route_id = ?";
 
     private static final String SELECT_LAST_INSERT_ID = "SELECT r.route_id FROM Route r " 
             + "WHERE r.owner_id = ? "

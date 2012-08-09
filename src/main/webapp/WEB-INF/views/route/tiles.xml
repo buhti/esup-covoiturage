@@ -17,5 +17,10 @@
 		<put-attribute name="title" expression="Trajet xxxx" />
 		<put-attribute name="content" value="/WEB-INF/views/route/view.jsp" />
 	</definition>
+	
+	<definition name="route/list" extends="page">
+		<put-attribute name="title" expression="Mes trajets" />
+		<put-attribute name="content" value="/WEB-INF/views/route/list.jsp" />
+	</definition>
 
 </tiles-definitions>
