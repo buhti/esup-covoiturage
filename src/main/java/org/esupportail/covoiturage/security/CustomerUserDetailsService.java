@@ -22,7 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component("userDetailsService")
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class CustomerUserDetailsService implements UserDetailsService {
 
     @Value("${ldap.userDnSubPath}")
     private String userDnSubPath;
@@ -56,7 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             customer = customerRepository.createCustomer(loadUserFromLdap(username));
         }
 
-        return new UserDetailsImpl(customer);
+        return new CustomerUserDetails(customer);
     }
 
     @SuppressWarnings("unchecked")

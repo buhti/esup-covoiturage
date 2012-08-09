@@ -20,7 +20,7 @@ import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
 import org.esupportail.covoiturage.repository.FormRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
-import org.esupportail.covoiturage.security.UserDetailsImpl;
+import org.esupportail.covoiturage.security.CustomerUserDetails;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
 import org.esupportail.covoiturage.web.form.RouteOccasionalForm;
@@ -140,7 +140,7 @@ public class RouteController {
         }
 
         // Create a reference the to current authenticated user
-        Customer owner = new Customer(((UserDetailsImpl) authentication.getPrincipal()).getId());
+        Customer owner = (CustomerUserDetails) authentication.getPrincipal();
 
         // Create the route
         Route route;
