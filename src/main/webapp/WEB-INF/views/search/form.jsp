@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script>
-window.predefinedLocations = ${ searchForm.predefinedLocationsJSON };
+window.predefinedLocations = ${ data.predefinedLocationsJSON };
 </script>
 <form:form method="post" modelAttribute="searchForm" cssClass="form-horizontal">
   <div class="row">
@@ -23,7 +23,7 @@ window.predefinedLocations = ${ searchForm.predefinedLocationsJSON };
         <form:label path="fromTolerance" cssClass="control-label">Rayon</form:label>
         <div class="controls">
           <form:select path="fromTolerance">
-            <form:options items="${ searchForm.distanceTolerances }"/>
+            <form:options items="${ data.distanceTolerances }"/>
           </form:select>
         </div>
       </div>
@@ -44,7 +44,7 @@ window.predefinedLocations = ${ searchForm.predefinedLocationsJSON };
         <form:label path="toTolerance" cssClass="control-label">Rayon</form:label>
         <div class="controls">
           <form:select path="toTolerance">
-            <form:options items="${ searchForm.distanceTolerances }"/>
+            <form:options items="${ data.distanceTolerances }"/>
           </form:select>
         </div>
       </div>
@@ -56,17 +56,17 @@ window.predefinedLocations = ${ searchForm.predefinedLocationsJSON };
       <div class="control-group">
         <form:label path="date.day" cssClass="control-label">Aller</form:label>
         <div class="controls">
-          <form:select path="date.day" items="${ searchForm.dateDay }" />
-          <form:select path="date.month" items="${ searchForm.dateMonth }" />
-          <form:select path="date.year" items="${ searchForm.dateYear }" />
-          <form:select path="date.time" items="${ searchForm.dateTime }" />
+          <form:select path="date.day" items="${ data.days }" />
+          <form:select path="date.month" items="${ data.months }" />
+          <form:select path="date.year" items="${ data.years }" />
+          <form:select path="date.time" items="${ data.hoursAndMinutes }" />
         </div>
       </div>
       <div class="control-group">
         <form:label path="dateTolerance" cssClass="control-label">+/- minutes</form:label>
         <div class="controls">
           <form:select path="dateTolerance">
-            <form:options items="${ searchForm.dateTolerances }"/>
+            <form:options items="${ data.dateTolerances }"/>
           </form:select>
         </div>
       </div>

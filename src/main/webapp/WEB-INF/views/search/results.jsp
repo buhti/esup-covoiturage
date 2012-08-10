@@ -14,7 +14,7 @@
   </c:if>
   <p>${ count } résultat${ count gt 1 ? 's' : '' }</p>
 </div>
-<div id="search-results" data-results="<c:url value='/search/results/' />">
+<div id="search-results" data-results="<c:url value='/recherche/resultats/' />">
   <div id="results-container"></div>
   <div id="more-results">
     <a href="#">Plus de résultats</a>

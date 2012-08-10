@@ -44,13 +44,6 @@ public class SearchController {
     @Value("${app.search.resultsPerPage}")
     private int resultsPerPage;
 
-    @ModelAttribute("searchForm")
-    private SearchForm getSearchForm() {
-        return new SearchForm(dataRepository.getPredefinedLocations(), dataRepository.getDays(), 
-                dataRepository.getMonths(), dataRepository.getYears(), dataRepository.getHoursAndMinutes(), 
-                dataRepository.getDateTolerances(), dataRepository.getDistanceTolerances());
-    }
-
     @ModelAttribute("results")
     private List<Route> getSearchResults() {
         return new ArrayList<Route>();
@@ -61,19 +54,25 @@ public class SearchController {
         return new HashMap<String, Object>();
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/recherche", method = RequestMethod.GET)
-    public String searchForm(@ModelAttribute("criterias") Map<String, Object> criterias, @ModelAttribute("results") List<Route> results) {
+    public String searchForm(Model model) {
+        model.addAttribute(new SearchForm());
+        model.addAttribute("data", dataRepository);
+
         // Remove previous search results
-        criterias.clear();
-        results.clear();
+        ((Map<String, Object>) model.asMap().get("criterias")).clear();
+        ((List<Route>) model.asMap().get("results")).clear();
 
         // SearchForm is automatically injected to the model.
         return "search/form";
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/recherche", method = RequestMethod.POST)
-    public String search(@Valid SearchForm form, BindingResult formBinding, @ModelAttribute("criterias") Map<String, Object> criterias, @ModelAttribute("results") List<Route> results) {
+    public String search(@Valid SearchForm form, BindingResult formBinding, Model model) {
         if (formBinding.hasErrors()) {
+            model.addAttribute("data", dataRepository);
             return "search/form";
         }
 
@@ -86,7 +85,6 @@ public class SearchController {
             from = geocoderService.geocode(form.getFrom());
         } catch (LocationNotFoundException e) {
             formBinding.rejectValue("from", "geocoding.error", "geocoding.error");
-            return "search/form";
         }
 
         try {
@@ -94,8 +92,15 @@ public class SearchController {
             to = geocoderService.geocode(form.getTo());
         } catch (LocationNotFoundException e) {
             formBinding.rejectValue("to", "geocoding.error", "geocoding.error");
+        }
+
+        if (formBinding.hasErrors()) {
+            model.addAttribute("data", dataRepository);
             return "search/form";
         }
+
+        Map<String, Object> criterias = (Map<String, Object>) model.asMap().get("criterias");
+        List<Route> results = (List<Route>) model.asMap().get("results");
 
         date = form.getDate().toDateTime();
 
@@ -107,7 +112,9 @@ public class SearchController {
         criterias.put("toTolerance", dataRepository.getDistanceTolerances().get(form.getToTolerance()));
         criterias.put("dateTolerance", dataRepository.getDateTolerances().get(form.getDateTolerance()));
 
-        List<Route> routes = routeRepository.findRoutesByTolerance(from, form.getFromTolerance(), to, form.getToTolerance(), date, form.getDateTolerance());
+        List<Route> routes = routeRepository.findRoutesByTolerance(from, form.getFromTolerance(), to,
+                form.getToTolerance(), date, form.getDateTolerance());
+        
         results.clear();
         results.addAll(routes);
 
@@ -115,7 +122,8 @@ public class SearchController {
     }
 
     @RequestMapping(value = "/recherche/resultats", method = RequestMethod.GET)
-    public String results(@ModelAttribute("criterias") Map<String, Object> criterias, @ModelAttribute("results") List<Route> routes, Model model) {
+    public String results(@ModelAttribute("criterias") Map<String, Object> criterias,
+            @ModelAttribute("results") List<Route> routes, Model model) {
         model.addAttribute("search", criterias);
         model.addAttribute("empty", routes.isEmpty());
         model.addAttribute("count", routes.size());
