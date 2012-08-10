@@ -15,16 +15,13 @@ import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
 import org.esupportail.covoiturage.repository.DataRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
-import org.esupportail.covoiturage.security.CustomerUserDetails;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,21 +41,15 @@ public class RouteController {
     @Resource(name = "smartValidator")
     private Validator smartValidator;
 
-    @ModelAttribute("routeForm")
-    private RouteForm getRouteForm() {
-        return new RouteForm(dataRepository.getPredefinedLocations(), dataRepository.getAvailableSeats(),
-                dataRepository.getDays(), dataRepository.getMonths(), dataRepository.getYears(),
-                dataRepository.getHoursAndMinutes(), dataRepository.getWeekDays());
-    }
-
     @RequestMapping(value = "/proposer-trajet", method = RequestMethod.GET)
-    public String createForm() {
-        // RouteForm is automatically injected to the model.
+    public String createForm(Model model) {
+        model.addAttribute(new RouteForm());
+        model.addAttribute("data", dataRepository);
         return "route/create";
     }
 
     @RequestMapping(value = "/proposer-trajet", method = RequestMethod.POST)
-    public String create(@Valid RouteForm form, BindingResult formBinding, Model model, Authentication authentication) {
+    public String create(@Valid RouteForm form, BindingResult formBinding, Model model, Customer customer) {
         // Validate subfrom
         if (form.isRecurrent()) {
             formBinding.pushNestedPath("recurrentForm");
@@ -72,6 +63,7 @@ public class RouteController {
 
         // Check if validation failed
         if (formBinding.hasErrors()) {
+            model.addAttribute("data", dataRepository);
             return "route/create";
         }
 
@@ -84,7 +76,6 @@ public class RouteController {
             from = geocoderService.geocode(form.getFromAddress());
         } catch (LocationNotFoundException e) {
             formBinding.rejectValue("fromAddress", "geocoding.error", "geocoding.error");
-            return "route/create";
         }
 
         try {
@@ -92,25 +83,26 @@ public class RouteController {
             to = geocoderService.geocode(form.getToAddress());
         } catch (LocationNotFoundException e) {
             formBinding.rejectValue("toAddress", "geocoding.error", "geocoding.error");
-            return "route/create";
         }
 
+        // Validate route distance
         if (from != null && to != null) {
             try {
-                // Fetch the distance between the orign and the destination
+                // Fetch the distance between the origin and the destination
                 distance = geocoderService.distance(from, to);
             } catch (DistanceNotFoundException e) {
                 formBinding.rejectValue("fromAddress", "geocoding.error", "geocoding.error");
                 formBinding.rejectValue("toAddress", "geocoding.error", "geocoding.error");
-                return "route/create";
             }
         }
 
-        // Create a reference the to current authenticated user
-        Customer owner = (CustomerUserDetails) authentication.getPrincipal();
+        if (formBinding.hasErrors()) {
+            model.addAttribute("data", dataRepository);
+            return "route/create";
+        }
 
         // Create the route
-        Route route = form.toRoute(owner, from, to, distance);
+        Route route = form.toRoute(customer, from, to, distance);
 
         // Persist the route
         Long routeId = routeRepository.createRoute(route);
@@ -132,35 +124,14 @@ public class RouteController {
     }
 
     @RequestMapping(value = "/trajet/{routeId}/supprimer")
-    public String deleteRoute(@PathVariable Long routeId, Authentication authentication, HttpServletResponse response)
-            throws IOException {
-        // Create a reference the to current authenticated user
-        Customer currentUser = (CustomerUserDetails) authentication.getPrincipal();
-        Route route;
-
-        try {
-            route = routeRepository.findOneById(routeId);
-        } catch (RouteNotFoundException e) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return null;
-        }
-
-        if (route.getOwner().getId() != currentUser.getId()) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return null;
-        }
-
-        routeRepository.deleteRoute(route);
+    public String deleteRoute(@PathVariable long routeId, Customer customer) {
+        routeRepository.deleteRoute(customer.getId(), routeId);
         return "redirect:/mes-trajets";
     }
 
     @RequestMapping(value = "/mes-trajets")
-    public String listCustomerRoutes(Model model, Authentication authentication) {
-        // Create a reference the to current authenticated user
-        Customer owner = (CustomerUserDetails) authentication.getPrincipal();
-
-        // Get routes
-        List<Route> routes = routeRepository.findRoutesByOwner(owner);
+    public String listCustomerRoutes(Model model, Customer customer) {
+        List<Route> routes = routeRepository.findRoutesByOwner(customer.getId());
         model.addAttribute("routes", routes);
         model.addAttribute("editMode", true);
         return "route/list";

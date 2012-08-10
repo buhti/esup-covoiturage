@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script>
-window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
+window.predefinedLocations = ${ data.predefinedLocationsJSON };
 </script>
 <form:form method="post" modelAttribute="routeForm" cssClass="form-horizontal">
   <fieldset>
@@ -58,7 +58,7 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
         <div class="control-group">
           <form:label path="seats" cssClass="control-label">Places</form:label>
           <div class="controls">
-            <form:select path="seats" items="${ routeForm.availableSeats }" />
+            <form:select path="seats" items="${ data.availableSeats }" />
           </div>
         </div>
       </div>
@@ -83,10 +83,10 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
             <div class="control-group">
               <form:label path="occasionalForm.wayOut.day" cssClass="control-label">Aller</form:label>
               <div class="controls">
-                <form:select path="occasionalForm.wayOut.day" items="${ routeForm.dateDay }" />
-                <form:select path="occasionalForm.wayOut.month" items="${ routeForm.dateMonth }" />
-                <form:select path="occasionalForm.wayOut.year" items="${ routeForm.dateYear }" />
-                <form:select path="occasionalForm.wayOut.time" items="${ routeForm.dateTime }" />
+                <form:select path="occasionalForm.wayOut.day" items="${ data.days }" />
+                <form:select path="occasionalForm.wayOut.month" items="${ data.months }" />
+                <form:select path="occasionalForm.wayOut.year" items="${ data.years }" />
+                <form:select path="occasionalForm.wayOut.time" items="${ data.hoursAndMinutes }" />
               </div>
             </div>
           </div>
@@ -94,10 +94,10 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
             <div class="control-group">
               <form:label path="occasionalForm.wayBack.day" cssClass="control-label">Retour</form:label>
               <div class="controls">
-                <form:select path="occasionalForm.wayBack.day" items="${ routeForm.dateDay }" />
-                <form:select path="occasionalForm.wayBack.month" items="${ routeForm.dateMonth }" />
-                <form:select path="occasionalForm.wayBack.year" items="${ routeForm.dateYear }" />
-                <form:select path="occasionalForm.wayBack.time" items="${ routeForm.dateTime }" />
+                <form:select path="occasionalForm.wayBack.day" items="${ data.days }" />
+                <form:select path="occasionalForm.wayBack.month" items="${ data.months }" />
+                <form:select path="occasionalForm.wayBack.year" items="${ data.years }" />
+                <form:select path="occasionalForm.wayBack.time" items="${ data.hoursAndMinutes }" />
               </div>
             </div>
           </div>
@@ -111,15 +111,15 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
             <div class="control-group">
               <form:label path="recurrentForm.startDate.day" cssClass="control-label">Commence le</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.startDate.day" items="${ routeForm.dateDay }" />
-                <form:select path="recurrentForm.startDate.month" items="${ routeForm.dateMonth }" />
-                <form:select path="recurrentForm.startDate.year" items="${ routeForm.dateYear }" />
+                <form:select path="recurrentForm.startDate.day" items="${ data.days }" />
+                <form:select path="recurrentForm.startDate.month" items="${ data.months }" />
+                <form:select path="recurrentForm.startDate.year" items="${ data.years }" />
               </div>
             </div>
             <div class="control-group wayOut">
               <form:label path="recurrentForm.wayOutTime.time" cssClass="control-label">Départ à</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.wayOutTime.time" items="${ routeForm.dateTime }" />
+                <form:select path="recurrentForm.wayOutTime.time" items="${ data.hoursAndMinutes }" />
               </div>
             </div>
           </div>
@@ -127,15 +127,15 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
             <div class="control-group">
               <form:label path="recurrentForm.endDate.day" cssClass="control-label">Termine le</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.endDate.day" items="${ routeForm.dateDay }" />
-                <form:select path="recurrentForm.endDate.month" items="${ routeForm.dateMonth }" />
-                <form:select path="recurrentForm.endDate.year" items="${ routeForm.dateYear }" />
+                <form:select path="recurrentForm.endDate.day" items="${ data.days }" />
+                <form:select path="recurrentForm.endDate.month" items="${ data.months }" />
+                <form:select path="recurrentForm.endDate.year" items="${ data.years }" />
               </div>
             </div>
             <div class="control-group wayBack">
               <form:label path="recurrentForm.wayBackTime.time" cssClass="control-label">Retour à</form:label>
               <div class="controls">
-                <form:select path="recurrentForm.wayBackTime.time" items="${ routeForm.dateTime }" />
+                <form:select path="recurrentForm.wayBackTime.time" items="${ data.hoursAndMinutes }" />
               </div>
             </div>
           </div>
@@ -146,7 +146,7 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
         <div class="control-group ${ not empty weekDayError ? 'error' : '' }">
           <form:label path="recurrentForm.weekDay" cssClass="control-label">Jours</form:label>
           <div class="controls">
-            <form:checkboxes path="recurrentForm.weekDay" items="${ routeForm.dateWeekDay }" />
+            <form:checkboxes path="recurrentForm.weekDay" items="${ data.weekDays }" />
             <form:errors path="recurrentForm.weekDay" cssClass="help-inline" />
           </div>
         </div>
