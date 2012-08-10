@@ -38,6 +38,18 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
         <div class="control-group">
           <div class="controls">
             <label>
+              <form:radiobutton path="roundTrip" value="false" />
+              Aller simple
+            </label>
+            <label>
+              <form:radiobutton path="roundTrip" value="true" />
+              Aller-retour
+            </label>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <label>
               <form:checkbox path="driver" />
               Je suis le conducteur
             </label>
@@ -67,7 +79,7 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
     <div class="tab-pane ${ routeForm.recurrent ? '' : 'active' }" id="tab-occasional">
       <fieldset>
         <div class="row">
-          <div class="span6">
+          <div class="span6 wayOut">
             <div class="control-group">
               <form:label path="occasionalForm.wayOut.day" cssClass="control-label">Aller</form:label>
               <div class="controls">
@@ -78,7 +90,7 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
               </div>
             </div>
           </div>
-          <div class="span6">
+          <div class="span6 wayBack">
             <div class="control-group">
               <form:label path="occasionalForm.wayBack.day" cssClass="control-label">Retour</form:label>
               <div class="controls">
@@ -104,7 +116,7 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
                 <form:select path="recurrentForm.startDate.year" items="${ routeForm.dateYear }" />
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group wayOut">
               <form:label path="recurrentForm.wayOutTime.time" cssClass="control-label">Départ à</form:label>
               <div class="controls">
                 <form:select path="recurrentForm.wayOutTime.time" items="${ routeForm.dateTime }" />
@@ -120,7 +132,7 @@ window.predefinedLocations = ${ routeForm.predefinedLocationsJSON };
                 <form:select path="recurrentForm.endDate.year" items="${ routeForm.dateYear }" />
               </div>
             </div>
-            <div class="control-group">
+            <div class="control-group wayBack">
               <form:label path="recurrentForm.wayBackTime.time" cssClass="control-label">Retour à</form:label>
               <div class="controls">
                 <form:select path="recurrentForm.wayBackTime.time" items="${ routeForm.dateTime }" />

@@ -13,8 +13,9 @@ public abstract class Route {
     private final Location from;
     private final Location to;
     private final int distance;
+    private final boolean roundTrip;
 
-    protected Route(long id, Customer owner, boolean driver, int seats, Location from, Location to, int distance) {
+    protected Route(long id, Customer owner, boolean driver, int seats, Location from, Location to, int distance, boolean roundTrip) {
         this.id = id;
         this.owner = owner;
         this.driver = driver;
@@ -22,6 +23,7 @@ public abstract class Route {
         this.from = from;
         this.to = to;
         this.distance = distance;
+        this.roundTrip = roundTrip;
     }
 
     public long getId() {
@@ -50,6 +52,10 @@ public abstract class Route {
 
     public int getDistance() {
         return distance;
+    }
+
+    public boolean isRoundTrip() {
+        return roundTrip;
     }
 
     public abstract boolean isRecurrent();

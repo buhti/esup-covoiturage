@@ -11,11 +11,11 @@ public class RouteRecurrent extends Route {
     private LocalTime wayBackTime;
     private int[] weekDays;
 
-    public RouteRecurrent(long id, Customer owner, boolean driver, int seats, Location from, Location to,
-            int distance, DateTime startDate, DateTime endDate, LocalTime wayOutTime, LocalTime wayBackTime,
+    public RouteRecurrent(long id, Customer owner, boolean driver, int seats, Location from, Location to, int distance,
+            boolean roundTrip, DateTime startDate, DateTime endDate, LocalTime wayOutTime, LocalTime wayBackTime,
             int[] weekDays) {
 
-        super(id, owner, driver, seats, from, to, distance);
+        super(id, owner, driver, seats, from, to, distance, roundTrip);
 
         this.startDate = startDate;
         this.endDate = endDate;

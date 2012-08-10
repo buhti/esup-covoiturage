@@ -11,6 +11,7 @@ CREATE TABLE Route (
 	to_address VARCHAR(255) NOT NULL,
 	distance SMALLINT(4) NOT NULL,
 	recurrent TINYINT(1) NOT NULL,
+	round_trip TINYINT(1) NOT NULL,
 
 	/* RouteRecurrent */
 	start_date DATE,

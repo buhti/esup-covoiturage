@@ -38,6 +38,9 @@ public class RouteForm {
     @NotNull
     private boolean recurrent;
 
+    @NotNull
+    private boolean roundTrip;
+
     public RouteForm(Map<String, String> predefinedLocations, Map<Integer, String> availableSeats,
             Collection<Integer> dateDay, Map<Integer, String> dateMonth, Collection<Integer> dateYear,
             Collection<String> dateTime, Map<Integer, String> dateWeekDay) {
@@ -133,6 +136,14 @@ public class RouteForm {
 
     public void setRecurrent(boolean recurrent) {
         this.recurrent = recurrent;
+    }
+
+    public boolean isRoundTrip() {
+        return roundTrip;
+    }
+
+    public void setRoundTrip(boolean roundTrip) {
+        this.roundTrip = roundTrip;
     }
 
 }

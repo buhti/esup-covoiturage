@@ -107,11 +107,24 @@
     $routeForm.find('input#recurrent').val($(e.currentTarget).data('target') === '#tab-recurrent');
   });
 
+  // Affiche le choix du nombre de places seulement si l'utilisateur est le
+  // conducteur.
   $routeForm.find('input#driver1').on('change', function() {
     if ($(this).is(':checked')) {
       $routeForm.find('select#seats').parents('.control-group').show();
     } else {
       $routeForm.find('select#seats').parents('.control-group').hide();
+    }
+  }).change();
+
+  // Affiche le choix de la date et l'heure de retour si seulement il
+  // s'agit d'un aller-retour.
+  $routeForm.find('input#roundTrip1, input#roundTrip2').on('change', function() {
+    var roundTrip = ($(this).val() === 'true') === $(this).is(':checked');
+    if (roundTrip) {
+      $routeForm.find('.wayBack').show();
+    } else {
+      $routeForm.find('.wayBack').hide();
     }
   }).change();
 

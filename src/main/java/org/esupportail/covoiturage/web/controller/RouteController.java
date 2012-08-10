@@ -115,16 +115,17 @@ public class RouteController {
 
         // Create the route
         Route route;
+        boolean roundTrip = form.isRoundTrip();
         if (form.isRecurrent()) {
             RouteRecurrentForm subform = form.getRecurrentForm();
-            route = new RouteRecurrent(0, owner, form.isDriver(), form.getSeats(), from, to, distance,
+            route = new RouteRecurrent(0, owner, form.isDriver(), form.getSeats(), from, to, distance, roundTrip,
                     subform.getStartDate().toDateTime(), subform.getEndDate().toDateTime(),
-                    subform.getWayOutTime().toLocalTime(), subform.getWayBackTime().toLocalTime(),
+                    subform.getWayOutTime().toLocalTime(), roundTrip ? subform.getWayBackTime().toLocalTime() : null,
                     subform.getWeekDay());
         } else {
             RouteOccasionalForm subform = form.getOccasionalForm();
-            route = new RouteOccasional(0, owner, form.isDriver(), form.getSeats(), from, to, distance,
-                    subform.getWayOut().toDateTime(), subform.getWayBack().toDateTime());
+            route = new RouteOccasional(0, owner, form.isDriver(), form.getSeats(), from, to, distance, roundTrip,
+                    subform.getWayOut().toDateTime(), roundTrip ? subform.getWayBack().toDateTime() : null);
         }
 
         // Persist the route

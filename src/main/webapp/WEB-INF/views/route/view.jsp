@@ -6,8 +6,10 @@
     <div class="span6">
       <p class="${ route.driver ? 'driver' : 'passenger' }">${ route.owner }</p>
       <p><a href="mailto:${ route.owner.email }">Me contacter</a></p>
-      <p>${ route.from.city } &rarr; ${ route.to.city }</p>
-      <p>${ route.seats } pl. libre${ route.seats gt 1 ? 's' : '' }</p>
+      <p>${ route.from.city } ${ route.roundTrip ? '&harr;' : '&rarr;' } ${ route.to.city }</p>
+      <c:if test="${ route.driver }">
+        <p>${ route.seats } pl. libre${ route.seats gt 1 ? 's' : '' }</p>
+      </c:if>
     </div>
     <c:choose>
       <c:when test="${ route.recurrent }">
@@ -18,6 +20,9 @@
               <joda:format value="${ day }" pattern="EEEE" />
             </c:forEach>
             - <joda:format value="${ route.wayOutTime }" pattern="H'h'mm" />
+            <c:if test="${ route.roundTrip }">
+              &harr; <joda:format value="${ route.wayBackTime }" pattern="H'h'mm" />
+            </c:if>
           </p>
         </div>
       </c:when>
@@ -27,10 +32,12 @@
             Départ le <joda:format value="${ route.wayOutDate }" pattern="dd/MM/YYYY" />
             à <joda:format value="${ route.wayOutDate }" pattern="HH'h'mm" />
           </p>
-          <p>
-            Retour le <joda:format value="${ route.wayBackDate }" pattern="dd/MM/YYYY" />
-            à <joda:format value="${ route.wayBackDate }" pattern="HH'h'mm" />
-          </p>
+          <c:if test="${ route.roundTrip }">
+            <p>
+              Retour le <joda:format value="${ route.wayBackDate }" pattern="dd/MM/YYYY" />
+              à <joda:format value="${ route.wayBackDate }" pattern="HH'h'mm" />
+            </p>
+          </c:if>
         </div>
       </c:otherwise>
     </c:choose>

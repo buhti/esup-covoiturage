@@ -18,6 +18,9 @@
                 <joda:format value="${ day }" pattern="EEEE" />
               </c:forEach>
               - <joda:format value="${ route.wayOutTime }" pattern="H'h'mm" />
+              <c:if test="${ route.roundTrip }">
+                &harr; <joda:format value="${ route.wayBackTime }" pattern="H'h'mm" />
+              </c:if>
             </span>
           </c:when>
           <c:otherwise>
@@ -27,7 +30,7 @@
           </c:otherwise>
         </c:choose>
         <span class="route">
-          <span class="from">${ route.from.city }</span> &rarr; <span class="to">${ route.to.city }</span>
+          <span class="from">${ route.from.city }</span> ${ route.roundTrip ? '&harr;' : '&rarr;' } <span class="to">${ route.to.city }</span>
         </span>
         <span class="seats">
           <span>${ route.seats }</span> pl. libre${ route.seats gt 1 ? 's' : '' }
