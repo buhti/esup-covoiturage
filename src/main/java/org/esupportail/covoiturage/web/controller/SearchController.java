@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
-import org.esupportail.covoiturage.repository.FormRepository;
+import org.esupportail.covoiturage.repository.DataRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.SearchForm;
@@ -36,7 +36,7 @@ public class SearchController {
     private GeocoderService geocoderService;
 
     @Resource
-    private FormRepository formRepository;
+    private DataRepository dataRepository;
 
     @Resource
     private RouteRepository routeRepository;
@@ -46,9 +46,9 @@ public class SearchController {
 
     @ModelAttribute("searchForm")
     private SearchForm getSearchForm() {
-        return new SearchForm(formRepository.getPredefinedLocations(), formRepository.getDays(), 
-                formRepository.getMonths(), formRepository.getYears(), formRepository.getHoursAndMinutes(), 
-                formRepository.getDateTolerances(), formRepository.getDistanceTolerances());
+        return new SearchForm(dataRepository.getPredefinedLocations(), dataRepository.getDays(), 
+                dataRepository.getMonths(), dataRepository.getYears(), dataRepository.getHoursAndMinutes(), 
+                dataRepository.getDateTolerances(), dataRepository.getDistanceTolerances());
     }
 
     @ModelAttribute("results")
@@ -103,9 +103,9 @@ public class SearchController {
         criterias.put("from", from.getCity());
         criterias.put("to", to.getCity());
         criterias.put("date", date);
-        criterias.put("fromTolerance", formRepository.getDistanceTolerances().get(form.getFromTolerance()));
-        criterias.put("toTolerance", formRepository.getDistanceTolerances().get(form.getToTolerance()));
-        criterias.put("dateTolerance", formRepository.getDateTolerances().get(form.getDateTolerance()));
+        criterias.put("fromTolerance", dataRepository.getDistanceTolerances().get(form.getFromTolerance()));
+        criterias.put("toTolerance", dataRepository.getDistanceTolerances().get(form.getToTolerance()));
+        criterias.put("dateTolerance", dataRepository.getDateTolerances().get(form.getDateTolerance()));
 
         List<Route> routes = routeRepository.findRoutesByTolerance(from, form.getFromTolerance(), to, form.getToTolerance(), date, form.getDateTolerance());
         results.clear();

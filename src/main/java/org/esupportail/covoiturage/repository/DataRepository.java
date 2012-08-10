@@ -3,7 +3,7 @@ package org.esupportail.covoiturage.repository;
 import java.util.Collection;
 import java.util.Map;
 
-public interface FormRepository {
+public interface DataRepository {
 
     Map<Integer, String> getAvailableSeats();
     Map<Integer, String> getDateTolerances();

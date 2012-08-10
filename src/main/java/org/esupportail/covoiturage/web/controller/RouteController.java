@@ -13,7 +13,7 @@ import org.esupportail.covoiturage.domain.Route;
 import org.esupportail.covoiturage.exception.DistanceNotFoundException;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
-import org.esupportail.covoiturage.repository.FormRepository;
+import org.esupportail.covoiturage.repository.DataRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
 import org.esupportail.covoiturage.security.CustomerUserDetails;
 import org.esupportail.covoiturage.service.GeocoderService;
@@ -36,7 +36,7 @@ public class RouteController {
     private GeocoderService geocoderService;
 
     @Resource
-    private FormRepository formRepository;
+    private DataRepository dataRepository;
 
     @Resource
     private RouteRepository routeRepository;
@@ -46,9 +46,9 @@ public class RouteController {
 
     @ModelAttribute("routeForm")
     private RouteForm getRouteForm() {
-        return new RouteForm(formRepository.getPredefinedLocations(), formRepository.getAvailableSeats(),
-                formRepository.getDays(), formRepository.getMonths(), formRepository.getYears(),
-                formRepository.getHoursAndMinutes(), formRepository.getWeekDays());
+        return new RouteForm(dataRepository.getPredefinedLocations(), dataRepository.getAvailableSeats(),
+                dataRepository.getDays(), dataRepository.getMonths(), dataRepository.getYears(),
+                dataRepository.getHoursAndMinutes(), dataRepository.getWeekDays());
     }
 
     @RequestMapping(value = "/proposer-trajet", method = RequestMethod.GET)

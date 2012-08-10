@@ -13,7 +13,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class StaticFormRepository implements FormRepository {
+public class StaticDataRepository implements DataRepository {
 
     @Resource(name = "availableSeats")
     private Map<Integer, String> availableSeats;
@@ -33,7 +33,7 @@ public class StaticFormRepository implements FormRepository {
     private final Collection<String> hoursAndMinutes;
     private final Map<Integer, String> weekDays;
 
-    public StaticFormRepository() {
+    public StaticDataRepository() {
         DateTime today = DateTime.now();
 
         days = range(1, 31);
