@@ -9,6 +9,7 @@ public interface DataRepository {
     Map<Integer, String> getDateTolerances();
     Map<Integer, String> getDistanceTolerances();
     Map<String, String> getPredefinedLocations();
+    String getPredefinedLocationsJSON();
 
     Collection<Integer> getDays();
     Map<Integer, String> getMonths();

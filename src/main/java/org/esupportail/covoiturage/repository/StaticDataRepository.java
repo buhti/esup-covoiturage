@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.esupportail.covoiturage.util.JSUtil;
+
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
@@ -75,6 +77,11 @@ public class StaticDataRepository implements DataRepository {
     @Override
     public Map<String, String> getPredefinedLocations() {
         return predefinedLocations;
+    }
+
+    @Override
+    public String getPredefinedLocationsJSON() {
+        return JSUtil.convertToArray(predefinedLocations.keySet());
     }
 
     @Override
