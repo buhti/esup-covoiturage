@@ -6,6 +6,11 @@ import java.util.Map;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.esupportail.covoiturage.domain.Customer;
+import org.esupportail.covoiturage.domain.Location;
+import org.esupportail.covoiturage.domain.Route;
+import org.esupportail.covoiturage.domain.RouteOccasional;
+import org.esupportail.covoiturage.domain.RouteRecurrent;
 import org.esupportail.covoiturage.util.JSUtil;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -146,4 +151,15 @@ public class RouteForm {
         this.roundTrip = roundTrip;
     }
 
+    public Route toRoute(Customer owner, Location from, Location to, int distance) {
+        if (recurrent) {
+            return new RouteRecurrent(0, owner, driver, seats, from, to, distance, roundTrip,
+                    recurrentForm .getStartDate().toDateTime(), recurrentForm.getEndDate().toDateTime(),
+                    recurrentForm.getWayOutTime().toLocalTime(), roundTrip ? recurrentForm.getWayBackTime().toLocalTime() : null,
+                    recurrentForm.getWeekDay());
+        } else {
+            return new RouteOccasional(0, owner, driver, seats, from, to, distance, roundTrip, 
+                    occasionalForm.getWayOut().toDateTime(), roundTrip ? occasionalForm.getWayBack().toDateTime() : null);
+        }
+    }
 }

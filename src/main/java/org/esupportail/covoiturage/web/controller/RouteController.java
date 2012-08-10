@@ -10,8 +10,6 @@ import javax.validation.Valid;
 import org.esupportail.covoiturage.domain.Customer;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
-import org.esupportail.covoiturage.domain.RouteOccasional;
-import org.esupportail.covoiturage.domain.RouteRecurrent;
 import org.esupportail.covoiturage.exception.DistanceNotFoundException;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
@@ -20,8 +18,6 @@ import org.esupportail.covoiturage.repository.RouteRepository;
 import org.esupportail.covoiturage.security.CustomerUserDetails;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
-import org.esupportail.covoiturage.web.form.RouteOccasionalForm;
-import org.esupportail.covoiturage.web.form.RouteRecurrentForm;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -114,19 +110,7 @@ public class RouteController {
         Customer owner = (CustomerUserDetails) authentication.getPrincipal();
 
         // Create the route
-        Route route;
-        boolean roundTrip = form.isRoundTrip();
-        if (form.isRecurrent()) {
-            RouteRecurrentForm subform = form.getRecurrentForm();
-            route = new RouteRecurrent(0, owner, form.isDriver(), form.getSeats(), from, to, distance, roundTrip,
-                    subform.getStartDate().toDateTime(), subform.getEndDate().toDateTime(),
-                    subform.getWayOutTime().toLocalTime(), roundTrip ? subform.getWayBackTime().toLocalTime() : null,
-                    subform.getWeekDay());
-        } else {
-            RouteOccasionalForm subform = form.getOccasionalForm();
-            route = new RouteOccasional(0, owner, form.isDriver(), form.getSeats(), from, to, distance, roundTrip,
-                    subform.getWayOut().toDateTime(), roundTrip ? subform.getWayBack().toDateTime() : null);
-        }
+        Route route = form.toRoute(owner, from, to, distance);
 
         // Persist the route
         Long routeId = routeRepository.createRoute(route);

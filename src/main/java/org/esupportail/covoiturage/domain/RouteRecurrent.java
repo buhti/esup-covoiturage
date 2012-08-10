@@ -5,11 +5,11 @@ import org.joda.time.LocalTime;
 
 public class RouteRecurrent extends Route {
 
-    private DateTime startDate;
-    private DateTime endDate;
-    private LocalTime wayOutTime;
-    private LocalTime wayBackTime;
-    private int[] weekDays;
+    private final DateTime startDate;
+    private final DateTime endDate;
+    private final LocalTime wayOutTime;
+    private final LocalTime wayBackTime;
+    private final int[] weekDays;
 
     public RouteRecurrent(long id, Customer owner, boolean driver, int seats, Location from, Location to, int distance,
             boolean roundTrip, DateTime startDate, DateTime endDate, LocalTime wayOutTime, LocalTime wayBackTime,
