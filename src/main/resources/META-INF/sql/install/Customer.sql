@@ -7,6 +7,6 @@ CREATE TABLE Customer (
 
 	/* Indexes */
 	PRIMARY KEY (customer_id),
-	UNIQUE INDEX login_unique (login),
-	UNIQUE INDEX email_unique (email)
+	UNIQUE KEY login_unique (login),
+	UNIQUE KEY email_unique (email)
 );

@@ -26,8 +26,8 @@ CREATE TABLE Route (
 
 	/* Indexes */
 	PRIMARY KEY (route_id),
-	INDEX fk_owner_id (owner_id),
-	INDEX USING BTREE (recurrent),
-	SPATIAL INDEX sp_from_point (from_point),
-	SPATIAL INDEX sp_to_point (to_point)
+	KEY fk_owner_id (owner_id),
+	KEY b_recurrent (recurrent) USING BTREE,
+	SPATIAL KEY sp_from_point (from_point),
+	SPATIAL KEY sp_to_point (to_point)
 );
