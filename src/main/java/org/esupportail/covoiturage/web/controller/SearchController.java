@@ -10,9 +10,11 @@ import javax.validation.Valid;
 
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
+import org.esupportail.covoiturage.domain.StatType;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.repository.DataRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
+import org.esupportail.covoiturage.repository.StatRepository;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.SearchForm;
 
@@ -40,6 +42,9 @@ public class SearchController {
 
     @Resource
     private RouteRepository routeRepository;
+
+    @Resource
+    private StatRepository statRepository;
 
     @Value("${app.search.resultsPerPage}")
     private int resultsPerPage;
@@ -117,6 +122,8 @@ public class SearchController {
         
         results.clear();
         results.addAll(routes);
+
+        statRepository.incrementStatistic(StatType.SEARCHES);
 
         return "redirect:/recherche/resultats";
     }

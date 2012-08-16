@@ -8,7 +8,9 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 
 import org.esupportail.covoiturage.domain.Customer;
+import org.esupportail.covoiturage.domain.StatType;
 import org.esupportail.covoiturage.repository.CustomerRepository;
+import org.esupportail.covoiturage.repository.StatRepository;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.AttributesMapper;
@@ -46,6 +48,9 @@ public class CustomerUserDetailsService implements UserDetailsService {
     private CustomerRepository customerRepository;
 
     @Resource
+    private StatRepository statRepository;
+
+    @Resource
     private LdapTemplate ldapTemplate;
 
     @Override
@@ -54,7 +59,10 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
         if (customer == null) {
             customer = customerRepository.createCustomer(loadUserFromLdap(username));
+            statRepository.incrementStatistic(StatType.REGISTRATIONS);
         }
+
+        statRepository.incrementStatistic(StatType.LOGINS);
 
         return new CustomerUserDetails(customer);
     }

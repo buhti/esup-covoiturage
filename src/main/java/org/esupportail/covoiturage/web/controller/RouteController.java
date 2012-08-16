@@ -10,11 +10,13 @@ import javax.validation.Valid;
 import org.esupportail.covoiturage.domain.Customer;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
+import org.esupportail.covoiturage.domain.StatType;
 import org.esupportail.covoiturage.exception.DistanceNotFoundException;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
 import org.esupportail.covoiturage.repository.DataRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
+import org.esupportail.covoiturage.repository.StatRepository;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
 
@@ -37,6 +39,9 @@ public class RouteController {
 
     @Resource
     private RouteRepository routeRepository;
+
+    @Resource
+    private StatRepository statRepository;
 
     @Resource(name = "smartValidator")
     private Validator smartValidator;
@@ -61,6 +66,7 @@ public class RouteController {
 
         // Persist the route
         Long routeId = routeRepository.createRoute(route);
+        statRepository.incrementStatistic(StatType.ROUTES);
 
         // Redirect to the newly created route page
         return "redirect:/trajet/" + routeId;
