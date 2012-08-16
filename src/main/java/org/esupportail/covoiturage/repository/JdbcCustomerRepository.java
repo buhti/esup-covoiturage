@@ -36,13 +36,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer findOneByLogin(String login) {
-        List<Customer> results = jdbcTemplate.query(SELECT_CUSTOMER_BY_LOGIN, customerMapper, login);
+        List<Customer> results = jdbcTemplate.query(SELECT_CUSTOMER, customerMapper, login);
         return results.isEmpty() ? null : results.get(0);
     }
 
     private static final String INSERT_CUSTOMER = "INSERT INTO Customer (login, email, firstname, lastname) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_CUSTOMER = "UPDATE Customer SET email = ?, firstname = ?, lastname = ? WHERE login = ?";
-    private static final String SELECT_CUSTOMER = "SELECT customer_id, login, email, firstname, lastname FROM Customer ";
-    private static final String SELECT_CUSTOMER_BY_LOGIN = SELECT_CUSTOMER + "WHERE login = ?";
+    private static final String SELECT_CUSTOMER = "SELECT * FROM Customer WHERE login = ?";
 
 }

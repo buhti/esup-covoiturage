@@ -175,10 +175,8 @@ public class JdbcRouteRepository implements RouteRepository {
             + "WHERE r.owner_id = ? "
             + "ORDER BY r.route_id DESC LIMIT 1";
 
-    private static final String SELECT_ROUTE = "SELECT r.route_id, r.driver, r.seats, r.distance, r.from_city, r.from_address, r.to_city, r.to_address, r.recurrent, r.round_trip, "
-            + "AsText(r.from_point) AS from_point_text, AsText(r.to_point) AS to_point_text, "
-            + "r.start_date, r.end_date, r.wayout_time, r.wayback_time, r.week_days, r.wayout_date, r.wayback_date, "
-            + "c.customer_id, c.login, c.email, c.firstname, c.lastname "
+    private static final String SELECT_ROUTE = "SELECT r.*, c.*, "
+            + "AsText(r.from_point) AS from_point_text, AsText(r.to_point) AS to_point_text "
             + "FROM Route r "
             + "INNER JOIN Customer c ON r.owner_id = c.customer_id ";
 
