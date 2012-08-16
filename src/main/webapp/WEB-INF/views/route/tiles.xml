@@ -9,15 +9,15 @@
 	</definition>
 
 	<definition name="route/edit" extends="page">
-		<put-attribute name="title" expression="Modifier un trajet" />
+		<put-attribute name="title" expression="Modifier le trajet" />
 		<put-attribute name="content" value="/WEB-INF/views/route/form.jsp" />
 	</definition>
 
 	<definition name="route/view" extends="page">
-		<put-attribute name="title" expression="Trajet xxxx" />
+		<put-attribute name="title" expression="Trajet ${route.from.city} - ${route.to.city}" />
 		<put-attribute name="content" value="/WEB-INF/views/route/view.jsp" />
 	</definition>
-	
+
 	<definition name="route/list" extends="page">
 		<put-attribute name="title" expression="Mes trajets" />
 		<put-attribute name="content" value="/WEB-INF/views/route/list.jsp" />

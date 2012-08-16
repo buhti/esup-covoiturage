@@ -16,7 +16,7 @@ public class DateTimeField extends DateField {
 
     public DateTimeField(DateTime date) {
         super(date);
-        timeField = new TimeField(date);
+        timeField = new TimeField(new LocalTime(date.getHourOfDay(), date.getMinuteOfHour()));
     }
 
     public String getTime() {

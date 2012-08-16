@@ -60,30 +60,32 @@ public class JdbcRouteRepository implements RouteRepository {
     }
 
     @Override
-    public void updateRoute(Route route) {
+    public void updateRoute(long ownerId, long routeId, Route route) {
         if (route.isRecurrent()) {
             RouteRecurrent r = (RouteRecurrent) route;
-            jdbcTemplate.update(INSERT_ROUTE_RECURRENT, 
-                    r.getOwner().getId(), r.isDriver(), r.getSeats(), r.getDistance(),
+            String wayBackTime = r.isRoundTrip() ? r.getWayBackTime().toString("HH:mm") : null;
+            jdbcTemplate.update(UPDATE_ROUTE, 
+                    r.isDriver(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
-                    r.getStartDate().toDate(), r.getEndDate().toDate(), r.isRoundTrip(),
-                    r.getWayOutTime().toString("HH:mm"), r.isRoundTrip() ? r.getWayBackTime().toString("HH:mm") : null,
-                    weekDaysToString(r.getWeekDays()));
+                    1, r.isRoundTrip(), r.getStartDate().toDate(), r.getEndDate().toDate(),
+                    r.getWayOutTime().toString("HH:mm"), wayBackTime,
+                    weekDaysToString(r.getWeekDays()), null, null, routeId, ownerId);
         } else {
             RouteOccasional r = (RouteOccasional) route;
-            jdbcTemplate.update(INSERT_ROUTE_OCCASIONAL,
-                    r.getOwner().getId(), r.isDriver(), r.getSeats(), r.getDistance(),
+            Date wayBackDate = r.isRoundTrip() ? r.getWayBackDate().toDate() : null;
+            jdbcTemplate.update(UPDATE_ROUTE, 
+                    r.isDriver(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
-                    r.isRoundTrip(), r.getWayOutDate().toDate(), 
-                    r.isRoundTrip() ? r.getWayBackDate().toDate() : null);
+                    0, r.isRoundTrip(), null, null, null, null, null, 
+                    r.getWayOutDate().toDate(), wayBackDate, routeId, ownerId);
         }
     }
 
     @Override
     public void deleteRoute(long ownerId, long routeId) {
-        jdbcTemplate.update(DELETE_ROUTE, ownerId, routeId);
+        jdbcTemplate.update(DELETE_ROUTE, routeId, ownerId);
     }
 
     @Override
@@ -162,7 +164,12 @@ public class JdbcRouteRepository implements RouteRepository {
     private static final String INSERT_ROUTE_OCCASIONAL = "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, round_trip, wayout_date, wayback_date) "
             + "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 0, ?, ?, ?)";
 
-    private static final String DELETE_ROUTE = "DELETE FROM Route WHERE owner_id = ? AND route_id = ?";
+    private static final String UPDATE_ROUTE = "UPDATE Route SET driver = ?, seats = ?, distance = ?, from_point = GeomFromText(?), from_city = ?, from_address = ?, to_point = GeomFromText(?), to_city = ?, to_address = ?, recurrent = ?, round_trip = ?, "
+            + "start_date = ?, end_date = ?, wayout_time = ?, wayback_time = ?, week_days = ?, "
+            + "wayout_date = ?, wayback_date = ? "
+            + "WHERE route_id = ? AND owner_id = ?";
+
+    private static final String DELETE_ROUTE = "DELETE FROM Route WHERE route_id = ? AND owner_id = ?";
 
     private static final String SELECT_LAST_INSERT_ID = "SELECT r.route_id FROM Route r " 
             + "WHERE r.owner_id = ? "

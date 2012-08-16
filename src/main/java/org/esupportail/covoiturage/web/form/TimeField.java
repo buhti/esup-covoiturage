@@ -3,7 +3,6 @@ package org.esupportail.covoiturage.web.form;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 public class TimeField {
@@ -13,13 +12,12 @@ public class TimeField {
     private String time;
 
     public TimeField() {
-        this(new DateTime());
+        this(new LocalTime());
     }
 
-    public TimeField(DateTime date) {
-        DateTime newDate = date.plusMinutes(30);
-        int hours = newDate.hourOfDay().get();
-        int minutes = newDate.minuteOfHour().get();
+    public TimeField(LocalTime localTime) {
+        int hours = localTime.hourOfDay().get();
+        int minutes = localTime.minuteOfHour().get();
 
         time = hours + ":" + (minutes < 30 ? "00" : "30");
     }

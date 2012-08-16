@@ -2,6 +2,9 @@ package org.esupportail.covoiturage.web.form;
 
 import javax.validation.Valid;
 
+import org.esupportail.covoiturage.domain.Route;
+import org.esupportail.covoiturage.domain.RouteRecurrent;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class RouteRecurrentForm {
@@ -19,7 +22,7 @@ public class RouteRecurrentForm {
     private TimeField wayBackTime;
 
     @NotEmpty
-    private int[] weekDay;
+    private int[] weekDays;
 
     public RouteRecurrentForm() {
         startDate = new DateField();
@@ -44,12 +47,26 @@ public class RouteRecurrentForm {
         return wayBackTime;
     }
 
-    public int[] getWeekDay() {
-        return weekDay;
+    public int[] getWeekDays() {
+        return weekDays;
     }
 
-    public void setWeekDay(int[] weekDay) {
-        this.weekDay = weekDay;
+    public void setWeekDays(int[] weekDays) {
+        this.weekDays = weekDays;
+    }
+
+    public void populate(Route route) {
+        if (route instanceof RouteRecurrent) {
+            RouteRecurrent r = (RouteRecurrent) route;
+            startDate = new DateField(r.getStartDate());
+            endDate = new DateField(r.getEndDate());
+            wayOutTime = new TimeField(r.getWayOutTime());
+            weekDays = r.getWeekDays();
+
+            if (r.isRoundTrip()) {
+                wayBackTime = new TimeField(r.getWayBackTime());
+            }
+        }
     }
 
 }

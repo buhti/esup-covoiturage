@@ -12,7 +12,7 @@ public interface RouteRepository {
 
     long createRoute(Route route);
 
-    void updateRoute(Route route);
+    void updateRoute(long ownerId, long routeId, Route route);
 
     void deleteRoute(long ownerId, long routeId);
 

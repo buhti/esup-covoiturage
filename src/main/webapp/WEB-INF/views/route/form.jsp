@@ -140,14 +140,14 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
             </div>
           </div>
         </div>
-        <spring:bind path="recurrentForm.weekDay">
-          <c:set var="weekDayError" value="${ status.errorMessage }"></c:set>
+        <spring:bind path="recurrentForm.weekDays">
+          <c:set var="weekDaysError" value="${ status.errorMessage }"></c:set>
         </spring:bind>
-        <div class="control-group ${ not empty weekDayError ? 'error' : '' }">
-          <form:label path="recurrentForm.weekDay" cssClass="control-label">Jours</form:label>
+        <div class="control-group ${ not empty weekDaysError ? 'error' : '' }">
+          <form:label path="recurrentForm.weekDays" cssClass="control-label">Jours</form:label>
           <div class="controls">
-            <form:checkboxes path="recurrentForm.weekDay" items="${ data.weekDays }" />
-            <form:errors path="recurrentForm.weekDay" cssClass="help-inline" />
+            <form:checkboxes path="recurrentForm.weekDays" items="${ data.weekDays }" />
+            <form:errors path="recurrentForm.weekDays" cssClass="help-inline" />
           </div>
         </div>
       </fieldset>

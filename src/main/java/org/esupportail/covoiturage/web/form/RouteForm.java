@@ -43,6 +43,27 @@ public class RouteForm {
         driver = true;
     }
 
+    public RouteForm(Route route) {
+        this();
+        populate(route);
+    }
+
+    public void populate(Route route) {
+        setDriver(route.isDriver());
+        setFromAddress(route.getFrom().getAddress());
+        setToAddress(route.getTo().getAddress());
+        setRoundTrip(route.isRoundTrip());
+        setSeats(route.getSeats());
+
+        if (route.isRecurrent()) {
+            setRecurrent(true);
+            recurrentForm.populate(route);
+        } else {
+            setRecurrent(false);
+            occasionalForm.populate(route);
+        }
+    }
+
     public RouteOccasionalForm getOccasionalForm() {
         return occasionalForm;
     }
@@ -104,7 +125,7 @@ public class RouteForm {
             return new RouteRecurrent(0, owner, driver, seats, from, to, distance, roundTrip,
                     recurrentForm .getStartDate().toDateTime(), recurrentForm.getEndDate().toDateTime(),
                     recurrentForm.getWayOutTime().toLocalTime(), roundTrip ? recurrentForm.getWayBackTime().toLocalTime() : null,
-                    recurrentForm.getWeekDay());
+                    recurrentForm.getWeekDays());
         } else {
             return new RouteOccasional(0, owner, driver, seats, from, to, distance, roundTrip, 
                     occasionalForm.getWayOut().toDateTime(), roundTrip ? occasionalForm.getWayBack().toDateTime() : null);

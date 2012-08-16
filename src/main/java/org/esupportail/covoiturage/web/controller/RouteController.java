@@ -50,6 +50,82 @@ public class RouteController {
 
     @RequestMapping(value = "/proposer-trajet", method = RequestMethod.POST)
     public String create(@Valid RouteForm form, BindingResult formBinding, Model model, Customer customer) {
+        // Validate form and get the route
+        Route route = validateFormAndGetRoute(form, formBinding, customer);
+
+        // Check if validation failed
+        if (route == null) {
+            model.addAttribute("data", dataRepository);
+            return "route/create";
+        }
+
+        // Persist the route
+        Long routeId = routeRepository.createRoute(route);
+
+        // Redirect to the newly created route page
+        return "redirect:/trajet/" + routeId;
+    }
+
+    @RequestMapping(value = "/trajet/{routeId}/modifier", method = RequestMethod.GET)
+    public String editForm(@PathVariable Long routeId, Model model, HttpServletResponse response) throws IOException {
+        Route route;
+        try {
+            route = routeRepository.findOneById(routeId);
+        } catch (RouteNotFoundException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+
+        model.addAttribute(new RouteForm(route));
+        model.addAttribute("data", dataRepository);
+        return "route/edit";
+    }
+
+    @RequestMapping(value = "/trajet/{routeId}/modifier", method = RequestMethod.POST)
+    public String edit(@PathVariable Long routeId, @Valid RouteForm form, BindingResult formBinding, Model model, Customer customer) {
+        // Validate form and get the route
+        Route route = validateFormAndGetRoute(form, formBinding, customer);
+
+        // Check if validation failed
+        if (route == null) {
+            model.addAttribute("data", dataRepository);
+            return "route/edit";
+        }
+
+        // Update the route
+        routeRepository.updateRoute(customer.getId(), routeId, route);
+
+        // Redirect to the newly updated route page
+        return "redirect:/trajet/" + routeId;
+    }
+
+    @RequestMapping(value = "/trajet/{routeId}")
+    public String viewRoute(@PathVariable Long routeId, Model model, HttpServletResponse response) throws IOException {
+        try {
+            Route route = routeRepository.findOneById(routeId);
+            model.addAttribute("route", route);
+            return "route/view";
+        } catch (RouteNotFoundException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/trajet/{routeId}/supprimer")
+    public String deleteRoute(@PathVariable long routeId, Customer customer) {
+        routeRepository.deleteRoute(customer.getId(), routeId);
+        return "redirect:/mes-trajets";
+    }
+
+    @RequestMapping(value = "/mes-trajets")
+    public String listCustomerRoutes(Model model, Customer customer) {
+        List<Route> routes = routeRepository.findRoutesByOwner(customer.getId());
+        model.addAttribute("routes", routes);
+        model.addAttribute("editMode", true);
+        return "route/list";
+    }
+
+    private Route validateFormAndGetRoute(RouteForm form, BindingResult formBinding, Customer customer) {
         // Validate subfrom
         if (form.isRecurrent()) {
             formBinding.pushNestedPath("recurrentForm");
@@ -63,8 +139,7 @@ public class RouteController {
 
         // Check if validation failed
         if (formBinding.hasErrors()) {
-            model.addAttribute("data", dataRepository);
-            return "route/create";
+            return null;
         }
 
         Location from = null;
@@ -97,44 +172,11 @@ public class RouteController {
         }
 
         if (formBinding.hasErrors()) {
-            model.addAttribute("data", dataRepository);
-            return "route/create";
+            return null;
         }
 
         // Create the route
-        Route route = form.toRoute(customer, from, to, distance);
-
-        // Persist the route
-        Long routeId = routeRepository.createRoute(route);
-
-        // Redirect to the newly created route page
-        return "redirect:/trajet/" + routeId;
-    }
-
-    @RequestMapping(value = "/trajet/{routeId}")
-    public String viewRoute(@PathVariable Long routeId, Model model, HttpServletResponse response) throws IOException {
-        try {
-            Route route = routeRepository.findOneById(routeId);
-            model.addAttribute("route", route);
-            return "route/view";
-        } catch (RouteNotFoundException e) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return null;
-        }
-    }
-
-    @RequestMapping(value = "/trajet/{routeId}/supprimer")
-    public String deleteRoute(@PathVariable long routeId, Customer customer) {
-        routeRepository.deleteRoute(customer.getId(), routeId);
-        return "redirect:/mes-trajets";
-    }
-
-    @RequestMapping(value = "/mes-trajets")
-    public String listCustomerRoutes(Model model, Customer customer) {
-        List<Route> routes = routeRepository.findRoutesByOwner(customer.getId());
-        model.addAttribute("routes", routes);
-        model.addAttribute("editMode", true);
-        return "route/list";
+        return form.toRoute(customer, from, to, distance);
     }
 
 }
