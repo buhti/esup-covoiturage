@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,9 @@
             <li><a href="<c:url value='/recherche'/>">Rechercher</a></li>
             <li><a href="<c:url value='/proposer-trajet'/>">Proposer</a></li>
             <li><a href="<c:url value='/mes-trajets'/>">Voir mes trajets</a></li>
-            <li><a href="<c:url value='/mon-compte'/>">Mon compte</a></li>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+              <li><a href="<c:url value='/admin/statistiques'/>">Administration</a></li>
+            </sec:authorize>
           </ul>
         </div>
       </div>

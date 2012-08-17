@@ -1,7 +1,8 @@
 package org.esupportail.covoiturage.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import org.esupportail.covoiturage.domain.Customer;
 
@@ -13,13 +14,22 @@ public class CustomerUserDetails extends Customer implements UserDetails {
 
     private static final long serialVersionUID = 2360022873140258870L;
 
-    public CustomerUserDetails(Customer customer) {
+    private final List<SimpleGrantedAuthority> authorities;
+
+    public CustomerUserDetails(Customer customer, boolean admin) {
         super(customer.getId(), customer.getLogin(), null, null, null);
+
+        authorities = new ArrayList<SimpleGrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        if (admin) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities;
     }
 
     @Override

@@ -44,6 +44,9 @@ public class CustomerUserDetailsService implements UserDetailsService {
     @Value("${ldap.attribute.lastname}")
     private String lastnameAttribute;
 
+    @Resource(name = "administratorLogins")
+    private List<String> administratorLogins;
+
     @Resource
     private CustomerRepository customerRepository;
 
@@ -64,7 +67,10 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
         statRepository.incrementStatistic(StatType.LOGINS);
 
-        return new CustomerUserDetails(customer);
+        // Check if the current user has administrator rights
+        boolean hasAdminRights = administratorLogins.contains(username);
+
+        return new CustomerUserDetails(customer, hasAdminRights);
     }
 
     @SuppressWarnings("unchecked")
