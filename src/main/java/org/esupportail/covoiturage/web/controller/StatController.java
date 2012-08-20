@@ -10,6 +10,7 @@ import org.esupportail.covoiturage.repository.StatRepository.StatPeriod;
 import org.esupportail.covoiturage.repository.StatRepository.StatType;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,9 +21,33 @@ public class StatController {
 
     @Resource
     private StatRepository statRepository;
+    
+    @RequestMapping("")
+    public String viewStats() {
+        return "stat/list";
+    }
 
     @RequestMapping("connexions")
-    public String viewLoginStats() {
+    public String viewLoginStats(Model model) {
+        model.addAttribute("type", StatType.LOGINS.name());
+        return "stat/chart";
+    }
+
+    @RequestMapping("inscriptions")
+    public String viewRegistrationStats(Model model) {
+        model.addAttribute("type", StatType.REGISTRATIONS.name());
+        return "stat/chart";
+    }
+
+    @RequestMapping("trajets")
+    public String viewRouteStats(Model model) {
+        model.addAttribute("type", StatType.ROUTES.name());
+        return "stat/chart";
+    }
+
+    @RequestMapping("recherches")
+    public String viewSearchStats(Model model) {
+        model.addAttribute("type", StatType.SEARCHES.name());
         return "stat/chart";
     }
 

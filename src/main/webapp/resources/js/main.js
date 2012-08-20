@@ -1,5 +1,16 @@
 (function($, window) {
   "use strict";
+  
+  // Helpers
+  // -------
+
+  function formatDate(date) {
+    var f = function(num) {
+      return num > 9 ? num : '0' + num;
+    };
+    
+    return f(date.getDate()) + '/' + f(date.getMonth() + 1) + '/' + date.getFullYear();
+  }
 
   // Google Maps enhancements
   // ------------------------
@@ -206,4 +217,43 @@
     });
   }
 
+  // Statistiques
+  // ------------
+
+  var LABELS = {
+    LOGINS: 'connexions',
+    REGISTRATIONS: 'inscriptions',
+    ROUTES: 'trajets',
+    SEARCHES: 'recherches'
+  };
+
+  // Récupère la page afin de restreindre le scope des requêtes jQuery.
+  var $statsPage = $('#admin-stats');
+  if ($statsPage.length > 0) {
+    var $chart = $statsPage.find('#visualization');
+
+    $statsPage.find('button').on('click', function() {
+      var type = $chart.data('type')
+        , period = $(this).data('period');
+      
+      $.getJSON($chart.data('source') + '/' + type + '/' + period, function(json) {
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('date', '');
+        dataTable.addColumn('number', LABELS[type]);
+
+        var i = 0, n = json.length;
+        for (; i < n; i++) {
+          dataTable.addRow([new Date(json[i].date), json[i].value]);
+        }
+
+        var areaChart = new google.visualization.AreaChart($chart.get(0));
+        var areaChartOptions = {
+          legend: 'none',
+          lineWidth: 3,
+          pointSize: 6
+        };
+        areaChart.draw(dataTable, areaChartOptions);
+      });
+    });
+  }
 })(jQuery, window);

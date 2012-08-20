@@ -1,13 +1,21 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="admin-stats">
-  <div id="visualization" style="width: 600px; height: 400px; position: relative"></div>
-  
+  <ul>
+    <li><button data-period="WEEK">Semaine</button></li>
+    <li><button data-period="MONTH">Mois</button></li>
+    <li><button data-period="YEAR">Année</button></li>
+  </ul>
+
+  <div id="visualization" style="width: 600px; height: 400px; position: relative"
+    data-type="${ type }" data-source="<c:url value='/admin/statistiques/json'/>"></div>
+
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript">
       google.load('visualization', '1', {packages: ['corechart']});
   </script>
   <script type="text/javascript">
+  /*
     function drawVisualization() {
       // Some raw data (not necessarily accurate)
       var data = google.visualization.arrayToDataTable([
@@ -32,5 +40,6 @@
     }
 
     drawVisualization();
+  */
   </script>
 </div>
