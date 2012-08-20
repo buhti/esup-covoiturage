@@ -33,6 +33,7 @@ public class DatabaseInitializer {
         DatabaseChangeSet changeSet = new DatabaseChangeSet(new DatabaseVersion(CURRENT_VERSION));
         changeSet.add(installScript("Customer.sql"));
         changeSet.add(installScript("Route.sql"));
+        changeSet.add(installScript("Stat.sql"));
         upgrader.addChangeSet(changeSet);
     }
 

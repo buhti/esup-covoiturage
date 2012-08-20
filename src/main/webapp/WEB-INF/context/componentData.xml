@@ -13,7 +13,7 @@
 			Cette liste permet de déterminer si un utilisateur possède les 
 			droits administrateurs.
 		</description>
-		<value>admin</value>
+		<value>fcailhol</value>
 	</util:list>
 
 	<util:map id="predefinedLocations" map-class="java.util.LinkedHashMap">

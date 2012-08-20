@@ -10,13 +10,14 @@ import javax.validation.Valid;
 import org.esupportail.covoiturage.domain.Customer;
 import org.esupportail.covoiturage.domain.Location;
 import org.esupportail.covoiturage.domain.Route;
-import org.esupportail.covoiturage.domain.StatType;
 import org.esupportail.covoiturage.exception.DistanceNotFoundException;
 import org.esupportail.covoiturage.exception.LocationNotFoundException;
 import org.esupportail.covoiturage.exception.RouteNotFoundException;
 import org.esupportail.covoiturage.repository.DataRepository;
 import org.esupportail.covoiturage.repository.RouteRepository;
 import org.esupportail.covoiturage.repository.StatRepository;
+import org.esupportail.covoiturage.repository.StatRepository.CounterType;
+import org.esupportail.covoiturage.repository.StatRepository.StatType;
 import org.esupportail.covoiturage.service.GeocoderService;
 import org.esupportail.covoiturage.web.form.RouteForm;
 
@@ -66,6 +67,9 @@ public class RouteController {
 
         // Persist the route
         Long routeId = routeRepository.createRoute(route);
+
+        // Update the statistics
+        statRepository.addToCounter(CounterType.TOTAL_KILOMETERS, route.getDistance());
         statRepository.incrementStatistic(StatType.ROUTES);
 
         // Redirect to the newly created route page

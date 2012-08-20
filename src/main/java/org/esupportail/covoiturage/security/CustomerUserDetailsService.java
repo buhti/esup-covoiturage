@@ -8,9 +8,9 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 
 import org.esupportail.covoiturage.domain.Customer;
-import org.esupportail.covoiturage.domain.StatType;
 import org.esupportail.covoiturage.repository.CustomerRepository;
 import org.esupportail.covoiturage.repository.StatRepository;
+import org.esupportail.covoiturage.repository.StatRepository.StatType;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.AttributesMapper;
