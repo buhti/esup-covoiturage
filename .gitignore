@@ -9,3 +9,6 @@ target/
 # Ignore project configuration
 src/main/resources/config.properties
 
+# Ignore generated data fixtures
+src/test/resources/stat-data.sql
+
