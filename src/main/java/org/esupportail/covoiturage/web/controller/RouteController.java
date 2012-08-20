@@ -1,7 +1,6 @@
 package org.esupportail.covoiturage.web.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -129,9 +128,7 @@ public class RouteController {
 
     @RequestMapping(value = "/mes-trajets")
     public String listCustomerRoutes(Model model, Customer customer) {
-        List<Route> routes = routeRepository.findRoutesByOwner(customer.getId());
-        model.addAttribute("routes", routes);
-        model.addAttribute("editMode", true);
+        model.addAttribute("routes", routeRepository.findRoutesByOwner(customer.getId()));
         return "route/list";
     }
 

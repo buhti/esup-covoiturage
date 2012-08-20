@@ -21,9 +21,14 @@
 </head>
 <body>
 
-  <div class="navbar">
+  <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
         <a class="brand" href="<c:url value='/'/>">Co-voiturage</a>
         <div class="nav-collapse">
           <ul class="nav">
@@ -39,16 +44,20 @@
     </div>
   </div>
 
-  <div class="container">
-    <header class="header">
-      <tiles:insertAttribute name="header" />
-    </header>
-    <div class="content">
-      <tiles:insertAttribute name="content" />
+  <div class="subheader">
+    <div class="inner">
+      <div class="container">
+        <h1><tiles:insertAttribute name="title" defaultValue="Co-voiturage" /></h1>
+      </div>
     </div>
-    <footer class="footer">
-      <tiles:insertAttribute name="footer" />
-    </footer>
+  </div>
+
+  <div class="content">
+    <div class="inner">
+      <div class="container">
+        <tiles:insertAttribute name="content" />
+      </div>
+    </div>
   </div>
 
   <script src="http://maps.googleapis.com/maps/api/js?key=${ config.googleApiKey }&amp;sensor=false&amp;language=fr"></script>

@@ -199,10 +199,13 @@
   // Récupère la page afin de restreindre le scope des requêtes jQuery.
   var $routeList = $('#route-list');
   if ($routeList.length > 0) {
+    var $controls = $routeList.find('.controls')
+      , $list = $routeList.find('.list');
+    
     // Active le mode édition
-    $routeList.find('.edit').on('click', function() {
-      $routeList.addClass('edit-mode');
-      $routeList.find('> div a').on('click', function() {
+    $controls.find('.edit').on('click', function() {
+      $controls.addClass('edition');
+      $list.find('a').on('click', function() {
         window.location = $(this).attr('href') + '/supprimer';
         return false;
       });
@@ -210,9 +213,9 @@
     });
 
     // Quitte le mode édition
-    $routeList.find('.cancel').on('click', function() {
-      $routeList.removeClass('edit-mode');
-      $routeList.find('> div a').off('click');
+    $controls.find('.cancel').on('click', function() {
+      $controls.removeClass('edition');
+      $list.find('a').off('click');
       return false;
     });
   }

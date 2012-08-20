@@ -7,7 +7,8 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
 </script>
 <form:form method="post" modelAttribute="searchForm" cssClass="form-horizontal">
   <div class="row">
-    <fieldset class="span6">
+    <div class="span6">
+    <fieldset>
       <legend>Départ</legend>
       <spring:bind path="from">
         <c:set var="fromError" value="${ status.errorMessage }"></c:set>
@@ -28,7 +29,9 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
         </div>
       </div>
     </fieldset>
-    <fieldset class="span6">
+    </div>
+    <div class="span6">
+    <fieldset>
       <legend>Arrivée</legend>
       <spring:bind path="to">
         <c:set var="toError" value="${ status.errorMessage }"></c:set>
@@ -49,9 +52,11 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
         </div>
       </div>
     </fieldset>
+    </div>
   </div>
   <div class="row">
-    <fieldset class="span6">
+    <div class="span6">
+    <fieldset>
       <legend>Date</legend>
       <div class="control-group">
         <form:label path="date.day" cssClass="control-label">Aller</form:label>
@@ -71,6 +76,7 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
         </div>
       </div>
     </fieldset>
+    </div>
   </div>
   <div class="row">
     <div class="form-actions">
