@@ -7,7 +7,7 @@ CREATE TABLE Stat (
 	PRIMARY KEY (stat_type, stat_date),
 	KEY (stat_type) USING BTREE,
 	KEY (stat_date)
-);
+) ENGINE = MYISAM;
 
 CREATE TABLE StatCounter (
 	count_key TINYINT(2) NOT NULL,
@@ -15,4 +15,4 @@ CREATE TABLE StatCounter (
 
 	/* Indexes */
 	PRIMARY KEY (count_key)
-);
+) ENGINE = MYISAM;

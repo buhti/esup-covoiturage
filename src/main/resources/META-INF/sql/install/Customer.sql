@@ -9,4 +9,4 @@ CREATE TABLE Customer (
 	PRIMARY KEY (customer_id),
 	UNIQUE KEY login_unique (login),
 	UNIQUE KEY email_unique (email)
-);
+) ENGINE = MYISAM;

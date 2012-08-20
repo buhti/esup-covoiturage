@@ -30,4 +30,4 @@ CREATE TABLE Route (
 	KEY b_recurrent (recurrent) USING BTREE,
 	SPATIAL KEY sp_from_point (from_point),
 	SPATIAL KEY sp_to_point (to_point)
-);
+) ENGINE = MYISAM;
