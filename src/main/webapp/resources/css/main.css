@@ -95,16 +95,22 @@ legend {
 	margin-bottom: 15px;
 }
 
-/* ==========================================================================
-   Custom
-   ========================================================================== */
-
-.nav-tabs li a {
-	cursor: pointer;
+.form-horizontal .help-block {
+	margin-top: 4px;
 }
 
-.nav-tabs li.active a {
-	cursor: default;
+@media (max-width: 480px) {
+	.form-horizontal .control-group > label::after {
+		content: " :";
+	}
+}
+
+/* ==========================================================================
+   My account
+   ========================================================================== */
+
+#customerForm label {
+	font-weight: bold;
 }
 
 /* ==========================================================================
@@ -132,45 +138,68 @@ legend {
 	display: none;
 }
 
-#route-list.edition .route a {
+#route-list.edition .route {
 	background-image: url(../img/minus-circle-frame.png);
-	background-position: 12px center;
+	background-position: 40px center;
 	background-repeat: no-repeat;
-	padding-left: 40px;
 }
 
 /* List
    -------------------------------------------------------------------------- */
 
-/*
 #route-list .list {
-	border-radius: 4px;
-	border: 1px solid #e6e6e6;
+	padding: 1px 0 0;
+	overflow: hidden;
 }
-
-#route-list .route a {
-	display: block;
-	outline: 0;
-	border-top: 1px solid #e6e6e6;
-	padding: 5px 12px;
-	text-decoration: none;
-	background-color: #fff;
-}
-
-#route-list .route:first-child a {
-	border: 0;
-}
-
-#route-list .route:nth-child(2n + 1) a {
-	background-color: #f9f9f9;
-}
-
-#route-list .route a:hover,
-#route-list .route:nth-child(2n + 1) a:hover {
-	background-color: #f5f5f5;
-}
-*/
 
 /* Row
    -------------------------------------------------------------------------- */
 
+#route-list .route {
+	border-top: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+	margin-top: -1px;
+	padding: 12px 0;
+}
+
+#route-list .route > div > div {
+	line-height: 30px;
+}
+
+#route-list .route .owner,
+#route-list .route .info {
+	text-align: center;
+}
+
+#route-list .route .date {
+	font-weight: 200;
+	font-size: 18px;
+}
+
+#route-list .route .date,
+#route-list .route .path,
+#route-list .route .arrow,
+#route-list .route .dash {
+	height: 26px;
+}
+
+#route-list .route .arrow {
+	display: inline-block;
+	font-size: 26px;
+	font-weight: normal;
+	color: #04f;
+}
+
+#route-list .route .dash {
+	display: inline-block;
+	font-size: 20px;
+	font-weight: normal;
+	color: #04f;
+	padding: 0 2px;
+}
+
+#route-list .route .seats span {
+	display: block;
+	font-size: 24px;
+	font-weight: bold;
+}
