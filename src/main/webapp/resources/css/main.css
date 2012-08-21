@@ -20,7 +20,7 @@
 .navbar-inverse .navbar-inner {
 	background: #222;
 	border-bottom: 1px solid #000;
- 	padding: 10px 0;
+	padding: 10px 0;
 }
 
 .navbar-inverse .nav > li > a {
@@ -35,7 +35,7 @@
 	border-radius: 3px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 979px) {
 	.navbar-fixed-top {
 		margin-bottom: 0;
 	}
@@ -68,10 +68,16 @@
 		margin-right: -20px;
 		margin-left: -20px;
 	}
+}
 
+@media (max-width: 979px) {
 	.subheader .inner {
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+
+	.subheader .container {
+		width: auto;
 	}
 }
 
@@ -108,20 +114,22 @@ legend {
 /* Edition controls
    -------------------------------------------------------------------------- */
 
-#route-list .controls .edit {
-	display: block;
+#route-list .controls {
+	padding: 5px 0;
 }
 
-#route-list .controls .cancel {
-	display: none;
+#route-list .controls button {
+	float: right;
 }
 
-#route-list.edition .controls .edit {
-	display: none;
-}
-
+#route-list .controls .edit,
 #route-list.edition .controls .cancel {
 	display: block;
+}
+
+#route-list .controls .cancel,
+#route-list.edition .controls .edit {
+	display: none;
 }
 
 #route-list.edition .route a {
@@ -134,6 +142,7 @@ legend {
 /* List
    -------------------------------------------------------------------------- */
 
+/*
 #route-list .list {
 	border-radius: 4px;
 	border: 1px solid #e6e6e6;
@@ -160,31 +169,8 @@ legend {
 #route-list .route:nth-child(2n + 1) a:hover {
 	background-color: #f5f5f5;
 }
+*/
 
 /* Row
    -------------------------------------------------------------------------- */
 
-#route-list .route a {
-	position: relative;
-	min-height: 60px;
-}
-
-#route-list .route .owner,
-#route-list .route .days,
-#route-list .route .date,
-#route-list .route .path,
-#route-list .route .seats {
-	display: block;
-	position: absolute;
-}
-
-#route-list .route .days,
-#route-list .route .date {
-	top: 5px;
-	left: 100px;
-}
-
-#route-list .route .path {
-	top: 25px;
-	left: 100px;
-}
