@@ -36,6 +36,7 @@
             <li><a href="<c:url value='/recherche'/>">Rechercher</a></li>
             <li><a href="<c:url value='/proposer-trajet'/>">Proposer</a></li>
             <li><a href="<c:url value='/mes-trajets'/>">Voir mes trajets</a></li>
+            <li><a href="<c:url value='/mon-compte'/>">Voir mon compte</a></li>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
               <li><a href="<c:url value='/admin/statistiques'/>">Administration</a></li>
             </sec:authorize>
