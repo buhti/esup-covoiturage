@@ -35,6 +35,10 @@ public class ConfigurationExposingHandlerInterceptor implements HandlerIntercept
 
     public class ConfigurationHolder {
 
+        public boolean isDebugSkin() {
+            return environment.getProperty("app.skin.debug", Boolean.class);
+        }
+
         public String getGoogleApiKey() {
             return environment.getProperty("google.services.apiKey");
         }

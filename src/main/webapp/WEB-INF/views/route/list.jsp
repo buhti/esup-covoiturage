@@ -4,7 +4,7 @@
 <c:forEach items="${ routes }" var="route">
 <div class="route">
   <a href="<c:url value='/trajet/${ route.id }' />">
-    <span class="owner">${ route.owner }</span>
+    <span class="owner ${ route.driver ? 'driver' : 'passenger' }">${ route.owner }</span>
     <c:choose>
       <c:when test="${ route.recurrent }">
         <span class="days">
@@ -24,7 +24,7 @@
         </span>
       </c:otherwise>
     </c:choose>
-    <span class="route">
+    <span class="path">
       <span class="from">${ route.from.city }</span> ${ route.roundTrip ? '&harr;' : '&rarr;' } <span class="to">${ route.to.city }</span>
     </span>
     <span class="seats">

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<c:set var="minify" value="${ config.debugSkin ? '' : '.min' }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,17 +12,17 @@
 
   <title><tiles:insertAttribute name="title" defaultValue="Co-voiturage" /></title>
 
-  <link href="<c:url value='/resources/css/bootstrap.css'/>" rel="stylesheet" />
-  <link href="<c:url value='/resources/css/bootstrap-responsive.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/css/bootstrap${ minify }.css'/>" rel="stylesheet" />
+  <link href="<c:url value='/resources/css/bootstrap-responsive${ minify }.css'/>" rel="stylesheet" />
   <link href="<c:url value='/resources/css/main.css'/>" rel="stylesheet" />
 
   <!--[if lt IE 9]>
-    <script src="<c:url value='/resources/js/vendor/html5shiv-3.6.min.js'/>"></script>
+    <script src="<c:url value='/resources/js/html5shiv-3.6.min.js'/>"></script>
   <![endif]-->
 </head>
 <body>
 
-  <div class="navbar navbar-fixed-top">
+  <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -61,10 +62,8 @@
   </div>
 
   <script src="http://maps.googleapis.com/maps/api/js?key=${ config.googleApiKey }&amp;sensor=false&amp;language=fr"></script>
-  <script src="<c:url value='/resources/js/vendor/jquery-1.7.2.min.js'/>"></script>
-  <script src="<c:url value='/resources/js/vendor/bootstrap-modal.js'/>"></script>
-  <script src="<c:url value='/resources/js/vendor/bootstrap-tab.js'/>"></script>
-  <script src="<c:url value='/resources/js/vendor/bootstrap-typeahead.js'/>"></script>
+  <script src="<c:url value='/resources/js/jquery-1.7.2.min.js'/>"></script>
+  <script src="<c:url value='/resources/js/bootstrap${ minify }.js'/>"></script>
   <script src="<c:url value='/resources/js/main.js'/>"></script>
 
 </body>

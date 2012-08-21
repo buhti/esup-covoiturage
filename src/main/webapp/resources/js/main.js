@@ -204,9 +204,11 @@
     
     // Active le mode édition
     $controls.find('.edit').on('click', function() {
-      $controls.addClass('edition');
+      $routeList.addClass('edition');
       $list.find('a').on('click', function() {
-        window.location = $(this).attr('href') + '/supprimer';
+        if (confirm($routeList.data('warning'))) {
+          window.location = $(this).attr('href') + '/supprimer';
+        }
         return false;
       });
       return false;
@@ -214,7 +216,7 @@
 
     // Quitte le mode édition
     $controls.find('.cancel').on('click', function() {
-      $controls.removeClass('edition');
+      $routeList.removeClass('edition');
       $list.find('a').off('click');
       return false;
     });
