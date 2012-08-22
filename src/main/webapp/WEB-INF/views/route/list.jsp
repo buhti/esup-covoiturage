@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
 <c:forEach items="${ routes }" var="route">
 <%--   <a href="<c:url value='/trajet/${ route.id }' />"></a> --%>
-<div class="row route">
+<div class="row-fluid route">
   <div class="span2 owner ${ route.driver ? 'driver' : 'passenger' }">
     <div class="owner">${ route.owner }</div>
     <div>
@@ -41,9 +41,11 @@
     </div>
   </div>
   <div class="span2 info">
-    <div class="seats">
-      <span>${ route.seats }</span> pl. libre${ route.seats gt 1 ? 's' : '' }
-    </div>
+    <c:if test="${ route.driver }">
+      <div class="seats">
+        <span>${ route.seats }</span> pl. libre${ route.seats gt 1 ? 's' : '' }
+      </div>
+    </c:if>
   </div>
 </div>
 </c:forEach>

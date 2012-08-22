@@ -58,32 +58,30 @@
 
   // Récupère le formulaire afin de restreindre le scope des requêtes jQuery.
   var $routeForm = $('form#routeForm');
-
-  // Initialise la carte grâce à Google Maps.
-  var routeMap;
-  $routeForm.find('#mapCanvas').each(function() {
-    routeMap = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
-  });
-
-  (function(map) {
-    var markers = {};
+  if ($routeForm.length > 0) {
+    var markers = {}
+      , map;
 
     // Factory de callback de succès.
     var resultCallbackFactory = function(target) {
       return function(result) {
+        if (!map) {
+          map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        }
+        
         markers[target] = new google.maps.Marker({
           map: map,
           position: result.geometry.location,
           title: result.formatted_address
         });
-        
+
         var bounds = new google.maps.LatLngBounds()
           , marker;
-        
+
         for (marker in markers) {
           bounds.extend(markers[marker].position);
         }
-        
+
         map.fitBounds(bounds);
       };
     };
@@ -96,6 +94,8 @@
     };
 
     $routeForm.find('a[data-map]').on('click', function() {
+      $routeForm.find('#map-modal').modal('show');
+
       var target = $(this).data('map')
         , address = $(target).val();
 
@@ -110,7 +110,7 @@
 
       return false;
     });
-  })(routeMap);
+  }
 
   // Détermine si un trajet est récurrent ou non en fonction de l'onglet
   // sélectionné.
@@ -237,7 +237,7 @@
   if ($statsPage.length > 0) {
     var $chart = $statsPage.find('#visualization');
 
-    $statsPage.find('button').on('click', function() {
+    $statsPage.find('.period button').on('click', function() {
       var type = $chart.data('type')
         , period = $(this).data('period');
       
@@ -260,5 +260,13 @@
         areaChart.draw(dataTable, areaChartOptions);
       });
     });
+
+    $statsPage.find('.period button.active').trigger('click');
+
+    $statsPage.find('.export a').on('click', function() {
+      window.location = $(this).attr('href') + '/' + $chart.data('type');
+      return false;
+    });
   }
+
 })(jQuery, window);

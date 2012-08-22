@@ -92,30 +92,45 @@
    -------------------------------------------------------------------------- */
 
 legend {
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 }
 
 .form-horizontal .help-block {
 	margin-top: 4px;
 }
 
-@media (max-width: 480px) {
-	.form-horizontal .control-group > label::after {
-		content: " :";
-	}
-}
-
-/* ==========================================================================
-   My account
-   ========================================================================== */
-
-#customerForm label {
-	font-weight: bold;
-}
-
 /* ==========================================================================
    Routes
    ========================================================================== */
+
+/* View
+   -------------------------------------------------------------------------- */
+
+address {
+	font-size: 18px;
+}
+
+.co2 p {
+	background: url(../img/leaf.png) no-repeat;
+	padding-left: 35px;
+	height: 40px;
+	line-height: 40px;
+}
+
+.origin .address,
+.destination .address {
+	background-position: 0 center;
+	background-repeat: no-repeat;
+	padding-left: 35px;
+}
+
+.origin .address {
+	background-image: url(../img/marker-red.png);
+}
+
+.destination .address {
+	background-image: url(../img/marker-blue.png);
+}
 
 /* Edition controls
    -------------------------------------------------------------------------- */
@@ -202,4 +217,17 @@ legend {
 	display: block;
 	font-size: 24px;
 	font-weight: bold;
+}
+
+/* ==========================================================================
+   Statistics
+   ========================================================================== */
+
+#admin-stats .category {
+	display: inline-block;
+	margin: 0 15px 0 60px;
+	vertical-align: middle;
+	font-size: 12px;
+	font-weight: bold;
+	color: #555;
 }

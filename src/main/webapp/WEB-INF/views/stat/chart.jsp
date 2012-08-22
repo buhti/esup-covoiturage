@@ -1,45 +1,26 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="admin-stats">
-  <ul>
-    <li><button data-period="WEEK">Semaine</button></li>
-    <li><button data-period="MONTH">Mois</button></li>
-    <li><button data-period="YEAR">Année</button></li>
-  </ul>
 
-  <div id="visualization" style="width: 600px; height: 400px; position: relative"
+  <div id="visualization" style="height: 400px"
     data-type="${ type }" data-source="<c:url value='/admin/statistiques/json'/>"></div>
+
+  <div class="btn-toolbar">
+    <span class="category">Période</span>
+    <div class="btn-group period" data-toggle="buttons-radio">
+      <button class="btn active" data-period="WEEK">Semaine</button>
+      <button class="btn" data-period="MONTH">Mois</button>
+      <button class="btn" data-period="YEAR">Année</button>
+    </div>
+    <span class="category">Export</span>
+    <div class="btn-group export">
+      <a class="btn" href="<c:url value='/admin/statistiques/csv'/>">CSV</a>
+    </div>
+  </div>
 
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript">
       google.load('visualization', '1', {packages: ['corechart']});
   </script>
-  <script type="text/javascript">
-  /*
-    function drawVisualization() {
-      // Some raw data (not necessarily accurate)
-      var data = google.visualization.arrayToDataTable([
-        ['Month',   'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda'],
-        ['2004/05',    165,      938,         522,             998,           450],
-        ['2005/06',    135,      1120,        599,             1268,          288],
-        ['2006/07',    157,      1167,        587,             807,           397],
-        ['2007/08',    139,      1110,        615,             968,           215],
-        ['2008/09',    136,      691,         629,             1026,          366]
-      ]);
 
-      // Create and draw the visualization.
-      var ac = new google.visualization.AreaChart(document.getElementById('visualization'));
-      ac.draw(data, {
-        title : 'Monthly Coffee Production by Country',
-        isStacked: true,
-        width: 600,
-        height: 400,
-        vAxis: {title: "Cups"},
-        hAxis: {title: "Month"}
-      });
-    }
-
-    drawVisualization();
-  */
-  </script>
 </div>

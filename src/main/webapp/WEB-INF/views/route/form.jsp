@@ -6,67 +6,62 @@
 window.predefinedLocations = ${ data.predefinedLocationsJSON };
 </script>
 <form:form method="post" modelAttribute="routeForm" cssClass="form-horizontal">
-  <fieldset>
-    <div class="row">
-      <div class="span6">
-        <spring:bind path="fromAddress">
-          <c:set var="fromAddressError" value="${ status.errorMessage }"></c:set>
-        </spring:bind>
-        <div class="control-group ${ not empty fromAddressError ? 'error' : '' }">
-          <form:label path="fromAddress" cssClass="control-label">Lieu de départ</form:label>
-          <div class="controls">
-            <form:input path="fromAddress" data-provide="typeahead" data-items="4" data-source-ref="predefinedLocations" />
-            <form:errors path="fromAddress" cssClass="help-inline" />
-            <div class="hidden-phone">
-              <p><a href="#" data-map="#fromAddress">Cliquez ici pour vérifier sur la carte</a></p>
-            </div>
-          </div>
-        </div>
-        <spring:bind path="toAddress">
-          <c:set var="toAddressError" value="${ status.errorMessage }"></c:set>
-        </spring:bind>
-        <div class="control-group ${ not empty toAddressError ? 'error' : '' }">
-          <form:label path="toAddress" cssClass="control-label">Lieu d'arrivée</form:label>
-          <div class="controls">
-            <form:input path="toAddress" data-provide="typeahead" data-items="4" data-source-ref="predefinedLocations" />
-            <form:errors path="toAddress" cssClass="help-inline" />
-            <div class="hidden-phone">
-              <p><a href="#" data-map="#toAddress">Cliquez ici pour vérifier sur la carte</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="control-group">
-          <div class="controls">
-            <label>
-              <form:radiobutton path="roundTrip" value="false" />
-              Aller simple
-            </label>
-            <label>
-              <form:radiobutton path="roundTrip" value="true" />
-              Aller-retour
-            </label>
-          </div>
-        </div>
-        <div class="control-group">
-          <div class="controls">
-            <label>
-              <form:checkbox path="driver" />
-              Je suis le conducteur
-            </label>
-          </div>
-        </div>
-        <div class="control-group">
-          <form:label path="seats" cssClass="control-label">Places</form:label>
-          <div class="controls">
-            <form:select path="seats" items="${ data.availableSeats }" />
-          </div>
+  <div class="row">
+    <div class="span6">
+      <spring:bind path="fromAddress">
+        <c:set var="fromAddressError" value="${ status.errorMessage }"></c:set>
+      </spring:bind>
+      <div class="control-group ${ not empty fromAddressError ? 'error' : '' }">
+        <form:label path="fromAddress" cssClass="control-label">Lieu de départ</form:label>
+        <div class="controls">
+          <form:input path="fromAddress" data-provide="typeahead" data-items="4" data-source-ref="predefinedLocations" />
+          <form:errors path="fromAddress" cssClass="help-inline" />
+          <span class="help-block hidden-phone">
+            <a href="#" data-map="#fromAddress" data-color="red">Cliquez ici pour vérifier sur la carte</a>
+          </span>
         </div>
       </div>
-      <div class="span6 hidden-phone">
-        <div id="mapCanvas" style="width: 100%; height: 300px"></div>
+      <spring:bind path="toAddress">
+        <c:set var="toAddressError" value="${ status.errorMessage }"></c:set>
+      </spring:bind>
+      <div class="control-group ${ not empty toAddressError ? 'error' : '' }">
+        <form:label path="toAddress" cssClass="control-label">Lieu d'arrivée</form:label>
+        <div class="controls">
+          <form:input path="toAddress" data-provide="typeahead" data-items="4" data-source-ref="predefinedLocations" />
+          <form:errors path="toAddress" cssClass="help-inline" />
+          <span class="help-block hidden-phone">
+            <a href="#" data-map="#toAddress" data-color="blue">Cliquez ici pour vérifier sur la carte</a>
+          </span>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <label class="radio">
+            <form:radiobutton path="roundTrip" value="false" />
+            Aller simple
+          </label>
+          <label class="radio">
+            <form:radiobutton path="roundTrip" value="true" />
+            Aller-retour
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox">
+            <form:checkbox path="driver" />
+            Je suis le conducteur
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
+        <form:label path="seats" cssClass="control-label">Places</form:label>
+        <div class="controls">
+          <form:select path="seats" items="${ data.availableSeats }" />
+        </div>
       </div>
     </div>
-  </fieldset>
+  </div>
   <ul class="nav nav-tabs">
     <li class="${ routeForm.recurrent ? '' : 'active' }">
       <a data-toggle="tab" data-target="#tab-occasional">Ponctuel</a>
@@ -146,7 +141,12 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
         <div class="control-group ${ not empty weekDaysError ? 'error' : '' }">
           <form:label path="recurrentForm.weekDays" cssClass="control-label">Jours</form:label>
           <div class="controls">
-            <form:checkboxes path="recurrentForm.weekDays" items="${ data.weekDays }" />
+            <c:forEach items="${ data.weekDays }" var="entry">
+              <label class="checkbox">
+                <form:checkbox path="recurrentForm.weekDays" value="${ entry.key }"/>
+                ${ entry.value }
+              </label>
+            </c:forEach>
             <form:errors path="recurrentForm.weekDays" cssClass="help-inline" />
           </div>
         </div>
@@ -157,4 +157,15 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
     </div>
   </div>
   <form:hidden path="recurrent"/>
+  <div class="hidden-phone">
+    <div id="map-modal" class="modal hide">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Aperçu</h3>
+      </div>
+      <div class="modal-body">
+        <div id="map-canvas" style="width: 530px; height: 300px"></div>
+      </div>
+    </div>
+  </div>
 </form:form>
