@@ -4,6 +4,7 @@
 <tiles-definitions>
 
 	<definition name="route/create" extends="page">
+		<put-attribute name="tab" expression="2" />
 		<put-attribute name="title" expression="Proposer un trajet" />
 		<put-attribute name="content" value="/WEB-INF/views/route/form.jsp" />
 	</definition>
@@ -19,6 +20,7 @@
 	</definition>
 
 	<definition name="route/list" extends="page">
+		<put-attribute name="tab" expression="3" />
 		<put-attribute name="title" expression="Mes trajets" />
 		<put-attribute name="content">
 			<definition template="/WEB-INF/views/route/mylist.jsp">

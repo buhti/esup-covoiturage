@@ -3,6 +3,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <c:set var="minify" value="${ config.debugSkin ? '' : '.min' }" />
+<tiles:useAttribute id="tab" name="tab" ignore="true" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,12 +34,22 @@
         <a class="brand" href="<c:url value='/'/>">Co-voiturage</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li><a href="<c:url value='/recherche'/>">Rechercher</a></li>
-            <li><a href="<c:url value='/proposer-trajet'/>">Proposer</a></li>
-            <li><a href="<c:url value='/mes-trajets'/>">Voir mes trajets</a></li>
-            <li><a href="<c:url value='/mon-compte'/>">Voir mon compte</a></li>
+            <li class="${ tab == 1 ? 'active' : '' }">
+              <a href="<c:url value='/recherche'/>">Rechercher</a>
+            </li>
+            <li class="${ tab == 2 ? 'active' : '' }">
+              <a href="<c:url value='/proposer-trajet'/>">Proposer</a>
+            </li>
+            <li class="${ tab == 3 ? 'active' : '' }">
+              <a href="<c:url value='/mes-trajets'/>">Voir mes trajets</a>
+            </li>
+            <li class="${ tab == 4 ? 'active' : '' }">
+              <a href="<c:url value='/mon-compte'/>">Voir mon compte</a>
+            </li>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-              <li><a href="<c:url value='/admin/statistiques'/>">Administration</a></li>
+              <li class="${ tab == 5 ? 'active' : '' }">
+                <a href="<c:url value='/admin/statistiques'/>">Administration</a>
+              </li>
             </sec:authorize>
           </ul>
         </div>

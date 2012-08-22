@@ -4,6 +4,7 @@
 <tiles-definitions>
 
 	<definition name="customer/edit-profile" extends="page">
+		<put-attribute name="tab" expression="4" />
 		<put-attribute name="title" expression="Mes informations" />
 		<put-attribute name="content" value="/WEB-INF/views/customer/form.jsp" />
 	</definition>

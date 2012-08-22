@@ -4,11 +4,13 @@
 <tiles-definitions>
 
 	<definition name="search/form" extends="page">
+		<put-attribute name="tab" expression="1" />
 		<put-attribute name="title" expression="Rechercher un trajet" />
 		<put-attribute name="content" value="/WEB-INF/views/search/form.jsp" />
 	</definition>
 
 	<definition name="search/results" extends="page">
+		<put-attribute name="tab" expression="1" />
 		<put-attribute name="title" expression="Résultats de recherche" />
 		<put-attribute name="content" value="/WEB-INF/views/search/results.jsp" />
 	</definition>
