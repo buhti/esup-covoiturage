@@ -47,8 +47,14 @@
               <a href="<c:url value='/mon-compte'/>">Voir mon compte</a>
             </li>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-              <li class="${ tab == 5 ? 'active' : '' }">
-                <a href="<c:url value='/admin/statistiques'/>">Administration</a>
+              <li class="dropdown${ tab == 5 ? ' active' : '' }">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistiques <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="<c:url value='/admin/statistiques/connexions' />">Connexions</a></li>
+                  <li><a href="<c:url value='/admin/statistiques/inscriptions' />">Inscriptions</a></li>
+                  <li><a href="<c:url value='/admin/statistiques/trajets' />">Trajets</a></li>
+                  <li><a href="<c:url value='/admin/statistiques/recherches' />">Recherches</a></li>
+                </ul>
               </li>
             </sec:authorize>
           </ul>

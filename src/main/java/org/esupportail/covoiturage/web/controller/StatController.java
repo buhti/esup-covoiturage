@@ -21,11 +21,6 @@ public class StatController {
 
     @Resource
     private StatRepository statRepository;
-    
-    @RequestMapping("")
-    public String viewStats() {
-        return "stat/list";
-    }
 
     @RequestMapping("connexions")
     public String viewLoginStats(Model model) {

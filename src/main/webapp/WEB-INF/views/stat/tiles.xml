@@ -3,12 +3,6 @@
 
 <tiles-definitions>
 
-	<definition name="stat/list" extends="page">
-		<put-attribute name="tab" expression="5" />
-		<put-attribute name="title" expression="Statistiques" />
-		<put-attribute name="content" value="/WEB-INF/views/stat/list.jsp" />
-	</definition>
-
 	<definition name="stat/chart" extends="page">
 		<put-attribute name="tab" expression="5" />
 		<put-attribute name="title" expression="Statistiques" />
