@@ -143,20 +143,18 @@ address {
 	float: right;
 }
 
+#route-list .view,
+#route-list.edition .delete,
 #route-list .controls .edit,
 #route-list.edition .controls .cancel {
-	display: block;
+	display: inline-block;
 }
 
+#route-list .delete,
+#route-list.edition .view,
 #route-list .controls .cancel,
 #route-list.edition .controls .edit {
 	display: none;
-}
-
-#route-list.edition .route {
-	background-image: url(../img/minus-circle-frame.png);
-	background-position: 40px center;
-	background-repeat: no-repeat;
 }
 
 /* List

@@ -1,17 +1,10 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
+<tiles:useAttribute id="controls" name="controls" ignore="true" />
 <c:forEach items="${ routes }" var="route">
-<%--   <a href="<c:url value='/trajet/${ route.id }' />"></a> --%>
 <div class="row-fluid route">
-  <div class="span2 owner ${ route.driver ? 'driver' : 'passenger' }">
-    <div class="owner">${ route.owner }</div>
-    <div>
-      <a class="btn btn-small btn-primary" href="mailto:${ route.owner.email }">
-        <i class="icon-white icon-envelope"></i> Email
-      </a>
-    </div>
-  </div>
   <div class="span8 description">
     <div class="date">
       <c:choose>
@@ -46,6 +39,19 @@
         <span>${ route.seats }</span> pl. libre${ route.seats gt 1 ? 's' : '' }
       </div>
     </c:if>
+  </div>
+  <div class="span2 owner ${ route.driver ? 'driver' : 'passenger' }">
+    <div class="owner">${ route.owner }</div>
+    <div>
+      <a class="view btn btn-small btn-primary" href="<c:url value='/trajet/${ route.id }' />">
+        <i class="icon-white icon-eye-open"></i> Voir
+      </a>
+      <c:if test="${ controls }">
+        <a class="delete btn btn-small btn-danger" href="<c:url value='/trajet/${ route.id }/supprimer' />">
+          <i class="icon-white icon-trash"></i> Supprimer
+        </a>
+      </c:if>
+    </div>
   </div>
 </div>
 </c:forEach>

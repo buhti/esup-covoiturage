@@ -24,6 +24,7 @@
 		<put-attribute name="title" expression="Mes trajets" />
 		<put-attribute name="content">
 			<definition template="/WEB-INF/views/route/mylist.jsp">
+				<put-attribute name="controls" value="true" cascade="true" />
 				<put-attribute name="list" value="/WEB-INF/views/route/list.jsp" />
 			</definition>
 		</put-attribute>

@@ -206,10 +206,7 @@
     $controls.find('.edit').on('click', function() {
       $routeList.addClass('edition');
       $list.find('a').on('click', function() {
-        if (confirm($routeList.data('warning'))) {
-          window.location = $(this).attr('href') + '/supprimer';
-        }
-        return false;
+        return confirm($routeList.data('warning'));
       });
       return false;
     });
