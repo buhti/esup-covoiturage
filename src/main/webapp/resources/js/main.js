@@ -235,12 +235,13 @@
   // Récupère la page afin de restreindre le scope des requêtes jQuery.
   var $statsPage = $('#admin-stats');
   if ($statsPage.length > 0) {
-    var $chart = $statsPage.find('#visualization');
+    var $chart = $statsPage.find('#visualization')
+      , type = $chart.data('type')
+      , period;
 
     $statsPage.find('.period button').on('click', function() {
-      var type = $chart.data('type')
-        , period = $(this).data('period');
-      
+      period = $(this).data('period');
+
       $.getJSON($chart.data('source') + '/' + type + '/' + period, function(json) {
         var dataTable = new google.visualization.DataTable();
         dataTable.addColumn('date', '');
@@ -264,7 +265,7 @@
     $statsPage.find('.period button.active').trigger('click');
 
     $statsPage.find('.export a').on('click', function() {
-      window.location = $(this).attr('href') + '/' + $chart.data('type');
+      window.location = $(this).attr('href') + '/' + type + '/' + period;
       return false;
     });
   }

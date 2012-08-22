@@ -46,12 +46,30 @@ public class StatController {
         return "stat/chart";
     }
 
-    @RequestMapping("json/{type}/{period}")
+    @RequestMapping(value = "json/{type}/{period}", produces = "application/js")
     public @ResponseBody List<Stat> requestStatistics(@PathVariable String type, @PathVariable String period) {
         StatType statType = StatType.valueOf(type);
         StatPeriod statPeriod = StatPeriod.valueOf(period);
 
         return statRepository.getStatistics(statType, statPeriod);
+    }
+
+    @RequestMapping(value = "csv/{type}/{period}", produces = "text/csv")
+    public @ResponseBody String csvStatistics(@PathVariable String type, @PathVariable String period) {
+        List<Stat> stats = requestStatistics(type, period);
+        StringBuffer sb = new StringBuffer();
+
+        sb.append("type;value;date\r\n");
+        for (Stat stat : stats) {
+            sb.append(stat.getType().name());
+            sb.append(';');
+            sb.append(stat.getValue());
+            sb.append(';');
+            sb.append(stat.getDate().getMillis());
+            sb.append("\r\n");
+        }
+
+        return sb.toString();
     }
 
 }
