@@ -63,7 +63,7 @@
   </div>
 
   <script src="http://maps.googleapis.com/maps/api/js?key=${ config.googleApiKey }&amp;sensor=false&amp;language=fr"></script>
-  <script src="<c:url value='/resources/js/jquery-1.7.2.min.js'/>"></script>
+  <script src="<c:url value='/resources/js/jquery-1.8.0.min.js'/>"></script>
   <script src="<c:url value='/resources/js/bootstrap${ minify }.js'/>"></script>
   <script src="<c:url value='/resources/js/main.js'/>"></script>
 
