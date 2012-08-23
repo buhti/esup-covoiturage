@@ -59,53 +59,48 @@
   // Récupère le formulaire afin de restreindre le scope des requêtes jQuery.
   var $routeForm = $('form#routeForm');
   if ($routeForm.length > 0) {
-    var markers = {}
-      , map;
+    var marker, map;
 
-    // Factory de callback de succès.
-    var resultCallbackFactory = function(target) {
-      return function(result) {
+    $routeForm.find('a[data-map]').on('click', function() {
+      // Récupère l'adresse saisie
+      var address = $($(this).data('map')).val();
+
+      // Retire le précédent marqueur
+      if (marker) {
+        marker.setMap(null);
+        marker = null;
+      }
+
+      // Callback de succès
+      var resultCallback = function(result) {
+        // Crée la carte si ce n'est pas déjà fait
         if (!map) {
           map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         }
-        
-        markers[target] = new google.maps.Marker({
+
+        // Ajoute le marqueur
+        marker = new google.maps.Marker({
           map: map,
           position: result.geometry.location,
           title: result.formatted_address
         });
+        
+        var bounds = new google.maps.LatLngBounds();
 
-        var bounds = new google.maps.LatLngBounds()
-          , marker;
-
-        for (marker in markers) {
-          bounds.extend(markers[marker].position);
-        }
-
+        bounds.extend(marker.position);
         map.fitBounds(bounds);
+
+        // Affiche la popup contenant la carte
+        $routeForm.find('#map-modal').modal('show');
       };
-    };
 
-    // Factory de callback d'erreur.
-    var errorCallbackFactory = function(target) {
-      return function(status) {
-        console.log(target, "ERROR:", status);
+      // Callback d'erreur
+      var errorCallback = function(status) {
+        console.log("ERROR:", status);
       };
-    };
-
-    $routeForm.find('a[data-map]').on('click', function() {
-      $routeForm.find('#map-modal').modal('show');
-
-      var target = $(this).data('map')
-        , address = $(target).val();
-
-      if (markers[target]) {
-        markers[target].setMap(null);
-        delete markers[target];
-      }
 
       if (address.length > 0) {
-        geocode.apply(this, [address, resultCallbackFactory(target), errorCallbackFactory(target)]);
+        geocode.apply(this, [address, resultCallback, errorCallback]);
       }
 
       return false;
@@ -201,12 +196,17 @@
   if ($routeList.length > 0) {
     var $controls = $routeList.find('.controls')
       , $list = $routeList.find('.list');
-    
+
     // Active le mode édition
     $controls.find('.edit').on('click', function() {
       $routeList.addClass('edition');
-      $list.find('a').on('click', function() {
-        return confirm($routeList.data('warning'));
+      $list.find('a').each(function() {
+        var $this = $(this);
+        $this.attr('href', $this.attr('href') + '/supprimer');
+        $this.on('click', function() {
+          return false;
+          return confirm($routeList.data('warning'));
+        });
       });
       return false;
     });
@@ -214,7 +214,11 @@
     // Quitte le mode édition
     $controls.find('.cancel').on('click', function() {
       $routeList.removeClass('edition');
-      $list.find('a').off('click');
+      $list.find('a').each(function() {
+        var $this = $(this), href = $this.attr('href');
+        $this.attr('href', href.substring(0, href.length - 10));
+        $this.off('click');
+      });
       return false;
     });
   }
