@@ -46,7 +46,7 @@ public class StatController {
         return "stat/chart";
     }
 
-    @RequestMapping(value = "json/{type}/{period}", produces = "application/js")
+    @RequestMapping(value = "json/{type}/{period}", produces = "application/json")
     public @ResponseBody List<Stat> requestStatistics(@PathVariable String type, @PathVariable String period) {
         StatType statType = StatType.valueOf(type);
         StatPeriod statPeriod = StatPeriod.valueOf(period);
