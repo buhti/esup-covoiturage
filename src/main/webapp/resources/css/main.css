@@ -43,6 +43,11 @@
 	.navbar-inverse .navbar-inner {
 		padding: 5px;
 	}
+
+	.nav-collapse .dropdown-menu:before,
+	.nav-collapse .dropdown-menu:after {
+		border: 0 none !important;
+	}
 }
 
 /* Sub-header
@@ -97,6 +102,12 @@ legend {
 
 .form-horizontal .help-block {
 	margin-top: 4px;
+}
+
+@media (max-width: 767px) {
+	.controls-row [class*="span"] + [class*="span"] {
+		margin: 5px 0 0;
+	}
 }
 
 /* ==========================================================================
