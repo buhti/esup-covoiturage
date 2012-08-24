@@ -17,7 +17,7 @@ public class CustomerUserDetails extends Customer implements UserDetails {
     private final List<SimpleGrantedAuthority> authorities;
 
     public CustomerUserDetails(Customer customer, boolean admin) {
-        super(customer.getId(), customer.getLogin(), null, null, null);
+        super(customer.getId(), customer.getLogin(), null, null, null, false, false, false);
 
         authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

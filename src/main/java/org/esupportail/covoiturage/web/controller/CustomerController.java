@@ -35,11 +35,8 @@ public class CustomerController {
             return "customer/edit-profile";
         }
 
-        Customer currentUser = new Customer(0, authentication.getName(), 
-                form.getEmail(), form.getFirstname(), form.getLastname());
-
         try {
-            customerRepository.updateCustomer(currentUser);
+            customerRepository.updateCustomer(form.toCustomer(0, authentication.getName()));
         } catch (DuplicateKeyException e) {
             formBinding.rejectValue("email", "duplicate", "duplicate");
             return "customer/edit-profile";

@@ -1,5 +1,7 @@
 package org.esupportail.covoiturage.web.form;
 
+import javax.validation.constraints.NotNull;
+
 import org.esupportail.covoiturage.domain.Customer;
 
 import org.hibernate.validator.constraints.Email;
@@ -15,15 +17,29 @@ public class CustomerForm {
 
     @Email
     private String email;
-    
+
+    @NotNull
+    private boolean chatting;
+
+    @NotNull
+    private boolean smoking;
+
+    @NotNull
+    private boolean listeningMusic;
+
     public CustomerForm() {
-        // Default Spring constructor
+        chatting = false;
+        smoking = false;
+        listeningMusic = false;
     }
 
     public CustomerForm(Customer customer) {
         firstname = customer.getFirstname();
         lastname = customer.getLastname();
         email = customer.getEmail();
+        chatting = customer.isChatting();
+        smoking = customer.isSmoking();
+        listeningMusic = customer.isListeningMusic();
     }
 
     public String getFirstname() {
@@ -48,6 +64,34 @@ public class CustomerForm {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isChatting() {
+        return chatting;
+    }
+
+    public void setChatting(boolean chatting) {
+        this.chatting = chatting;
+    }
+
+    public boolean isSmoking() {
+        return smoking;
+    }
+
+    public void setSmoking(boolean smoking) {
+        this.smoking = smoking;
+    }
+
+    public boolean isListeningMusic() {
+        return listeningMusic;
+    }
+
+    public void setListeningMusic(boolean listeningMusic) {
+        this.listeningMusic = listeningMusic;
+    }
+
+    public Customer toCustomer(long id, String login) {
+        return new Customer(id, login, email, firstname, lastname, chatting, smoking, listeningMusic);
     }
 
 }

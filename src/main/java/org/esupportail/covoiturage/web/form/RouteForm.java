@@ -25,6 +25,9 @@ public class RouteForm {
     @NotNull
     private boolean driver;
 
+    @NotNull
+    private boolean ladiesOnly;
+
     @Min(1)
     private int seats;
 
@@ -96,6 +99,14 @@ public class RouteForm {
         this.driver = driver;
     }
 
+    public boolean isLadiesOnly() {
+        return ladiesOnly;
+    }
+
+    public void setLadiesOnly(boolean ladiesOnly) {
+        this.ladiesOnly = ladiesOnly;
+    }
+
     public int getSeats() {
         return seats;
     }
@@ -122,13 +133,14 @@ public class RouteForm {
 
     public Route toRoute(Customer owner, Location from, Location to, int distance) {
         if (recurrent) {
-            return new RouteRecurrent(0, owner, driver, seats, from, to, distance, roundTrip,
+            return new RouteRecurrent(0, owner, driver, ladiesOnly, seats, from, to, distance, roundTrip,
                     recurrentForm .getStartDate().toDateTime(), recurrentForm.getEndDate().toDateTime(),
                     recurrentForm.getWayOutTime().toLocalTime(), roundTrip ? recurrentForm.getWayBackTime().toLocalTime() : null,
                     recurrentForm.getWeekDays());
         } else {
-            return new RouteOccasional(0, owner, driver, seats, from, to, distance, roundTrip, 
+            return new RouteOccasional(0, owner, driver, ladiesOnly, seats, from, to, distance, roundTrip, 
                     occasionalForm.getWayOut().toDateTime(), roundTrip ? occasionalForm.getWayBack().toDateTime() : null);
         }
     }
+
 }

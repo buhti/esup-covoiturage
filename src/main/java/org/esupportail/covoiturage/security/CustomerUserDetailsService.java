@@ -102,7 +102,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
             String firstname = attributes.get(firstnameAttribute).get().toString();
             String lastname = attributes.get(lastnameAttribute).get().toString();
 
-            return new Customer(0, uid, mail, firstname, lastname);
+            return new Customer(0, uid, mail, firstname, lastname, false, false, false);
         }
 
     }

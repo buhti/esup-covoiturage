@@ -40,7 +40,7 @@ public class JdbcRouteRepository implements RouteRepository {
         if (route.isRecurrent()) {
             RouteRecurrent r = (RouteRecurrent) route;
             jdbcTemplate.update(INSERT_ROUTE_RECURRENT, 
-                    r.getOwner().getId(), r.isDriver(), r.getSeats(), r.getDistance(),
+                    r.getOwner().getId(), r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
                     r.getStartDate().toDate(), r.getEndDate().toDate(), r.isRoundTrip(),
@@ -49,7 +49,7 @@ public class JdbcRouteRepository implements RouteRepository {
         } else {
             RouteOccasional r = (RouteOccasional) route;
             jdbcTemplate.update(INSERT_ROUTE_OCCASIONAL,
-                    r.getOwner().getId(), r.isDriver(), r.getSeats(), r.getDistance(),
+                    r.getOwner().getId(), r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
                     r.isRoundTrip(), r.getWayOutDate().toDate(), 
@@ -65,7 +65,7 @@ public class JdbcRouteRepository implements RouteRepository {
             RouteRecurrent r = (RouteRecurrent) route;
             String wayBackTime = r.isRoundTrip() ? r.getWayBackTime().toString("HH:mm") : null;
             jdbcTemplate.update(UPDATE_ROUTE, 
-                    r.isDriver(), r.getSeats(), r.getDistance(),
+                    r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
                     1, r.isRoundTrip(), r.getStartDate().toDate(), r.getEndDate().toDate(),
@@ -75,7 +75,7 @@ public class JdbcRouteRepository implements RouteRepository {
             RouteOccasional r = (RouteOccasional) route;
             Date wayBackDate = r.isRoundTrip() ? r.getWayBackDate().toDate() : null;
             jdbcTemplate.update(UPDATE_ROUTE, 
-                    r.isDriver(), r.getSeats(), r.getDistance(),
+                    r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
                     0, r.isRoundTrip(), null, null, null, null, null, 
@@ -158,13 +158,13 @@ public class JdbcRouteRepository implements RouteRepository {
         return sb.toString();
     }
 
-    private static final String INSERT_ROUTE_RECURRENT = "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, start_date, end_date, round_trip, wayout_time, wayback_time, week_days) "
-            + "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 1, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_ROUTE_RECURRENT = "INSERT INTO Route (owner_id, driver, ladies_only, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, start_date, end_date, round_trip, wayout_time, wayback_time, week_days) "
+            + "VALUES (?, ?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 1, ?, ?, ?, ?, ?, ?)";
 
-    private static final String INSERT_ROUTE_OCCASIONAL = "INSERT INTO Route (owner_id, driver, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, round_trip, wayout_date, wayback_date) "
-            + "VALUES (?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 0, ?, ?, ?)";
+    private static final String INSERT_ROUTE_OCCASIONAL = "INSERT INTO Route (owner_id, driver, ladies_only, seats, distance, from_point, from_city, from_address, to_point, to_city, to_address, recurrent, round_trip, wayout_date, wayback_date) "
+            + "VALUES (?, ?, ?, ?, ?, GeomFromText(?), ?, ?, GeomFromText(?), ?, ?, 0, ?, ?, ?)";
 
-    private static final String UPDATE_ROUTE = "UPDATE Route SET driver = ?, seats = ?, distance = ?, from_point = GeomFromText(?), from_city = ?, from_address = ?, to_point = GeomFromText(?), to_city = ?, to_address = ?, recurrent = ?, round_trip = ?, "
+    private static final String UPDATE_ROUTE = "UPDATE Route SET driver = ?, ladies_only = ?, seats = ?, distance = ?, from_point = GeomFromText(?), from_city = ?, from_address = ?, to_point = GeomFromText(?), to_city = ?, to_address = ?, recurrent = ?, round_trip = ?, "
             + "start_date = ?, end_date = ?, wayout_time = ?, wayback_time = ?, week_days = ?, "
             + "wayout_date = ?, wayback_date = ? "
             + "WHERE route_id = ? AND owner_id = ?";

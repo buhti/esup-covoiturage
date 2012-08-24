@@ -10,7 +10,7 @@
     <form:label path="email" cssClass="control-label">Email</form:label>
     <div class="controls">
       <form:input path="email" cssClass="input-xxlarge"/>
-      <form:errors path="email" cssClass="help-inline" />
+      <form:errors path="email" cssClass="help-inline"/>
       <span class="help-block">Cette adresse est visible afin que les autres utilisateurs puissent vous contacter.</span>
     </div>
   </div>
@@ -21,7 +21,7 @@
     <form:label path="lastname" cssClass="control-label">Nom</form:label>
     <div class="controls">
       <form:input path="lastname" cssClass="input-xxlarge"/>
-      <form:errors path="lastname" cssClass="help-inline" />
+      <form:errors path="lastname" cssClass="help-inline"/>
       <span class="help-block">Afin de conserver votre anonymat, seule la première lettre du nom est affichée.</span>
     </div>
   </div>
@@ -32,7 +32,23 @@
     <form:label path="firstname" cssClass="control-label">Prénom</form:label>
     <div class="controls">
       <form:input path="firstname" cssClass="input-xxlarge"/>
-      <form:errors path="firstname" cssClass="help-inline" />
+      <form:errors path="firstname" cssClass="help-inline"/>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <form:checkbox path="chatting" />
+        J'aime discuter
+      </label>
+      <label class="checkbox">
+        <form:checkbox path="listeningMusic" />
+        J'écoute la musique
+      </label>
+      <label class="checkbox">
+        <form:checkbox path="smoking" />
+        Je suis fumeur
+      </label>
     </div>
   </div>
   <div class="form-actions">

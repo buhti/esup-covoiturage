@@ -49,6 +49,10 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
       <div class="control-group">
         <div class="controls">
           <label class="checkbox">
+            <form:checkbox path="ladiesOnly" />
+            Ce trajet est réservé aux femmes
+          </label>
+          <label class="checkbox">
             <form:checkbox path="driver" />
             Je suis le conducteur
           </label>

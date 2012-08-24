@@ -22,16 +22,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Transactional
     @Override
     public Customer createCustomer(Customer customer) {
-        jdbcTemplate.update(INSERT_CUSTOMER, customer.getLogin(), customer.getEmail(), customer.getFirstname(),
-                customer.getLastname());
+        jdbcTemplate.update(INSERT_CUSTOMER, customer.getLogin(), customer.getEmail(), 
+                customer.getFirstname(), customer.getLastname(), customer.isChatting(),
+                customer.isSmoking(), customer.isListeningMusic());
 
         return findOneByLogin(customer.getLogin());
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-        jdbcTemplate.update(UPDATE_CUSTOMER, customer.getEmail(), customer.getFirstname(), customer.getLastname(),
-                customer.getLogin());
+        jdbcTemplate.update(UPDATE_CUSTOMER, customer.getEmail(), customer.getFirstname(), 
+                customer.getLastname(), customer.isChatting(), customer.isSmoking(), 
+                customer.isListeningMusic(), customer.getLogin());
     }
 
     @Override
@@ -40,8 +42,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return results.isEmpty() ? null : results.get(0);
     }
 
-    private static final String INSERT_CUSTOMER = "INSERT INTO Customer (login, email, firstname, lastname) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE_CUSTOMER = "UPDATE Customer SET email = ?, firstname = ?, lastname = ? WHERE login = ?";
+    private static final String INSERT_CUSTOMER = "INSERT INTO Customer (login, email, firstname, lastname, chatting, smoking, listening_music) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_CUSTOMER = "UPDATE Customer SET email = ?, firstname = ?, lastname = ?, chatting = ?, smoking = ?, listening_music = ? WHERE login = ?";
     private static final String SELECT_CUSTOMER = "SELECT * FROM Customer WHERE login = ?";
 
 }

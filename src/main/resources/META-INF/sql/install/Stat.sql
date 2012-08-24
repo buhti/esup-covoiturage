@@ -1,5 +1,5 @@
 CREATE TABLE Stat (
-	stat_type TINYINT(2) NOT NULL,
+	stat_type SMALLINT(2) NOT NULL,
 	stat_date DATE NOT NULL,
 	stat_value INT NOT NULL,
 
@@ -10,7 +10,7 @@ CREATE TABLE Stat (
 ) ENGINE = MYISAM;
 
 CREATE TABLE StatCounter (
-	count_key TINYINT(2) NOT NULL,
+	count_key SMALLINT(2) NOT NULL,
 	count_value INT NOT NULL,
 
 	/* Indexes */
