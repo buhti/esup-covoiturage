@@ -5,23 +5,25 @@
 
 	<definition name="route/create" extends="page">
 		<put-attribute name="tab" expression="2" />
-		<put-attribute name="title" expression="Proposer un trajet" />
+		<put-attribute name="title" cascade="true" expression="Proposer un trajet" />
 		<put-attribute name="content" value="/WEB-INF/views/route/form.jsp" />
 	</definition>
 
 	<definition name="route/edit" extends="page">
-		<put-attribute name="title" expression="Modifier le trajet" />
+		<put-attribute name="title" cascade="true" expression="Modifier le trajet" />
 		<put-attribute name="content" value="/WEB-INF/views/route/form.jsp" />
 	</definition>
 
 	<definition name="route/view" extends="page">
-		<put-attribute name="title" expression="Trajet ${route.from.city} - ${route.to.city}" />
+		<put-attribute name="title" cascade="true" expression="Trajet ${route.from.city} - ${route.to.city}" />
+		<put-attribute name="subheader" value="/WEB-INF/views/route/view-subheader.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/route/view.jsp" />
 	</definition>
 
 	<definition name="route/list" extends="page">
 		<put-attribute name="tab" expression="3" />
-		<put-attribute name="title" expression="Mes trajets" />
+		<put-attribute name="title" cascade="true" expression="Mes trajets" />
+		<put-attribute name="subheader" value="/WEB-INF/views/route/mylist-subheader.jsp" />
 		<put-attribute name="content">
 			<definition template="/WEB-INF/views/route/mylist.jsp">
 				<put-attribute name="controls" value="true" cascade="true" />

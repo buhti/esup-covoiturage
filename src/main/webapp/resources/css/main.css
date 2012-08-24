@@ -66,6 +66,15 @@
 	font-weight: normal;
 	color: #eee;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.subheader .controls {
+	float: right;
+	margin: 10px 0 10px 10px;
+	line-height: 40px;
 }
 
 @media (max-width: 767px) {
@@ -146,25 +155,27 @@ address {
 /* Edition controls
    -------------------------------------------------------------------------- */
 
-#route-list .controls {
-	padding: 5px 0;
-}
-
-#route-list .controls button {
-	float: right;
-}
-
-#route-list .view,
-#route-list.edition .delete,
-#route-list .controls .edit,
-#route-list.edition .controls .cancel {
+.controls .edit,
+.controls.edition .cancel {
 	display: inline-block;
 }
 
-#route-list .delete,
-#route-list.edition .view,
-#route-list .controls .cancel,
-#route-list.edition .controls .edit {
+.controls.edition .edit,
+.controls .cancel {
+	display: none;
+}
+
+#route-list .edition .route {
+	padding: 12px 8px 12px 52px;
+}
+
+#route-list .route .btn.view,
+#route-list .edition .route .btn.delete {
+	display: inline-block;
+}
+
+#route-list .route .btn.delete,
+#route-list .edition .route .btn.view {
 	display: none;
 }
 
@@ -180,19 +191,46 @@ address {
    -------------------------------------------------------------------------- */
 
 #route-list .route {
+	position: relative;
+	display: block;
+	text-decoration: none;
+	color: #333;
 	border-top: 1px solid #e6e6e6;
 	border-bottom: 1px solid #e6e6e6;
 	margin-top: -1px;
-	padding: 12px 0;
-}
-
-#route-list .route > div > div {
+	padding: 12px 52px 12px 8px;
 	line-height: 30px;
 }
 
-#route-list .route .owner,
+#route-list .route:hover,
+#route-list .route:active {
+	background: #f7f7f7;
+}
+
+#route-list .route .btn.view,
+#route-list .route .btn.delete {
+	position: absolute;
+	margin-top: -13px;
+	top: 50%;
+}
+
+#route-list .route .btn.view {
+	right: 8px;
+}
+
+#route-list .route .btn.delete {
+	left: 8px;
+}
+
+#route-list .route .route-container {
+	display: block;
+}
+
+#route-list .route .description,
+#route-list .route .description .date,
+#route-list .route .description .path,
 #route-list .route .info {
-	text-align: center;
+	display: block;
 }
 
 #route-list .route .date {
@@ -222,10 +260,49 @@ address {
 	padding: 0 2px;
 }
 
-#route-list .route .seats span {
+#route-list .route .info .seats,
+#route-list .route .info .owner {
 	display: block;
-	font-size: 24px;
-	font-weight: bold;
+	width: 50%;
+}
+
+@media (max-width: 767px) {
+	#route-list .route .info .seats {
+		float: right;
+		text-align: right;
+	}
+
+	#route-list .route .info .owner {
+		float: left;
+		text-align: left;
+	}
+}
+
+@media (min-width: 768px) {
+	#route-list .route .description,
+	#route-list .route .info {
+		float: left;
+	}
+
+	#route-list .route .description {
+		width: 65%
+	}
+
+	#route-list .route .info {
+		width: 35%
+	}
+
+	#route-list .route .info .seats,
+	#route-list .route .info .owner {
+		float: left;
+		text-align: center;
+	}
+
+	#route-list .route .info .seats span {
+		display: block;
+		font-size: 24px;
+		font-weight: bold;
+	}
 }
 
 /* ==========================================================================

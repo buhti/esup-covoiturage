@@ -139,31 +139,41 @@
 
   // Récupère la page afin de restreindre le scope des requêtes jQuery.
   var $routePage = $('#view-route');
-
-  // Aperçus du lieu de départ et d'arrivée du trajet
-  $routePage.find('.preview').each(function() {
-    var $this = $(this)
+  if ($routePage.length > 0) {
+    // Aperçus du lieu de départ et d'arrivée du trajet
+    $routePage.find('.preview').each(function() {
+      var $this = $(this)
       , lat = $this.data('lat')
       , lng = $this.data('lng')
       , address = $this.parent().find('.address').text();
-
-    var map = new google.maps.Map($this[0], {
-      zoom: 13,
-      center: new google.maps.LatLng(lat, lng),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: true,
-      disableDoubleClickZoom: true,
-      draggable: false,
-      keyboardShortcuts: false,
-      scrollwheel: false
+      
+      var map = new google.maps.Map($this[0], {
+        zoom: 13,
+        center: new google.maps.LatLng(lat, lng),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true,
+        disableDoubleClickZoom: true,
+        draggable: false,
+        keyboardShortcuts: false,
+        scrollwheel: false
+      });
+      
+      new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(lat, lng),
+        title: address
+      });
     });
+    
+    // Confirmation avant suppression
+    var $controls = $('.subheader .controls');
+    if ($controls.length > 0) {
+      $controls.find('a.delete').on('click', function() {
+        return confirm($controls.data('warning'));
+      });
+    }
+  }
 
-    new google.maps.Marker({
-      map: map,
-      position: new google.maps.LatLng(lat, lng),
-      title: address
-    });
-  });
 
   // Résultats de recherche
   // ----------------------
@@ -194,18 +204,18 @@
   // Récupère la page afin de restreindre le scope des requêtes jQuery.
   var $routeList = $('#route-list');
   if ($routeList.length > 0) {
-    var $controls = $routeList.find('.controls')
+    var $controls = $('.subheader .controls')
       , $list = $routeList.find('.list');
 
     // Active le mode édition
     $controls.find('.edit').on('click', function() {
-      $routeList.addClass('edition');
+      $controls.addClass('edition');
+      $list.addClass('edition');
       $list.find('a').each(function() {
         var $this = $(this);
         $this.attr('href', $this.attr('href') + '/supprimer');
         $this.on('click', function() {
-          return false;
-          return confirm($routeList.data('warning'));
+          return confirm($controls.data('warning'));
         });
       });
       return false;
@@ -213,7 +223,8 @@
 
     // Quitte le mode édition
     $controls.find('.cancel').on('click', function() {
-      $routeList.removeClass('edition');
+      $controls.removeClass('edition');
+      $list.removeClass('edition');
       $list.find('a').each(function() {
         var $this = $(this), href = $this.attr('href');
         $this.attr('href', href.substring(0, href.length - 10));

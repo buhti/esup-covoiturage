@@ -66,7 +66,7 @@
   <div class="subheader">
     <div class="inner">
       <div class="container">
-        <h1><tiles:insertAttribute name="title" defaultValue="Co-voiturage" /></h1>
+        <tiles:insertAttribute name="subheader" />
       </div>
     </div>
   </div>

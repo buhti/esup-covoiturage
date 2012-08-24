@@ -4,6 +4,7 @@
 <tiles-definitions>
 
 	<definition name="page" templateExpression="/WEB-INF/layouts/page.jsp">
+		<put-attribute name="subheader" value="/WEB-INF/layouts/subheader.jsp" />
 	</definition>
 
 </tiles-definitions>
