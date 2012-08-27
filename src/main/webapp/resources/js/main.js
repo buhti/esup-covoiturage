@@ -199,7 +199,6 @@
     }
   }
 
-
   // Résultats de recherche
   // ----------------------
 
@@ -210,7 +209,6 @@
 
     var loadResults = function(page) {
       $.ajax($resultsPage.data('results') + page).done(function(data) {
-        console.log(data);
         $resultsPage.find('#results-container').append(data);
       });
     }
@@ -230,7 +228,7 @@
   var $routeList = $('#route-list');
   if ($routeList.length > 0) {
     var $controls = $('.subheader .controls')
-      , $list = $routeList.find('.list');
+      , $list = $routeList.find('.route-list');
 
     // Active le mode édition
     $controls.find('.edit').on('click', function() {

@@ -5,20 +5,21 @@
 <div id="search-criterias">
   <c:if test="${ not empty search }">
     <p>
-      ${ search['from'] } (<sup>+</sup>/<sub>-</sub> ${ search['fromTolerance'] }) &rarr;
-      ${ search['to'] } (<sup>+</sup>/<sub>-</sub> ${ search['toTolerance'] })
+      ${ search['from'] } (<span class="about"><sup>+</sup>/-</span> ${ search['fromTolerance'] })
+      <span class="arrow">&rarr;</span>
+      ${ search['to'] } (<span class="about"><sup>+</sup>/-</span> ${ search['toTolerance'] })
     </p>
     <p>
       <joda:format value="${ search['date'] }" pattern="'le' dd/MM/YYYY 'à' HH:mm" />
-      (<sup>+</sup>/<sub>-</sub> ${ search['dateTolerance'] })
+      (<span class="about"><sup>+</sup>/-</span> ${ search['dateTolerance'] })
     </p>
   </c:if>
-  <p>
-    <spring:message code="search.results.count${ count gt 1 ? '.plural' : '' }" arguments="${ count }" />
-  </p>
 </div>
 <div id="search-results" data-results="<c:url value='/recherche/resultats/' />">
-  <div id="results-container"></div>
+  <p class="lead">
+    <spring:message code="search.results.count${ count gt 1 ? '.plural' : '' }" arguments="${ count }" />
+  </p>
+  <div id="results-container" class="route-list"></div>
   <div id="more-results">
     <a href="#">
       <spring:message code="search.results.more" />

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <div id="route-list">
 
-  <div class="list">
+  <div class="route-list">
     <tiles:insertAttribute name="list" />
   </div>
 

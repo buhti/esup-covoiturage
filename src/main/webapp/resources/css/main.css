@@ -140,6 +140,7 @@ a.disabled {
 /* Shared definitions
    -------------------------------------------------------------------------- */
 
+.about,
 .arrow,
 .dash {
 	display: inline-block;
@@ -153,6 +154,11 @@ a.disabled {
 
 .dash {
 	font-size: 20px;
+	padding: 0 2px;
+}
+
+.about {
+	font-size: 18px;
 	padding: 0 2px;
 }
 
@@ -304,29 +310,29 @@ a.disabled {
 	display: none;
 }
 
-#route-list .edition .route {
+.route-list.edition .route {
 	padding: 12px 8px 12px 52px;
 }
 
-#route-list .route .btn.view,
-#route-list .edition .route .btn.delete {
+.route-list .route .btn.view,
+.route-list.edition .route .btn.delete {
 	display: inline-block;
 }
 
-#route-list .route .btn.delete,
-#route-list .edition .route .btn.view {
+.route-list .route .btn.delete,
+.route-list.edition .route .btn.view {
 	display: none;
 }
 
 /* List
    -------------------------------------------------------------------------- */
 
-#route-list .list {
+.route-list {
 	padding: 1px 0 0;
 	overflow: hidden;
 }
 
-#route-list .route {
+.route-list .route {
 	position: relative;
 	display: block;
 	border-top: 1px solid #e6e6e6;
@@ -336,24 +342,49 @@ a.disabled {
 	text-decoration: none;
 }
 
-#route-list .route:hover,
-#route-list .route:active {
+.route-list .route:hover,
+.route-list .route:active {
 	background: #f7f7f7;
 }
 
-#route-list .route .btn.view,
-#route-list .route .btn.delete {
+.route-list .route .btn.view,
+.route-list .route .btn.delete {
 	position: absolute;
 	margin-top: -13px;
 	top: 50%;
 }
 
-#route-list .route .btn.view {
+.route-list .route .btn.view {
 	right: 8px;
 }
 
-#route-list .route .btn.delete {
+.route-list .route .btn.delete {
 	left: 8px;
+}
+
+/* ==========================================================================
+   Search
+   ========================================================================== */
+
+#search-criterias p {
+	font-size: 13px;
+	line-height: 16px;
+	margin: 0;
+}
+
+#search-criterias .about,
+#search-criterias .arrow {
+	font-size: 16px;
+	line-height: 20px;
+}
+
+#search-results p.lead {
+	font-weight: normal;
+	margin: 20px 0;
+}
+
+#search-results .route-list {
+	margin-bottom: 20px;
 }
 
 /* ==========================================================================

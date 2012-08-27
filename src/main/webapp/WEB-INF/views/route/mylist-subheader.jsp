@@ -9,7 +9,7 @@
       <spring:message code="route.controls.new" />
     </span>
   </a>
-  <c:if test="${ not empty $routes }">
+  <c:if test="${ not empty routes }">
     <button class="btn btn-small edit">
       <i class="icon-pencil"></i>
       <span class="hidden-phone">
