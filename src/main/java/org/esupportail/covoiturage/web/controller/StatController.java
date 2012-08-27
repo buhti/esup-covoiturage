@@ -57,7 +57,7 @@ public class StatController {
     @RequestMapping(value = "csv/{type}/{period}", produces = "text/csv")
     public @ResponseBody String csvStatistics(@PathVariable String type, @PathVariable String period) {
         List<Stat> stats = requestStatistics(type, period);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append("type;value;date\r\n");
         for (Stat stat : stats) {

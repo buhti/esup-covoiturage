@@ -7,7 +7,7 @@ import java.util.Map;
 public final class JSUtil {
 
     public static String convertToArray(Collection<?> list) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("[");
 
         Iterator<?> it = list.iterator();
@@ -25,7 +25,7 @@ public final class JSUtil {
     }
 
     public static String convertToHash(Map<?, ?> map) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("{");
 
         Iterator<?> it = map.keySet().iterator();
@@ -47,7 +47,7 @@ public final class JSUtil {
     }
 
     public static String convertToScalar(Object value) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         if (value instanceof Number || value instanceof Boolean) {
             sb.append(value);

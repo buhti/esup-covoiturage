@@ -14,7 +14,7 @@ public class GenerateStatTestData {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         int iterations = 400;
 
         DateTime date = DateTime.now().minusDays(iterations);
@@ -32,8 +32,8 @@ public class GenerateStatTestData {
         out.close();
     }
 
-    private static StringBuffer createInsertStatement(StatType type, DateTime date, int value) {
-        StringBuffer sb = new StringBuffer();
+    private static StringBuilder createInsertStatement(StatType type, DateTime date, int value) {
+        StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO Stat (stat_type, stat_date, stat_value) VALUES (");
         sb.append(type.ordinal());
         sb.append(", '");
