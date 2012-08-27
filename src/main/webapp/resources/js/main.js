@@ -61,9 +61,27 @@
   if ($routeForm.length > 0) {
     var marker, map;
 
+    $routeForm.find('#fromAddress, #toAddress').on('change', function() {
+      var $this = $(this)
+        , $link = $this.find('+ .help-block > a');
+
+      if ($this.val().length > 0) {
+        $link.removeClass('disabled');
+      } else {
+        $link.addClass('disabled');
+      }
+    }).change();
+
     $routeForm.find('a[data-map]').on('click', function() {
+      var $this = $(this);
+
+      // Stoppe l'exécution si le lien est désactivé
+      if ($this.hasClass('disabled')) {
+        return false;
+      }
+
       // Récupère l'adresse saisie
-      var address = $($(this).data('map')).val();
+      var address = $($this.data('map')).val();
 
       // Retire le précédent marqueur
       if (marker) {
@@ -109,17 +127,14 @@
 
   // Détermine si un trajet est récurrent ou non en fonction de l'onglet
   // sélectionné.
-  $routeForm.find('a[data-toggle="tab"]').on('shown', function(e) {
-    $routeForm.find('input#recurrent').val($(e.currentTarget).data('target') === '#tab-recurrent');
-  });
-
-  // Affiche le choix du nombre de places seulement si l'utilisateur est le
-  // conducteur.
-  $routeForm.find('input#driver1').on('change', function() {
-    if ($(this).is(':checked')) {
-      $routeForm.find('select#seats').parents('.control-group').show();
+  $routeForm.find('input#recurrent1, input#recurrent2').on('change', function(e) {
+    var recurrent = ($(this).val() === 'true') === $(this).is(':checked');
+    if (recurrent) {
+      $routeForm.find('.recurrent').show();
+      $routeForm.find('.occasional').hide();
     } else {
-      $routeForm.find('select#seats').parents('.control-group').hide();
+      $routeForm.find('.recurrent').hide();
+      $routeForm.find('.occasional').show();
     }
   }).change();
 
@@ -131,6 +146,16 @@
       $routeForm.find('.wayBack').show();
     } else {
       $routeForm.find('.wayBack').hide();
+    }
+  }).change();
+
+  // Affiche le choix du nombre de places seulement si l'utilisateur est le
+  // conducteur.
+  $routeForm.find('input#driver1').on('change', function() {
+    if ($(this).is(':checked')) {
+      $routeForm.find('select#seats').parents('.control-group').show();
+    } else {
+      $routeForm.find('select#seats').parents('.control-group').hide();
     }
   }).change();
 

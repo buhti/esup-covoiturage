@@ -109,6 +109,10 @@ legend {
 	margin-bottom: 5px;
 }
 
+legend + .row .control-group {
+	margin-top: 20px;
+}
+
 .form-horizontal .help-block {
 	margin-top: 4px;
 }
@@ -122,6 +126,16 @@ legend {
 /* ==========================================================================
    Routes
    ========================================================================== */
+
+/* Creation form
+   -------------------------------------------------------------------------- */
+
+a.disabled {
+	color: #999;
+	text-decoration: none;
+	cursor: default;
+	outline: 0 none;
+}
 
 /* Shared definitions
    -------------------------------------------------------------------------- */
