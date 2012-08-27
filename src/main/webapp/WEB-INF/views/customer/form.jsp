@@ -1,35 +1,45 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <form:form method="post" modelAttribute="customerForm" cssClass="form-horizontal">
   <spring:bind path="email">
     <c:set var="emailError" value="${ status.errorMessage }"></c:set>
   </spring:bind>
   <div class="control-group ${ not empty emailError ? 'error' : '' }">
-    <form:label path="email" cssClass="control-label">Email</form:label>
+    <form:label path="email" cssClass="control-label">
+      <spring:message code="customer.form.email.label" />
+    </form:label>
     <div class="controls">
       <form:input path="email" cssClass="input-xxlarge"/>
       <form:errors path="email" cssClass="help-inline"/>
-      <span class="help-block">Cette adresse est visible afin que les autres utilisateurs puissent vous contacter.</span>
+      <span class="help-block">
+        <spring:message code="customer.form.email.hint" />
+      </span>
     </div>
   </div>
   <spring:bind path="lastname">
     <c:set var="lastnameError" value="${ status.errorMessage }"></c:set>
   </spring:bind>
   <div class="control-group ${ not empty lastnameError ? 'error' : '' }">
-    <form:label path="lastname" cssClass="control-label">Nom</form:label>
+    <form:label path="lastname" cssClass="control-label">
+      <spring:message code="customer.form.lastname.label" />
+    </form:label>
     <div class="controls">
       <form:input path="lastname" cssClass="input-xxlarge"/>
       <form:errors path="lastname" cssClass="help-inline"/>
-      <span class="help-block">Afin de conserver votre anonymat, seule la première lettre du nom est affichée.</span>
+      <span class="help-block">
+        <spring:message code="customer.form.lastname.hint" />
+      </span>
     </div>
   </div>
   <spring:bind path="firstname">
     <c:set var="firstnameError" value="${ status.errorMessage }"></c:set>
   </spring:bind>
   <div class="control-group ${ not empty firstnameError ? 'error' : '' }">
-    <form:label path="firstname" cssClass="control-label">Prénom</form:label>
+    <form:label path="firstname" cssClass="control-label">
+      <spring:message code="customer.form.firstname.label" />
+    </form:label>
     <div class="controls">
       <form:input path="firstname" cssClass="input-xxlarge"/>
       <form:errors path="firstname" cssClass="help-inline"/>
@@ -39,19 +49,21 @@
     <div class="controls">
       <label class="checkbox">
         <form:checkbox path="chatting" />
-        J'aime discuter
+        <spring:message code="customer.form.likes.chatting" />
       </label>
       <label class="checkbox">
         <form:checkbox path="listeningMusic" />
-        J'écoute la musique
+        <spring:message code="customer.form.likes.listeningMusic" />
       </label>
       <label class="checkbox">
         <form:checkbox path="smoking" />
-        Je suis fumeur
+        <spring:message code="customer.form.likes.smoking" />
       </label>
     </div>
   </div>
   <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Enregister</button>
+    <button class="btn btn-primary" type="submit">
+      <spring:message code="customer.form.save" />
+    </button>
   </div>
 </form:form>

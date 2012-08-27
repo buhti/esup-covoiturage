@@ -8,8 +8,10 @@ import org.esupportail.covoiturage.web.interceptor.AccountExposingHandlerInterce
 import org.esupportail.covoiturage.web.interceptor.ConfigurationExposingHandlerInterceptor;
 import org.esupportail.covoiturage.web.resolver.AccountHandlerMethodArgumentResolver;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -42,6 +44,18 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AccountExposingHandlerInterceptor());
         registry.addInterceptor(new ConfigurationExposingHandlerInterceptor(environment));
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("/WEB-INF/messages/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        if (environment.getProperty("app.skin.debug", Boolean.class)) {
+            messageSource.setCacheSeconds(0);
+        }
+        return messageSource;
     }
 
     @Bean

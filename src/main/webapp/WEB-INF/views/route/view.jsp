@@ -1,10 +1,13 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
 <div id="view-route">
   <c:if test="${ route.ladiesOnly }">
     <div class="alert alert-error">
-      <strong>Ce trajet est réservé aux femmes.</strong>
+      <strong>
+        <spring:message code="route.view.ladiesOnly" />
+      </strong>
     </div>
   </c:if>
   <div class="route clearfix">
@@ -39,14 +42,17 @@
     <span class="info">
       <span class="seats">
         <c:if test="${ route.driver }">
-          <span>${ route.seats }</span> pl. libre${ route.seats gt 1 ? 's' : '' }
+          <span>${ route.seats }</span>
+          <spring:message code="route.view.seats${ route.seats gt 1 ? '.plural' : '' }" />
         </c:if>
       </span>
       <span class="owner ${ route.driver ? 'driver' : 'passenger' }">
         <span>${ route.owner }</span>
         <a class="btn btn-small btn-primary" href="mailto:${ route.owner.email }">
           <i class="icon-white icon-envelope"></i>
-          <span class="hidden-phone">Email</span>
+          <span class="hidden-phone">
+            <spring:message code="route.view.email" />
+          </span>
         </a>
       </span>
     </span>
@@ -54,28 +60,38 @@
   <c:if test="${ route.owner.chatting }">
     <div class="like chatting">
       <img src="<c:url value='/resources/img/balloon.png' />"/>
-      <span>Aime discuter</span>
+      <span>
+        <spring:message code="route.view.likes.chatting" />
+      </span>
     </div>
   </c:if>
   <c:if test="${ route.owner.listeningMusic }">
     <div class="like music">
       <img src="<c:url value='/resources/img/music.png' />"/>
-      <span>Ecoute la musique</span>
+      <span>
+        <spring:message code="route.view.likes.listeningMusic" />
+      </span>
     </div>
   </c:if>
   <c:if test="${ route.owner.smoking }">
     <div class="like smoking">
       <img src="<c:url value='/resources/img/cigarette.png' />"/>
-      <span>Fumeur</span>
+      <span>
+        <spring:message code="route.view.likes.smoking" />
+      </span>
     </div>
   </c:if>
   <div class="co2">
-    <p>${ route.distance } km soit ${ config.co2.a * route.distance + config.co2.b } jk de rejet de CO<sub>2</sub> en moins.</p>
+    <p>
+      <spring:message code="route.view.distanceCO2" htmlEscape="false" arguments="${ route.distance },${ config.co2.a * route.distance + config.co2.b }" />
+    </p>
   </div>
   <div class="row">
     <div class="span6 origin">
       <div class="address">
-        <span>Lieu de rendez-vous :</span>
+        <span>
+          <spring:message code="route.view.fromAddress" />
+        </span>
         <address>${ route.from.address }</address>
       </div>
       <div class="hidden-phone preview" style="height: 250px"
@@ -83,7 +99,9 @@
     </div>
     <div class="span6 destination">
       <div class="address">
-        <span>Lieu de dépose :</span>
+        <span>
+          <spring:message code="route.view.fromAddress" />
+        </span>
         <address>${ route.to.address }</address>
       </div>
       <div class="hidden-phone preview" style="height: 250px"

@@ -1,9 +1,11 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <c:set var="minify" value="${ config.debugSkin ? '' : '.min' }" />
 <tiles:useAttribute id="tab" name="tab" ignore="true" />
+<tiles:useAttribute id="titleCode" name="title" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-  <title><tiles:insertAttribute name="title" defaultValue="Co-voiturage" /></title>
+  <title><spring:message code="${ titleCode }" /></title>
 
   <link href="<c:url value='/resources/css/bootstrap${ minify }.css'/>" rel="stylesheet" />
   <link href="<c:url value='/resources/css/bootstrap-responsive${ minify }.css'/>" rel="stylesheet" />
@@ -31,29 +33,58 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="<c:url value='/'/>">Co-voiturage</a>
+        <a class="brand" href="<c:url value='/'/>">
+          <spring:message code="nav.brand"/>
+        </a>
         <div class="nav-collapse">
           <ul class="nav">
             <li class="${ tab == 1 ? 'active' : '' }">
-              <a href="<c:url value='/recherche'/>">Rechercher</a>
+              <a href="<c:url value='/recherche'/>">
+                <spring:message code="nav.search"/>
+              </a>
             </li>
             <li class="${ tab == 2 ? 'active' : '' }">
-              <a href="<c:url value='/proposer-trajet'/>">Proposer</a>
+              <a href="<c:url value='/proposer-trajet'/>">
+                <spring:message code="nav.createRoute"/>
+              </a>
             </li>
             <li class="${ tab == 3 ? 'active' : '' }">
-              <a href="<c:url value='/mes-trajets'/>">Voir mes trajets</a>
+              <a href="<c:url value='/mes-trajets'/>">
+                <spring:message code="nav.viewMyRoutes"/>
+              </a>
             </li>
             <li class="${ tab == 4 ? 'active' : '' }">
-              <a href="<c:url value='/mon-compte'/>">Voir mon compte</a>
+              <a href="<c:url value='/mon-compte'/>">
+                <spring:message code="nav.viewMyProfile"/>
+              </a>
             </li>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
               <li class="dropdown${ tab == 5 ? ' active' : '' }">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistiques <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <spring:message code="nav.stats"/>
+                  <b class="caret"></b>
+                </a>
                 <ul class="dropdown-menu">
-                  <li><a href="<c:url value='/admin/statistiques/connexions' />">Connexions</a></li>
-                  <li><a href="<c:url value='/admin/statistiques/inscriptions' />">Inscriptions</a></li>
-                  <li><a href="<c:url value='/admin/statistiques/trajets' />">Trajets</a></li>
-                  <li><a href="<c:url value='/admin/statistiques/recherches' />">Recherches</a></li>
+                  <li>
+                    <a href="<c:url value='/admin/statistiques/connexions' />">
+                      <spring:message code="nav.stat.logins"/>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="<c:url value='/admin/statistiques/inscriptions' />">
+                      <spring:message code="nav.stat.registrations"/>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="<c:url value='/admin/statistiques/trajets' />">
+                      <spring:message code="nav.stat.routes"/>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="<c:url value='/admin/statistiques/recherches' />">
+                      <spring:message code="nav.stat.searches"/>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </sec:authorize>

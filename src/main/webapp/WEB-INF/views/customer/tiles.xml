@@ -5,7 +5,7 @@
 
 	<definition name="customer/edit-profile" extends="page">
 		<put-attribute name="tab" expression="4" />
-		<put-attribute name="title" cascade="true" expression="Mes informations" />
+		<put-attribute name="title" cascade="true" value="customer.form.title" />
 		<put-attribute name="content" value="/WEB-INF/views/customer/form.jsp" />
 	</definition>
 
