@@ -15,14 +15,23 @@
     </p>
   </c:if>
 </div>
-<div id="search-results" data-results="<c:url value='/recherche/resultats/' />">
-  <p class="lead">
-    <spring:message code="search.results.count${ count gt 1 ? '.plural' : '' }" arguments="${ count }" />
-  </p>
-  <div id="results-container" class="route-list"></div>
-  <div id="more-results">
-    <a href="#">
-      <spring:message code="search.results.more" />
-    </a>
-  </div>
+<div id="search-results" data-results="<c:url value='/recherche/resultats/' />" data-count="${ count }">
+  <c:choose>
+    <c:when test="${ count gt 0 }">
+      <p class="lead">
+        <spring:message code="search.results.count${ count gt 1 ? '.plural' : '' }" arguments="${ count }" />
+      </p>
+      <div id="results-container" class="route-list"></div>
+      <div id="more-results">
+        <button class="btn input-xxlarge disabled">
+          <spring:message code="search.results.more" />
+        </button>
+      </div>
+    </c:when>
+    <c:otherwise>
+      <div class="alert alert-warning">
+        <spring:message code="search.results.empty" />
+      </div>
+    </c:otherwise>
+  </c:choose>
 </div>

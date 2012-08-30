@@ -366,6 +366,10 @@ a.disabled {
    Search
    ========================================================================== */
 
+#search-criterias {
+	margin-bottom: 20px;
+}
+
 #search-criterias p {
 	font-size: 13px;
 	line-height: 16px;
@@ -385,6 +389,14 @@ a.disabled {
 
 #search-results .route-list {
 	margin-bottom: 20px;
+}
+
+#more-results {
+	text-align: center;
+}
+
+#more-results .btn.disabled {
+	outline: none;
 }
 
 /* ==========================================================================

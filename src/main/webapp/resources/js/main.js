@@ -205,20 +205,43 @@
   // Récupère la page afin de restreindre le scope des requêtes jQuery.
   var $resultsPage = $('#search-results');
   if ($resultsPage.length > 0) {
-    var currentPage = 1;
+    var $more = $resultsPage.find('#more-results > button');
+
+    var resultSource = $resultsPage.data('results')
+      , resultCount = $resultsPage.data('count')
+      , currentCount = 0
+      , currentPage = 1;
 
     var loadResults = function(page) {
-      $.ajax($resultsPage.data('results') + page).done(function(data) {
-        $resultsPage.find('#results-container').append(data);
+      $.ajax(resultSource + page).done(function(data) {
+        var $results = $(data);
+        if ($results.length) {
+          $resultsPage.find('#results-container').append($results);
+          currentCount += $results.length;
+          if (currentCount == resultCount) {
+            $more.addClass('disabled');
+          } else {
+            $more.removeClass('disabled');
+          }
+        } else {
+          $more.addClass('disabled');
+        }
       });
     }
 
-    // Charge la première page de résultats
-    loadResults(currentPage);
-
-    $resultsPage.find('#more-results a').on('click', function() {
-      // Load next results
+    $more.on('click', function() {
+      if ($more.hasClass('disabled')) {
+        return false;
+      }
+      
+      loadResults(++currentPage);
+      return false;
     });
+
+    // Charge la première page de résultats si nécessaire
+    if (resultCount > 0) {
+      loadResults(currentPage);
+    }
   }
 
   // Mes trajets
