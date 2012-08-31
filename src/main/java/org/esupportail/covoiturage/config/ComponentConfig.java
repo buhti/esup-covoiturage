@@ -1,5 +1,7 @@
 package org.esupportail.covoiturage.config;
 
+import java.util.Locale;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -41,6 +45,21 @@ public class ComponentConfig {
     @Bean
     public Validator smartValidator() {
         return new LocalValidatorFactoryBean();
+    }
+
+    @Bean
+    public MailSender mailSender() {
+        JavaMailSenderImpl sender = new JavaMailSenderImpl();
+        sender.setHost(environment.getProperty("smtp.host"));
+        sender.setPort(environment.getProperty("smtp.port", Integer.class));
+        sender.setUsername(environment.getProperty("smtp.username"));
+        sender.setPassword(environment.getProperty("smtp.password"));
+        return sender;
+    }
+
+    @Bean
+    public Locale defautLocale() {
+        return Locale.FRENCH;
     }
 
 }

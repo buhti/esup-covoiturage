@@ -22,4 +22,10 @@ public interface RouteRepository {
 
     List<Route> findRoutesByOwner(long ownerId);
 
+    List<Route> findNearlyExpiredRecurrentRoutes(int days);
+
+    void deleteExpiredRecurrentRoutes(int days);
+
+    void deleteExpiredOccasionalRoutes(int days);
+
 }

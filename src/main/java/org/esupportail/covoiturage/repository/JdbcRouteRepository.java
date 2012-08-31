@@ -39,7 +39,7 @@ public class JdbcRouteRepository implements RouteRepository {
     public long createRoute(Route route) {
         if (route.isRecurrent()) {
             RouteRecurrent r = (RouteRecurrent) route;
-            jdbcTemplate.update(INSERT_ROUTE_RECURRENT, 
+            jdbcTemplate.update(INSERT_ROUTE_RECURRENT,
                     r.getOwner().getId(), r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
@@ -52,7 +52,7 @@ public class JdbcRouteRepository implements RouteRepository {
                     r.getOwner().getId(), r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
-                    r.isRoundTrip(), r.getWayOutDate().toDate(), 
+                    r.isRoundTrip(), r.getWayOutDate().toDate(),
                     r.isRoundTrip() ? r.getWayBackDate().toDate() : null);
         }
 
@@ -64,7 +64,7 @@ public class JdbcRouteRepository implements RouteRepository {
         if (route.isRecurrent()) {
             RouteRecurrent r = (RouteRecurrent) route;
             String wayBackTime = r.isRoundTrip() ? r.getWayBackTime().toString("HH:mm") : null;
-            jdbcTemplate.update(UPDATE_ROUTE, 
+            jdbcTemplate.update(UPDATE_ROUTE,
                     r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
@@ -74,11 +74,11 @@ public class JdbcRouteRepository implements RouteRepository {
         } else {
             RouteOccasional r = (RouteOccasional) route;
             Date wayBackDate = r.isRoundTrip() ? r.getWayBackDate().toDate() : null;
-            jdbcTemplate.update(UPDATE_ROUTE, 
+            jdbcTemplate.update(UPDATE_ROUTE,
                     r.isDriver(), r.isLadiesOnly(), r.getSeats(), r.getDistance(),
                     locationToSqlPoint(r.getFrom()), r.getFrom().getCity(), r.getFrom().getAddress(),
                     locationToSqlPoint(r.getTo()), r.getTo().getCity(), r.getTo().getAddress(),
-                    0, r.isRoundTrip(), null, null, null, null, null, 
+                    0, r.isRoundTrip(), null, null, null, null, null,
                     r.getWayOutDate().toDate(), wayBackDate, routeId, ownerId);
         }
     }
@@ -122,6 +122,21 @@ public class JdbcRouteRepository implements RouteRepository {
     @Override
     public List<Route> findRoutesByOwner(long ownerId) {
         return jdbcTemplate.query(SELECT_ROUTE_BY_OWNER, routeMapper, ownerId);
+    }
+
+    @Override
+    public void deleteExpiredRecurrentRoutes(int days) {
+        jdbcTemplate.update(DELETE_EXPIRED_RECURRENT_ROUTES, DateTime.now().minusDays(days).toDate());
+    }
+
+    @Override
+    public void deleteExpiredOccasionalRoutes(int days) {
+        jdbcTemplate.update(DELETE_EXPIRED_OCCASIONAL_ROUTES, DateTime.now().minusDays(days).toDate());
+    }
+
+    @Override
+    public List<Route> findNearlyExpiredRecurrentRoutes(int days) {
+        return jdbcTemplate.query(SELECT_NEARLY_EXPIRED_RECURRENT_ROUTES, routeMapper, DateTime.now().minusDays(days).toDate());
     }
 
     private String locationToSqlPoint(Location location) {
@@ -171,7 +186,7 @@ public class JdbcRouteRepository implements RouteRepository {
 
     private static final String DELETE_ROUTE = "DELETE FROM Route WHERE route_id = ? AND owner_id = ?";
 
-    private static final String SELECT_LAST_INSERT_ID = "SELECT r.route_id FROM Route r " 
+    private static final String SELECT_LAST_INSERT_ID = "SELECT r.route_id FROM Route r "
             + "WHERE r.owner_id = ? "
             + "ORDER BY r.route_id DESC LIMIT 1";
 
@@ -201,5 +216,14 @@ public class JdbcRouteRepository implements RouteRepository {
             + "AND MBRContains(GeomFromText(?), from_point) = 1 "
             + "AND MBRContains(GeomFromText(?), to_point) = 1 "
             + "LIMIT ?";
+
+    private static final String SELECT_NEARLY_EXPIRED_RECURRENT_ROUTES = SELECT_ROUTE
+            + "WHERE r.recurrent = 1 AND r.end_date = ?";
+
+    private static final String DELETE_EXPIRED_RECURRENT_ROUTES = "DELETE FROM Route "
+            + "WHERE recurrent = 1 AND end_date <= ?";
+
+    private static final String DELETE_EXPIRED_OCCASIONAL_ROUTES = "DELETE FROM Route "
+            + "WHERE recurrent = 0 AND wayout_date <= ?";
 
 }
