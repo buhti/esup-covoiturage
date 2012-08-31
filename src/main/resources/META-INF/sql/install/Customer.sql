@@ -7,6 +7,7 @@ CREATE TABLE Customer (
 	chatting BOOLEAN NOT NULL,
 	smoking BOOLEAN NOT NULL,
 	listening_music BOOLEAN NOT NULL,
+	last_connection DATETIME NOT NULL,
 
 	/* Indexes */
 	PRIMARY KEY (customer_id),

@@ -8,6 +8,8 @@ public interface CustomerRepository {
 
     void updateCustomer(Customer customer);
 
+    void updateLastConnectionDate(Customer customer);
+
     Customer findOneByLogin(String login);
 
 }

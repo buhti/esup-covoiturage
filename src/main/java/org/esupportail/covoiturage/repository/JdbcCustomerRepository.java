@@ -22,7 +22,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Transactional
     @Override
     public Customer createCustomer(Customer customer) {
-        jdbcTemplate.update(INSERT_CUSTOMER, customer.getLogin(), customer.getEmail(), 
+        jdbcTemplate.update(INSERT_CUSTOMER, customer.getLogin(), customer.getEmail(),
                 customer.getFirstname(), customer.getLastname(), customer.isChatting(),
                 customer.isSmoking(), customer.isListeningMusic());
 
@@ -31,9 +31,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void updateCustomer(Customer customer) {
-        jdbcTemplate.update(UPDATE_CUSTOMER, customer.getEmail(), customer.getFirstname(), 
-                customer.getLastname(), customer.isChatting(), customer.isSmoking(), 
+        jdbcTemplate.update(UPDATE_CUSTOMER, customer.getEmail(), customer.getFirstname(),
+                customer.getLastname(), customer.isChatting(), customer.isSmoking(),
                 customer.isListeningMusic(), customer.getLogin());
+    }
+
+    @Override
+    public void updateLastConnectionDate(Customer customer) {
+        jdbcTemplate.update(UPDATE_LAST_CONNECTION, customer.getId());
     }
 
     @Override
@@ -42,8 +47,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return results.isEmpty() ? null : results.get(0);
     }
 
-    private static final String INSERT_CUSTOMER = "INSERT INTO Customer (login, email, firstname, lastname, chatting, smoking, listening_music) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_CUSTOMER = "INSERT INTO Customer (login, email, firstname, lastname, chatting, smoking, listening_music, last_connection) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
     private static final String UPDATE_CUSTOMER = "UPDATE Customer SET email = ?, firstname = ?, lastname = ?, chatting = ?, smoking = ?, listening_music = ? WHERE login = ?";
+    private static final String UPDATE_LAST_CONNECTION = "UPDATE Customer SET last_connection = NOW() WHERE customer_id = ?";
     private static final String SELECT_CUSTOMER = "SELECT * FROM Customer WHERE login = ?";
 
 }

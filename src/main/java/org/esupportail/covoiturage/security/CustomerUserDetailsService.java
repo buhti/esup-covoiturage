@@ -63,6 +63,8 @@ public class CustomerUserDetailsService implements UserDetailsService {
         if (customer == null) {
             customer = customerRepository.createCustomer(loadUserFromLdap(username));
             statRepository.incrementStatistic(StatType.REGISTRATIONS);
+        } else {
+            customerRepository.updateLastConnectionDate(customer);
         }
 
         statRepository.incrementStatistic(StatType.LOGINS);
