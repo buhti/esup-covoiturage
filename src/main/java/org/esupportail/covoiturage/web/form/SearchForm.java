@@ -4,6 +4,10 @@ import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Ce formulaire permet la recherche de trajets.
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class SearchForm {
 
     @NotEmpty
@@ -19,6 +23,9 @@ public class SearchForm {
     private int toTolerance;
     private int dateTolerance;
 
+    /**
+     * Constructeur.
+     */
     public SearchForm() {
         // Create fields
         date = new DateTimeField();

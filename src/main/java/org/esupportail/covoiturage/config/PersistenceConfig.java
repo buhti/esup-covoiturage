@@ -13,6 +13,13 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 
+/**
+ * Cette classe permet de définir les composants responsables de la persistance
+ * des données de l'application. La persistance est effectuée par le biai de
+ * JDBC.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Configuration
 public class PersistenceConfig {
 

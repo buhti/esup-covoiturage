@@ -7,6 +7,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Cet intercepteur permet de passer des paramètres de configuration aux vues.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class ConfigurationExposingHandlerInterceptor implements HandlerInterceptor {
 
     private final Environment environment;

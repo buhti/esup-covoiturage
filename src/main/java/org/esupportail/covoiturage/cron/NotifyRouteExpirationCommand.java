@@ -16,8 +16,14 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
+/**
+ * Cette commande permet d'envoyer un message aux créateurs de trajets fréquents
+ * sur le point d'expirer.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Component
-public class WarnCommand implements CliCommand {
+public class NotifyRouteExpirationCommand implements CliCommand {
 
     @Resource
     RouteRepository routeRepository;

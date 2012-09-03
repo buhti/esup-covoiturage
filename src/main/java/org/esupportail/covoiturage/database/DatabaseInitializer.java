@@ -5,16 +5,31 @@ import javax.sql.DataSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * Cette classe permet de définir le schéma de l'application. Le schéma est
+ * décrit au travers d'un ensemble de modifications réparties en scripts SQL.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class DatabaseInitializer {
 
     private static final String CURRENT_VERSION = "1.0.0";
 
     private final DatabaseUpgrader upgrader;
 
+    /**
+     * Constructeur.
+     *
+     * @param dataSource Pointeur de connexion vers la base de données
+     */
     public DatabaseInitializer(DataSource dataSource) {
         this.upgrader = createUpgrader(dataSource);
     }
 
+    /**
+     * Crée le schéma de l'application si ce n'est pas déjà fait. Sinon met à
+     * jour ce dernier en fonction de sa version actuelle.
+     */
     public void run() {
         upgrader.run();
     }

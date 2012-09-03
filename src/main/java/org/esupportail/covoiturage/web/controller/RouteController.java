@@ -28,6 +28,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * Ce contrôleur permet d'accéder aux pages relatives aux trajets.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Controller
 public class RouteController {
 

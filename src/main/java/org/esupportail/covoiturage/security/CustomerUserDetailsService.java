@@ -23,6 +23,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Ce service permet de récupérer les informations de l'utilisateur qui tente de
+ * s'authentifier.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Component("userDetailsService")
 public class CustomerUserDetailsService implements UserDetailsService {
 

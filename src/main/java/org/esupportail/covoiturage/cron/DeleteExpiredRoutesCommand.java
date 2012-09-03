@@ -9,8 +9,14 @@ import org.esupportail.covoiturage.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * Cette commande permet de supprimer de la base de données tous les trajets
+ * expirés. Le délai d'expiration est configurable.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Component
-public class CleanCommand implements CliCommand {
+public class DeleteExpiredRoutesCommand implements CliCommand {
 
     @Resource
     RouteRepository routeRepository;

@@ -7,6 +7,11 @@ import org.esupportail.covoiturage.domain.RouteRecurrent;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Ce formulaire permet la création et l'édition de trajets fréquents.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class RouteRecurrentForm {
 
     @Valid
@@ -24,6 +29,9 @@ public class RouteRecurrentForm {
     @NotEmpty
     private int[] weekDays;
 
+    /**
+     * Constructeur.
+     */
     public RouteRecurrentForm() {
         startDate = new DateField();
         endDate = new DateField();
@@ -55,6 +63,12 @@ public class RouteRecurrentForm {
         this.weekDays = weekDays;
     }
 
+    /**
+     * Remplit les champs du formulaire en fonction du trajet passé en
+     * paramètre.
+     *
+     * @param route Trajet
+     */
     public void populate(Route route) {
         if (route instanceof RouteRecurrent) {
             RouteRecurrent r = (RouteRecurrent) route;

@@ -25,6 +25,12 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Ce service permet d'effectuer des opérations de géocodage grâce aux API de
+ * Google Maps.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Component
 public class GoogleGeocoderService implements GeocoderService, InitializingBean {
 

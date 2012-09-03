@@ -18,6 +18,12 @@ import org.joda.time.LocalTime;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+/**
+ * Ce mapper permet d'instancier un trajet à partir de son entrée dans la base
+ * de données.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Component
 public class JdbcRouteMapper implements RowMapper<Route> {
 

@@ -10,13 +10,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Cet intercepteur permet de passer l'utilisateur courant aux vues afin
+ * d'afficher ses informations.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class AccountExposingHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() != null) {
-            request.setAttribute("account", (CustomerUserDetails) auth.getPrincipal());
+            request.setAttribute("account", auth.getPrincipal());
         }
         return true;
     }

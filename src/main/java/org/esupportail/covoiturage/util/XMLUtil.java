@@ -11,8 +11,19 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Node;
 
+/**
+ * Cette classe permet de faciliter la manipulation de données XML.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public final class XMLUtil {
 
+    /**
+     * Retourne une représentation formattée du noeud XML spécifié.
+     *
+     * @param node
+     * @return
+     */
     public static String format(Node node) {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

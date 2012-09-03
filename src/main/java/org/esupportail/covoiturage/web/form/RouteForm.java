@@ -11,6 +11,11 @@ import org.esupportail.covoiturage.domain.RouteRecurrent;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Ce formulaire permet la création et l'édition de trajets.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class RouteForm {
 
     private RouteOccasionalForm occasionalForm;
@@ -37,6 +42,9 @@ public class RouteForm {
     @NotNull
     private boolean roundTrip;
 
+    /**
+     * Constructeur.
+     */
     public RouteForm() {
         // Create subforms
         occasionalForm = new RouteOccasionalForm();
@@ -46,11 +54,22 @@ public class RouteForm {
         driver = true;
     }
 
+    /**
+     * Constructeur.
+     *
+     * @param route Valeurs par défaut
+     */
     public RouteForm(Route route) {
         this();
         populate(route);
     }
 
+    /**
+     * Remplit les champs du formulaire en fonction du trajet passé en
+     * paramètre.
+     *
+     * @param route Trajet
+     */
     public void populate(Route route) {
         setDriver(route.isDriver());
         setFromAddress(route.getFrom().getAddress());
@@ -131,6 +150,15 @@ public class RouteForm {
         this.roundTrip = roundTrip;
     }
 
+    /**
+     * Retourne le trajet créé à partir des données du formulaire.
+     *
+     * @param owner Propriétaire
+     * @param from Lieu de départ
+     * @param to Lieu d'arrivée
+     * @param distance Distance du trajet
+     * @return
+     */
     public Route toRoute(Customer owner, Location from, Location to, int distance) {
         if (recurrent) {
             return new RouteRecurrent(0, owner, driver, ladiesOnly, seats, from, to, distance, roundTrip,
@@ -138,7 +166,7 @@ public class RouteForm {
                     recurrentForm.getWayOutTime().toLocalTime(), roundTrip ? recurrentForm.getWayBackTime().toLocalTime() : null,
                     recurrentForm.getWeekDays());
         } else {
-            return new RouteOccasional(0, owner, driver, ladiesOnly, seats, from, to, distance, roundTrip, 
+            return new RouteOccasional(0, owner, driver, ladiesOnly, seats, from, to, distance, roundTrip,
                     occasionalForm.getWayOut().toDateTime(), roundTrip ? occasionalForm.getWayBack().toDateTime() : null);
         }
     }

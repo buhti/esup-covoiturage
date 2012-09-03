@@ -5,6 +5,11 @@ import javax.validation.Valid;
 import org.esupportail.covoiturage.domain.Route;
 import org.esupportail.covoiturage.domain.RouteOccasional;
 
+/**
+ * Ce formulaire permet la création et l'édition de trajets occasionnels.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class RouteOccasionalForm {
 
     @Valid
@@ -13,6 +18,9 @@ public class RouteOccasionalForm {
     @Valid
     private DateTimeField wayBack;
 
+    /**
+     * Constructeur.
+     */
     public RouteOccasionalForm() {
         wayOut = new DateTimeField();
         wayBack = new DateTimeField();
@@ -26,6 +34,12 @@ public class RouteOccasionalForm {
         return wayBack;
     }
 
+    /**
+     * Remplit les champs du formulaire en fonction du trajet passé en
+     * paramètre.
+     *
+     * @param route Trajet
+     */
     public void populate(Route route) {
         if (route instanceof RouteOccasional) {
             RouteOccasional r = (RouteOccasional) route;

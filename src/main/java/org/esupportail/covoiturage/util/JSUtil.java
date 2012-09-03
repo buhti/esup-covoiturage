@@ -4,8 +4,19 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Cette classe permet de faciliter la génération de JavaScript.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public final class JSUtil {
 
+    /**
+     * Retourne la représentation d'une liste au format JSON.
+     *
+     * @param list
+     * @return
+     */
     public static String convertToArray(Collection<?> list) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -24,6 +35,12 @@ public final class JSUtil {
         return sb.toString();
     }
 
+    /**
+     * Retourne la représentation d'une map au format JSON.
+     *
+     * @param map
+     * @return
+     */
     public static String convertToHash(Map<?, ?> map) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
@@ -46,6 +63,12 @@ public final class JSUtil {
         return sb.toString();
     }
 
+    /**
+     * Retourne la représentation d'un scalaire au format JSON.
+     *
+     * @param value
+     * @return
+     */
     public static String convertToScalar(Object value) {
         StringBuilder sb = new StringBuilder();
 

@@ -7,6 +7,11 @@ import org.esupportail.covoiturage.domain.Customer;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * Ce formulaire permet la modification d'un utilisateur.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class CustomerForm {
 
     @NotEmpty
@@ -27,12 +32,20 @@ public class CustomerForm {
     @NotNull
     private boolean listeningMusic;
 
+    /**
+     * Constructeur.
+     */
     public CustomerForm() {
         chatting = false;
         smoking = false;
         listeningMusic = false;
     }
 
+    /**
+     * Constructeur.
+     *
+     * @param customer Valeur par défaut.
+     */
     public CustomerForm(Customer customer) {
         firstname = customer.getFirstname();
         lastname = customer.getLastname();
@@ -90,6 +103,13 @@ public class CustomerForm {
         this.listeningMusic = listeningMusic;
     }
 
+    /**
+     * Retourne l'utilisateur modifié.
+     *
+     * @param id ID de l'utilisateur
+     * @param login Login
+     * @return
+     */
     public Customer toCustomer(long id, String login) {
         return new Customer(id, login, email, firstname, lastname, chatting, smoking, listeningMusic);
     }

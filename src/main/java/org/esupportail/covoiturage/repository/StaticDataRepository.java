@@ -14,6 +14,12 @@ import org.esupportail.covoiturage.util.JSUtil;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Ce service permet de manipuler les informations relatives aux données
+ * statique de l'application.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Repository
 public class StaticDataRepository implements DataRepository {
 
@@ -35,6 +41,9 @@ public class StaticDataRepository implements DataRepository {
     private final Collection<String> hoursAndMinutes;
     private final Map<Integer, String> weekDays;
 
+    /**
+     * Constructeur.
+     */
     public StaticDataRepository() {
         DateTime today = DateTime.now();
 

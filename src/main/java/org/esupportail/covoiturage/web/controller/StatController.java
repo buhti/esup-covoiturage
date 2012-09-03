@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * Ce contrôleur permet d'accéder aux statistiques.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Controller
 @RequestMapping("/admin/statistiques")
 public class StatController {

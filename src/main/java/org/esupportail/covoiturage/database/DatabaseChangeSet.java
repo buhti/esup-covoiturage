@@ -9,27 +9,50 @@ import javax.sql.DataSource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
+/**
+ * Cette classe représente un ensemble de modifications à application au schéma
+ * de l'application.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class DatabaseChangeSet implements Comparable<DatabaseChangeSet> {
 
     private final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
     private final DatabaseVersion version;
 
+    /**
+     * Constructeur.
+     *
+     * @param version Version du schéma après application des modifications
+     */
     public DatabaseChangeSet(DatabaseVersion version) {
         this.version = version;
     }
 
-    public void add(Resource resource) {
-        populator.addScript(resource);
-    }
-
+    /**
+     * Retourne la version du schéma après application des modifications.
+     *
+     * @return Version
+     */
     public DatabaseVersion getVersion() {
         return version;
     }
 
+    /**
+     * Ajoute un script SQL.
+     *
+     * @param resource Emplacement du fichier de script
+     */
+    public void add(Resource resource) {
+        populator.addScript(resource);
+    }
+
+    @Override
     public int hashCode() {
         return version.hashCode();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof DatabaseChangeSet)) {
             return false;
@@ -38,6 +61,7 @@ public class DatabaseChangeSet implements Comparable<DatabaseChangeSet> {
         return version.equals(changeSet.version);
     }
 
+    @Override
     public int compareTo(DatabaseChangeSet changeSet) {
         if (version.lessThan(changeSet.getVersion())) {
             return -1;
@@ -48,6 +72,13 @@ public class DatabaseChangeSet implements Comparable<DatabaseChangeSet> {
         }
     }
 
+    /**
+     * Applique les modifications au schéma de l'application puis met à jour la
+     * version de ce dernier.
+     *
+     * @param dataSource Pointeur de connexion vers la base de données
+     * @return Version du schéma après application des modifications
+     */
     public DatabaseVersion apply(DataSource dataSource) {
         Connection connection = getTransactionalConnection(dataSource);
         try {

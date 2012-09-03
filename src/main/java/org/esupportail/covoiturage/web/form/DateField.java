@@ -6,6 +6,11 @@ import javax.validation.constraints.NotNull;
 
 import org.joda.time.DateTime;
 
+/**
+ * Ce formulaire représente un champ permettant le choix d'un date.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class DateField {
 
     @NotNull
@@ -22,24 +27,42 @@ public class DateField {
     @Min(2012)
     private int year;
 
-    public int getDay() {
-        return day;
-    }
-
+    /**
+     * Constructeur.
+     */
     public DateField() {
         this(new DateTime());
     }
 
+    /**
+     * Constructeur.
+     *
+     * @param date Valeur par défaut
+     */
     public DateField(DateTime date) {
         day = date.getDayOfMonth();
         month = date.getMonthOfYear();
         year = date.getYear();
     }
 
+    /**
+     * Retourne le jour sélectionné.
+     *
+     * @return jour
+     */
+    public int getDay() {
+        return day;
+    }
+
     public void setDay(int day) {
         this.day = day;
     }
 
+    /**
+     * Retourne le mois sélectionné.
+     *
+     * @return mois
+     */
     public int getMonth() {
         return month;
     }
@@ -48,6 +71,11 @@ public class DateField {
         this.month = month;
     }
 
+    /**
+     * Retourne l'année sélectionnée.
+     *
+     * @return année
+     */
     public int getYear() {
         return year;
     }
@@ -56,6 +84,11 @@ public class DateField {
         this.year = year;
     }
 
+    /**
+     * Retourne la date sous forme d'un objet manipulable.
+     *
+     * @return date
+     */
     public DateTime toDateTime() {
         return new DateTime(year, month, day, 0, 0);
     }

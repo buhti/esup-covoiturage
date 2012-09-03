@@ -10,12 +10,24 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * Ce modèle permet de manipuler l'utilisateur courant au sein des services de
+ * sécurité de l'application.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class CustomerUserDetails extends Customer implements UserDetails {
 
     private static final long serialVersionUID = 2360022873140258870L;
 
     private final List<SimpleGrantedAuthority> authorities;
 
+    /**
+     * Constructeur.
+     *
+     * @param customer Information de l'utilisateur
+     * @param admin <code>true</code> si administrateur
+     */
     public CustomerUserDetails(Customer customer, boolean admin) {
         super(customer.getId(), customer.getLogin(), null, null, null, false, false, false);
 

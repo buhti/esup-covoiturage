@@ -18,6 +18,12 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+/**
+ * Cette classe permet de définit les composants Spring utilisés par les
+ * services de l'application.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Configuration
 @ComponentScan("org.esupportail.covoiturage")
 @ImportResource("/WEB-INF/context/componentData.xml")
@@ -28,7 +34,7 @@ public class ComponentConfig {
     private Environment environment;
 
     @Bean
-    public ContextSource contextSource() {
+    public ContextSource ldapContextSource() {
         LdapContextSource contextSource = new LdapContextSource();
         contextSource.setUrl(environment.getProperty("ldap.url"));
         contextSource.setBase(environment.getProperty("ldap.base"));
@@ -39,7 +45,7 @@ public class ComponentConfig {
 
     @Bean
     public LdapTemplate ldapTemplate() {
-        return new LdapTemplate(contextSource());
+        return new LdapTemplate(ldapContextSource());
     }
 
     @Bean

@@ -13,6 +13,11 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Cette classe permet de mettre à jour le schéma de la base.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class DatabaseUpgrader {
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseUpgrader.class);
@@ -22,6 +27,11 @@ public class DatabaseUpgrader {
 
     private DatabaseVersion currentVersion;
 
+    /**
+     * Constructeur.
+     *
+     * @param dataSource Pointeur de connexion vers la base de données
+     */
     public DatabaseUpgrader(DataSource dataSource) {
         this.dataSource = dataSource;
         this.currentVersion = findCurrentVersion();
@@ -31,14 +41,27 @@ public class DatabaseUpgrader {
         }
     }
 
+    /**
+     * Retourne la version actuelle du schéma.
+     *
+     * @return Version
+     */
     public DatabaseVersion getCurrentVersion() {
         return currentVersion;
     }
 
+    /**
+     * Ajoute un ensemble de modification.
+     *
+     * @param changeSet Ensemble de modification
+     */
     public void addChangeSet(DatabaseChangeSet changeSet) {
         changeSets.add(changeSet);
     }
 
+    /**
+     * Exécute chaque ensemble de modification afin de mettre à jour le schéma.
+     */
     public void run() {
         for (DatabaseChangeSet changeSet : changeSets) {
             if (currentVersion.lessThan(changeSet.getVersion())) {

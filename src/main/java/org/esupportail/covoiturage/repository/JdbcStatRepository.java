@@ -11,6 +11,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Ce service permet de manipuler les informations relatives aux statistiques.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Repository
 public class JdbcStatRepository implements StatRepository {
 

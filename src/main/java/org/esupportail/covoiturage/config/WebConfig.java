@@ -23,6 +23,13 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles2.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles2.TilesView;
 
+/**
+ * Cette classe permet de définir les composants utilisés par la webapp. Elle
+ * permet aussi de configuration la webapp afin d'exposer plus d'informations
+ * aux vues ou de faciliter l'injecter des dépendences au sein des contrôleurs.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Configuration
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {

@@ -9,6 +9,12 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+/**
+ * Cette classe permet d'injecter une instance représentant l'utilisateur
+ * courant au sein des contrôleurs.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 public class AccountHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override

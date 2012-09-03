@@ -30,6 +30,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+/**
+ * Ce contrôleur permet d'accéder au formulaire de recherche.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Controller
 @SessionAttributes({ "results", "criterias" })
 public class SearchController {

@@ -19,6 +19,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Ce service permet de manipuler les informations relatives aux trajets.
+ *
+ * @author Florent Cailhol (Anyware Services)
+ */
 @Repository
 public class JdbcRouteRepository implements RouteRepository {
 
@@ -139,6 +144,11 @@ public class JdbcRouteRepository implements RouteRepository {
         return jdbcTemplate.query(SELECT_NEARLY_EXPIRED_RECURRENT_ROUTES, routeMapper, DateTime.now().minusDays(days).toDate());
     }
 
+    @Override
+    public void deleteRoutesByOwner(long ownerId) {
+        jdbcTemplate.update(DELETE_ROUTES_BY_OWNER, ownerId);
+    }
+
     private String locationToSqlPoint(Location location) {
         return "Point(" + location.getLat() + " " + location.getLng() + ")";
     }
@@ -225,5 +235,7 @@ public class JdbcRouteRepository implements RouteRepository {
 
     private static final String DELETE_EXPIRED_OCCASIONAL_ROUTES = "DELETE FROM Route "
             + "WHERE recurrent = 0 AND wayout_date <= ?";
+
+    private static final String DELETE_ROUTES_BY_OWNER = "DELETE FROM Route WHERE owner_id = ?";
 
 }
