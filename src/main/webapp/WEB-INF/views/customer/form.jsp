@@ -2,6 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<div class="alert alert-danger">
+  <strong>
+    <spring:message code="customer.warn.title" />
+  </strong>
+  <spring:message code="customer.warn.message" />
+</div>
 <form:form method="post" modelAttribute="customerForm" cssClass="form-horizontal">
   <spring:bind path="email">
     <c:set var="emailError" value="${ status.errorMessage }"></c:set>
