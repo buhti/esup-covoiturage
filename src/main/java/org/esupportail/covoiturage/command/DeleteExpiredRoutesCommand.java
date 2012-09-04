@@ -1,4 +1,4 @@
-package org.esupportail.covoiturage.cron;
+package org.esupportail.covoiturage.command;
 
 import java.io.OutputStream;
 
