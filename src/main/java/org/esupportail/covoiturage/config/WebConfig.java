@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.esupportail.covoiturage.web.interceptor.AccountExposingHandlerInterceptor;
 import org.esupportail.covoiturage.web.interceptor.ConfigurationExposingHandlerInterceptor;
+import org.esupportail.covoiturage.web.interceptor.FirstConnectionHandlerInterceptor;
 import org.esupportail.covoiturage.web.resolver.AccountHandlerMethodArgumentResolver;
 
 import org.springframework.context.MessageSource;
@@ -51,6 +52,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AccountExposingHandlerInterceptor());
         registry.addInterceptor(new ConfigurationExposingHandlerInterceptor(environment));
+        registry.addInterceptor(new FirstConnectionHandlerInterceptor("/mon-compte"));
     }
 
     @Bean

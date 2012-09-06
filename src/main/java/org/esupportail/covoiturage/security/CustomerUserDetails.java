@@ -21,14 +21,16 @@ public class CustomerUserDetails extends Customer implements UserDetails {
     private static final long serialVersionUID = 2360022873140258870L;
 
     private final List<SimpleGrantedAuthority> authorities;
+    private boolean freshlyCreated;
 
     /**
      * Constructeur.
      *
      * @param customer Information de l'utilisateur
      * @param admin <code>true</code> si administrateur
+     * @param freshlyCreated <code>true</code> si nouvellement créé
      */
-    public CustomerUserDetails(Customer customer, boolean admin) {
+    public CustomerUserDetails(Customer customer, boolean admin, boolean freshlyCreated) {
         super(customer.getId(), customer.getLogin(), null, null, null, false, false, false);
 
         authorities = new ArrayList<SimpleGrantedAuthority>();
@@ -37,6 +39,8 @@ public class CustomerUserDetails extends Customer implements UserDetails {
         if (admin) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
+
+        this.freshlyCreated = freshlyCreated;
     }
 
     @Override
@@ -72,6 +76,14 @@ public class CustomerUserDetails extends Customer implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isFreshlyCreated() {
+        return freshlyCreated;
+    }
+
+    public void setFreshlyCreated(boolean freshlyCreated) {
+        this.freshlyCreated = freshlyCreated;
     }
 
 }

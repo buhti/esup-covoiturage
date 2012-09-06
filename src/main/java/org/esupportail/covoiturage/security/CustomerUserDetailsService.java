@@ -65,10 +65,12 @@ public class CustomerUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = customerRepository.findOneByLogin(username);
+        boolean freshlyCreated = false;
 
         if (customer == null) {
             customer = customerRepository.createCustomer(loadUserFromLdap(username));
             statRepository.incrementStatistic(StatType.REGISTRATIONS);
+            freshlyCreated = true;
         } else {
             customerRepository.updateLastConnectionDate(customer);
         }
@@ -78,7 +80,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
         // Check if the current user has administrator rights
         boolean hasAdminRights = administratorLogins.contains(username);
 
-        return new CustomerUserDetails(customer, hasAdminRights);
+        return new CustomerUserDetails(customer, hasAdminRights, freshlyCreated);
     }
 
     @SuppressWarnings("unchecked")
