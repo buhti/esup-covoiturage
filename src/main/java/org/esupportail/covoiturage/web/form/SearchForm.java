@@ -2,10 +2,13 @@ package org.esupportail.covoiturage.web.form;
 
 import javax.validation.Valid;
 
+import org.esupportail.covoiturage.domain.Criterias;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Ce formulaire permet la recherche de trajets.
+ *
  * @author Florent Cailhol (Anyware Services)
  */
 public class SearchForm {
@@ -29,6 +32,22 @@ public class SearchForm {
     public SearchForm() {
         // Create fields
         date = new DateTimeField();
+    }
+
+    /**
+     * Remplit les champs du formulaire en fonction des critères passés en
+     * paramètre.
+     *
+     * @param route Trajet
+     */
+    public void populate(Criterias criterias) {
+        date = new DateTimeField(criterias.getDate());
+
+        from = criterias.getFrom();
+        to = criterias.getTo();
+        fromTolerance = criterias.getFromTolerance();
+        toTolerance = criterias.getToTolerance();
+        dateTolerance = criterias.getDateTolerance();
     }
 
     public String getFrom() {
@@ -77,6 +96,15 @@ public class SearchForm {
 
     public void setDateTolerance(int dateTolerance) {
         this.dateTolerance = dateTolerance;
+    }
+
+    /**
+     * Retourne les critères de recherche.
+     *
+     * @return critères
+     */
+    public Criterias toCriterias() {
+        return new Criterias(from, to, date.toDateTime(), fromTolerance, toTolerance, dateTolerance);
     }
 
 }

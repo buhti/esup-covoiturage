@@ -12,6 +12,7 @@
 	<definition name="search/results" extends="page">
 		<put-attribute name="tab" expression="1" />
 		<put-attribute name="title" cascade="true" value="search.results.title" />
+		<put-attribute name="subheader" value="/WEB-INF/views/search/results-subheader.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/search/results.jsp" />
 	</definition>
 

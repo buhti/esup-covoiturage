@@ -5,13 +5,13 @@
 <div id="search-criterias">
   <c:if test="${ not empty search }">
     <p>
-      ${ search['from'] } (<span class="about"><sup>+</sup>/-</span> ${ search['fromTolerance'] })
+      ${ search.from } (<span class="about"><sup>+</sup>/-</span> <spring:message code="search.results.km" arguments="${ search.fromTolerance / 1000 }" />)
       <span class="arrow">&rarr;</span>
-      ${ search['to'] } (<span class="about"><sup>+</sup>/-</span> ${ search['toTolerance'] })
+      ${ search.to } (<span class="about"><sup>+</sup>/-</span> <spring:message code="search.results.km" arguments="${ search.toTolerance / 1000 }" />)
     </p>
     <p>
-      <joda:format value="${ search['date'] }" pattern="'le' dd/MM/YYYY 'à' HH:mm" />
-      (<span class="about"><sup>+</sup>/-</span> ${ search['dateTolerance'] })
+      <joda:format value="${ search.date }" pattern="'le' dd/MM/YYYY 'à' HH:mm" />
+      (<span class="about"><sup>+</sup>/-</span> <spring:message code="search.results.minutes" arguments="${ search.dateTolerance }" />)
     </p>
   </c:if>
 </div>
