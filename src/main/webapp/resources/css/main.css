@@ -340,6 +340,7 @@ a.disabled {
 	margin-top: -1px;
 	padding: 12px 52px 12px 8px;
 	text-decoration: none;
+	height: 60px;
 }
 
 .route-list .route:hover,
