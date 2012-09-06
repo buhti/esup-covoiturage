@@ -16,7 +16,7 @@ window.predefinedLocations = ${ data.predefinedLocationsJSON };
       </spring:bind>
       <div class="control-group ${ not empty fromAddressError ? 'error' : '' }">
         <form:label path="fromAddress" cssClass="control-label">
-          <spring:message code="route.form.toAddress" />
+          <spring:message code="route.form.fromAddress" />
         </form:label>
         <div class="controls">
           <form:input path="fromAddress" cssClass="span4" data-provide="typeahead" data-items="4" data-source-ref="predefinedLocations" />
