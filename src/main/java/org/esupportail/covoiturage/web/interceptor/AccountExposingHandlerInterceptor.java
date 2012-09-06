@@ -7,8 +7,8 @@ import org.esupportail.covoiturage.security.CustomerUserDetails;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Cet intercepteur permet de passer l'utilisateur courant aux vues afin
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author Florent Cailhol (Anyware Services)
  */
-public class AccountExposingHandlerInterceptor implements HandlerInterceptor {
+public class AccountExposingHandlerInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -34,11 +34,6 @@ public class AccountExposingHandlerInterceptor implements HandlerInterceptor {
         if (modelAndView != null && principal != null) {
             modelAndView.addObject("account", principal);
         }
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-            throws Exception {
     }
 
 }
