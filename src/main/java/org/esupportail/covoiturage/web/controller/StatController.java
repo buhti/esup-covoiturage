@@ -70,7 +70,7 @@ public class StatController {
             sb.append(';');
             sb.append(stat.getValue());
             sb.append(';');
-            sb.append(stat.getDate().getMillis());
+            sb.append(stat.getDate().toString("yyyy-MM-dd"));
             sb.append("\r\n");
         }
 

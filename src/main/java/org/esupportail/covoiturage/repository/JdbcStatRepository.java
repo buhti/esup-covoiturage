@@ -74,7 +74,7 @@ public class JdbcStatRepository implements StatRepository {
 
     private static final String SELECT_STATS_SUM = "SELECT stat_type, SUM(stat_value) AS stat_value, stat_date FROM Stat WHERE stat_type = ? AND stat_date >= ? ";
     private static final String SELECT_STATS_WEEK = "SELECT * FROM Stat WHERE stat_type = ? AND stat_date >= ?";
-    private static final String SELECT_STATS_MONTH = SELECT_STATS_SUM + "GROUP BY WEEK(stat_date)";
+    private static final String SELECT_STATS_MONTH = SELECT_STATS_WEEK;
     private static final String SELECT_STATS_YEAR = SELECT_STATS_SUM + "GROUP BY YEAR(stat_date), MONTH(stat_date)";
 
 }
