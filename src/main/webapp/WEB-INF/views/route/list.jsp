@@ -11,16 +11,20 @@
       <span class="date">
         <c:choose>
           <c:when test="${ route.recurrent }">
-            <c:forEach items="${ route.weekDays }" var="weekDay">
-              <joda:parseDateTime var="day" value="${ weekDay }" pattern="e" locale="fr" />
-              <joda:format value="${ day }" pattern="EEEE" />
-            </c:forEach>
+            <span class="days">
+              <c:forEach items="${ route.weekDays }" var="weekDay">
+                <joda:parseDateTime var="day" value="${ weekDay }" pattern="e" locale="fr" />
+                <joda:format value="${ day }" pattern="EE" />
+              </c:forEach>
+            </span>
             <span class="dash">&ndash;</span>
-            <joda:format value="${ route.wayOutTime }" pattern="H'h'mm" />
-            <c:if test="${ route.roundTrip }">
-              <span class="arrow">&harr;</span>
-              <joda:format value="${ route.wayBackTime }" pattern="H'h'mm" />
-            </c:if>
+            <span class="dates">
+              <joda:format value="${ route.wayOutTime }" pattern="H'h'mm" />
+              <c:if test="${ route.roundTrip }">
+                <span class="arrow">&harr;</span>
+                <joda:format value="${ route.wayBackTime }" pattern="H'h'mm" />
+              </c:if>
+            </span>
           </c:when>
           <c:otherwise>
             <joda:format value="${ route.wayOutDate }" pattern="dd/MM/YYYY" />

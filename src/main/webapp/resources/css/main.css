@@ -180,11 +180,9 @@ a.disabled {
 	font-size: 18px;
 }
 
-.route .date,
-.route .path,
-.route .arrow,
-.route .dash {
-	height: 26px;
+.route .date .days,
+.route .date .dates {
+	white-space: nowrap;
 }
 
 .route .info .seats,
@@ -194,6 +192,10 @@ a.disabled {
 }
 
 @media (max-width: 767px) {
+	.route .date {
+		font-size: 16px;
+	}
+
 	.route .info .seats {
 		float: right;
 		text-align: right;
@@ -209,6 +211,13 @@ a.disabled {
 	.route .description,
 	.route .info {
 		float: left;
+	}
+
+	.route .date,
+	.route .path,
+	.route .arrow,
+	.route .dash {
+		height: 26px;
 	}
 
 	.route .description {
@@ -248,11 +257,10 @@ a.disabled {
 }
 
 #view-route .co2 p {
-	background: url(../img/leaf.png) no-repeat;
-	padding-left: 35px;
+	background: url(../img/leaf.png) left center no-repeat;
+	padding: 10px 0 10px 35px;
 	margin-bottom: 15px;
-	height: 40px;
-	line-height: 40px;
+	min-height: 20px;
 }
 
 #view-route .origin .address,
