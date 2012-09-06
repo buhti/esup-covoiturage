@@ -35,7 +35,7 @@
         <span class="to">${ route.to.city }</span>
       </span>
     </span>
-    <span class="info">
+    <span class="info clearfix">
       <span class="seats">
         <c:if test="${ route.driver }">
           <span>${ route.seats }</span>
