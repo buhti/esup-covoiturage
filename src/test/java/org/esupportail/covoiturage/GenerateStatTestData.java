@@ -2,6 +2,7 @@ package org.esupportail.covoiturage;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import org.esupportail.covoiturage.repository.StatRepository.StatType;
 
@@ -37,7 +38,7 @@ public class GenerateStatTestData {
         sb.append("INSERT INTO Stat (stat_type, stat_date, stat_value) VALUES (");
         sb.append(type.ordinal());
         sb.append(", '");
-        sb.append(date.toString());
+        sb.append(new Timestamp(date.getMillis()).toString());
         sb.append("', ");
         sb.append(value);
         sb.append(");\n");
