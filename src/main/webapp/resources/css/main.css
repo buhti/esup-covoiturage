@@ -363,6 +363,26 @@ a.disabled {
 	left: 8px;
 }
 
+@media (max-width: 767px) {
+	.route-list .route .info .owner span + img {
+		margin-left: 10px;
+	}
+
+	.route-list .route .info .owner img + img {
+		margin-left: 4px;
+	}
+}
+
+@media (min-width: 768px) {
+	.route-list .route .info .owner span {
+		display: block;
+	}
+
+	.route-list .route .info .owner img {
+		margin: 0 2px;
+	}
+}
+
 /* ==========================================================================
    Search
    ========================================================================== */

@@ -42,7 +42,18 @@
           <spring:message code="route.view.seats${ route.seats gt 1 ? '.plural' : '' }" />
         </c:if>
       </span>
-      <span class="owner ${ route.driver ? 'driver' : 'passenger' }">${ route.owner }</span>
+      <span class="owner ${ route.driver ? 'driver' : 'passenger' }">
+        <span>${ route.owner }</span>
+        <c:if test="${ route.owner.chatting }">
+          <img src="<c:url value='/resources/img/balloon.png' />"/>
+        </c:if>
+        <c:if test="${ route.owner.listeningMusic }">
+          <img src="<c:url value='/resources/img/music.png' />"/>
+        </c:if>
+        <c:if test="${ route.owner.smoking }">
+          <img src="<c:url value='/resources/img/cigarette.png' />"/>
+        </c:if>
+      </span>
     </span>
   </span>
   <button class="btn btn-small view">
