@@ -310,11 +310,29 @@
           dataTable.addRow([new Date(json[i].date), json[i].value]);
         }
 
+        var dataFormatter, hAxisOptions;
+        switch (period) {
+          case 'WEEK':
+          case 'MONTH':
+            hAxisOptions = {format: 'd MMMM'};
+            dataFormatter = new google.visualization.DateFormat({pattern: 'EEEE d MMMM yyyy'});
+            dataFormatter.format(dataTable, 0);
+            break;
+
+          case 'YEAR':
+            hAxisOptions = {format: 'MMMM yyyy'};
+            dataFormatter = new google.visualization.DateFormat({pattern: 'MMMM yyyy'});
+            dataFormatter.format(dataTable, 0);
+            break;
+        }
+
         var areaChart = new google.visualization.AreaChart($chart.get(0));
         var areaChartOptions = {
+          focusTarget: 'category',
           legend: 'none',
           lineWidth: 3,
-          pointSize: 6
+          pointSize: 6,
+          hAxis: hAxisOptions
         };
         areaChart.draw(dataTable, areaChartOptions);
       });
