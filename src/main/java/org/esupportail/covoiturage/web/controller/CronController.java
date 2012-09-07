@@ -34,18 +34,20 @@ public class CronController {
     private NotifyRouteExpirationCommand notifyRouteExpirationCommand;
 
     @RequestMapping(value = "delete-expired-routes", method = RequestMethod.DELETE)
-    public @ResponseBody
-    String deleteExpiredRoutes() {
+    @ResponseBody
+    public String deleteExpiredRoutes() {
         return executeCommand(deleteExpiredRoutesCommand);
     }
 
     @RequestMapping(value = "delete-inactive-users", method = RequestMethod.DELETE)
-    public @ResponseBody String deleteInactiveUsers() {
+    @ResponseBody
+    public String deleteInactiveUsers() {
         return executeCommand(deleteInactiveUsersCommand);
     }
 
     @RequestMapping(value = "notify-route-expiration", method = RequestMethod.HEAD)
-    public @ResponseBody String notifyRouteExpiration() {
+    @ResponseBody
+    public String notifyRouteExpiration() {
         return executeCommand(notifyRouteExpirationCommand);
     }
 

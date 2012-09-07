@@ -52,7 +52,8 @@ public class StatController {
     }
 
     @RequestMapping(value = "json/{type}/{period}", produces = "application/json")
-    public @ResponseBody List<Stat> requestStatistics(@PathVariable String type, @PathVariable String period) {
+    @ResponseBody
+    public List<Stat> requestStatistics(@PathVariable String type, @PathVariable String period) {
         StatType statType = StatType.valueOf(type);
         StatPeriod statPeriod = StatPeriod.valueOf(period);
 
@@ -60,7 +61,8 @@ public class StatController {
     }
 
     @RequestMapping(value = "csv/{type}/{period}", produces = "text/csv")
-    public @ResponseBody String csvStatistics(@PathVariable String type, @PathVariable String period) {
+    @ResponseBody
+    public String csvStatistics(@PathVariable String type, @PathVariable String period) {
         List<Stat> stats = requestStatistics(type, period);
         StringBuilder sb = new StringBuilder();
 
